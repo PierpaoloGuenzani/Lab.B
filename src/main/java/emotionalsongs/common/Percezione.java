@@ -1,4 +1,4 @@
-package emotionalsongs;
+package emotionalsongs.common;
 
 import java.io.Serializable;
 
