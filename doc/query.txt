@@ -5,35 +5,61 @@ create table Persone(
 	città varchar(25),
 	via varchar(50),
 	numeroCivico smallint,
-	cap smallint
+	cap smallint,
+	visibile boolean
 );
 
 create table UtentiRegistrati(
 	userid varchar(16) primary key,
 	password varchar(16) not null,
 	email varchar(50) not null,
-	personaId char(16) references Persone(codiceFiscale)
+	idPersona char(16) references Persone(codiceFiscale)
+	on delete restrict, /* chiedere se elimino persona cosa succede a presona*/
+	visibile boolean
 );
 
 create table Canzoni(
-	id char(18) primary key,
-	titolo varchar(50) not null,
-	produttore varchar(50) not  null,
+	idCanzone char(18) primary key,
+	titolo varchar(100) not null,
+	produttore varchar(100) not  null,
 	anno smallint not null,
 	album varchar(50),
-	durata tinyint
+	durata smallint,
+	visibile boolean
 );
 
 create table Emozione(
 	id int primary key,
-	tipo varchar(15) not null
+	tipo varchar(15) not null,
+	visibile boolean
 );
 
-create table Emozioni(
-	idUtente varchar(16) references UtentiRegistrati(userId),
-	idCanzone char(18) references Canzoni(id),
-	idEmozione smallint references Emozione(id),
+Create table Emozioni(
+	idUtente varchar(16) references UtentiRegistrati(userid)
+	on delete cascade,
+	idCanzone char(18) references Canzoni(idCanzone)
+	on delete cascade,
+	idEmozione smallint references Emozione(id)
+	on delete restrict,
 	score smallint not null check (score >=0 and score <= 5),
 	note text,
-	constraint PK_Persone_Canzoni_Emozioni primary key (idUtente, idCanzone, idEmozione)
+	visibile boolean,
+	primary key (idUtente, idCanzone, idEmozione)
+);
+
+create table Playlists(
+	idPlaylist char(16) primary key,
+	titolo varchar(50) not null,
+	idUtente varchar(16) references UtentiRegistrati(userid)
+	on delete restrict,
+	visibile boolean
+);
+
+create table Playlist_Canzoni(
+	idPlaylist char(16) references Playlists(idPlaylist)
+	on delete cascade,
+	idCanzone char(18) references Canzoni(idCanzone)
+	on delete cascade,
+	visibile boolean,
+	primary key(idPlaylist, idCanzone)
 );
