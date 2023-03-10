@@ -1,3 +1,15 @@
+/* elimina tutto se esiste*/
+
+drop table if exists Persone cascade;
+drop table if exists UtentiRegistrati cascade;
+drop table if exists Canzoni cascade;
+drop table if exists Emozione cascade;
+drop table if exists Emozioni cascade;
+drop table if exists Playlists cascade;
+drop table if exists Playlist_Canzoni cascade;
+
+/*crea tabelle*/
+
 create table Persone(
 	codiceFiscale char(16) primary key,
 	nome varchar(25) not null,
