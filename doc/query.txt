@@ -75,3 +75,17 @@ create table Playlist_Canzoni(
 	visibile boolean,
 	primary key(idPlaylist, idCanzone)
 );
+
+/*inserimento emozione*/
+
+insert into Emozione
+values
+('0', 'AMAZEMENT'),
+('1', 'SOLEMNITY'),
+('2', 'TENDERNESS'),
+('3', 'NOSTALGIA'),
+('4', 'CALMNESS'),
+('5', 'POWER'),
+('6', 'JOY'),
+('7', 'TENSION'),
+('8', 'SADNESS');
