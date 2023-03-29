@@ -16,9 +16,9 @@ public class Playlist implements Serializable
 {
 	private static int COUNT = 0; //va fatto settare ogni volta che riapro la applicazione
 	private final String idPlaylist;
-	private final String titolo;
 	private final String idPersona;
-	private TreeSet<String> albero;
+	private String titolo;
+	private TreeSet<String> listaCanzoni;
 
 	/**
 	 * Costruisce un oggetto che contiene i dati della playlist.
@@ -32,7 +32,7 @@ public class Playlist implements Serializable
 		this.idPersona = idPersona;
 		this.titolo = titolo;
 		idPlaylist = Integer.toHexString(COUNT++);
-		albero = new TreeSet<>();
+		listaCanzoni = new TreeSet<>();
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class Playlist implements Serializable
 	 * @param titolo il titolo della playlist
 	 * @param p la persona che vuole creare la playlist
 	 */
-	public Playlist(String titolo, Persona p)
+	public Playlist(String titolo, UtenteRegistrato p)
 	{
 		this(titolo, p.getUserId());
 	}
@@ -77,7 +77,7 @@ public class Playlist implements Serializable
 	 */
 	public List<String> getListaCanzoni()
 	{
-		return new LinkedList<>(albero);
+		return new LinkedList<>(listaCanzoni);
 	}
 
 	/**
@@ -87,7 +87,17 @@ public class Playlist implements Serializable
 	public void setListaCanzoni(List<String> listaCanzoni)
 	{
 		if(listaCanzoni == null) throw new NullPointerException("La lista che deve essere assegnata non puo' avere riferimento null.");
-		albero = new TreeSet<>(listaCanzoni);
+		this.listaCanzoni = new TreeSet<String>(listaCanzoni);
+	}
+	
+	/**
+	 * Assegna la lista delle canzoni alla playlist.
+	 * @param alberoCanzoni un albero ordinato contenente tutti gli ID delle canzoni
+	 */
+	public void setListaCanzoni(TreeSet<String> alberoCanzoni)
+	{
+		if(listaCanzoni == null) throw new NullPointerException("La lista che deve essere assegnata non puo' avere riferimento null.");
+		this.listaCanzoni = new TreeSet<String>(listaCanzoni);
 	}
 
 	/**
@@ -99,7 +109,7 @@ public class Playlist implements Serializable
 		if(idCanzone == null) throw new NullPointerException("L'id della canzone deve essere maggiore o uguale a 0.");
 		if (!canzonePresente(idCanzone))
 		{
-			return albero.add(idCanzone);
+			return listaCanzoni.add(idCanzone);
 		}
 		return false;
 	}
@@ -121,7 +131,7 @@ public class Playlist implements Serializable
 	public void rimuoviCanzone(String idCanzone)
 	{
 		if(idCanzone == null) throw new NullPointerException("L'id della canzone deve essere maggiore o uguale a 0.");
-		albero.remove(idCanzone);
+		listaCanzoni.remove(idCanzone);
 	}
 
 	/**
@@ -141,7 +151,7 @@ public class Playlist implements Serializable
 	 */
 	public boolean canzonePresente(String idCanzone)
 	{
-		return albero.contains(idCanzone);
+		return listaCanzoni.contains(idCanzone);
 	}
 
 	/**

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author Paradiso Fabiola 749727 VA
  * @author Cuvato Paolo 748691 VA
  */
-public class Persona implements Serializable, Comparable<Persona>
+public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistrato>
 {
 	
 	//campi
@@ -32,7 +32,7 @@ public class Persona implements Serializable, Comparable<Persona>
 	 * @param userId il nome utente di accesso all'applicazione
 	 */
 	//costruttore
-	public Persona(String nome, String cognome, String codiceFiscale, String indirizzoFisico, String email, String password, String userId)
+	public UtenteRegistrato(String nome, String cognome, String codiceFiscale, String indirizzoFisico, String email, String password, String userId)
 	{
 		if(nome.equals("")) throw new NullPointerException("Il campo Nome non può essere vuoto.");
 		if(cognome.equals("")) throw new NullPointerException("Il campo Cognome non può essere vuoto.");
@@ -185,17 +185,17 @@ public class Persona implements Serializable, Comparable<Persona>
 	//metodi
 	/**
 	 * Confronta la persona fornita come argomento con quella che esegue il metodo.
-	 * @param persona la persona da confrontare
+	 * @param utenteRegistrato la persona da confrontare
 	 * @return ritorna un intero negativo, zero o un intero positivo se rispettivamente l'oggetto che esegue il metodo e' minore, uguale o maggiore dell'oggetto fornito come argomento
 	 * @throws NullPointerException se l'oggetto fornito come argomento e' null
 	 * @throws ClassCastException se il tipo dell'oggetto fornito come argomento non gli permette di essere confrontato con quello che esegue il metodo
 	 * @see String#compareTo(String)
 	 */
-	public int compareTo(Persona persona)
+	@Override
+	public int compareTo(UtenteRegistrato utenteRegistrato)
 	{
-		if (persona == null)
-			throw new NullPointerException("Comparazione fallita.");
-		return codiceFiscale.compareTo(persona.codiceFiscale);
+		if (utenteRegistrato == null) throw new IllegalArgumentException("Comparazione fallita.");
+		return codiceFiscale.compareTo(utenteRegistrato.codiceFiscale);
 	}
  
 }

@@ -26,7 +26,7 @@ create table UtentiRegistrati(
 	password varchar(16) not null,
 	email varchar(50) not null,
 	idPersona char(16) references Persone(codiceFiscale)
-	on delete restrict, /* chiedere se elimino persona cosa succede a presona*/
+	on delete restrict, /* chiedere se elimino utenteRegistrato cosa succede a presona*/
 	visibile boolean
 );
 
@@ -47,13 +47,13 @@ create table Emozione(
 );
 
 Create table Emozioni(
-	idUtente varchar(16) references UtentiRegistrati(userid)
-	on delete cascade,
 	idCanzone char(18) references Canzoni(idCanzone)
+	on delete cascade,
+	idUtente varchar(16) references UtentiRegistrati(userid)
 	on delete cascade,
 	idEmozione smallint references Emozione(id)
 	on delete restrict,
-	score smallint not null check (score >=0 and score <= 5),
+	score smallint not null check (score >=1 and score <= 5),
 	note text,
 	visibile boolean,
 	primary key (idUtente, idCanzone, idEmozione)
@@ -61,9 +61,9 @@ Create table Emozioni(
 
 create table Playlists(
 	idPlaylist char(16) primary key,
-	titolo varchar(50) not null,
 	idUtente varchar(16) references UtentiRegistrati(userid)
-	on delete restrict,
+    on delete restrict,
+	titolo varchar(50) not null,
 	visibile boolean
 );
 

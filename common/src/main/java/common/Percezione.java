@@ -11,11 +11,11 @@ import java.io.Serializable;
  */
 public class Percezione implements Serializable {
     
-    private final Emozione emozione;
-    private final int score;
-    private String note;
     private final String songId;
     private final String userId;
+    private final Emozione emozione;
+    private int score;
+    private String note;
 
     /**
      * Costruisce un oggetto che contiene i dati associati all'emozione.
@@ -35,7 +35,23 @@ public class Percezione implements Serializable {
         this.songId = songId;
         this.userId = userId;
     }
-
+    
+    /**
+     * Restituisce l'ID della canzone associata alla Percezione.
+     * @return l'ID della canzone
+     */
+    public String getSongId() {
+        return songId;
+    }
+    
+    /**
+     * Restituisce l'ID dell'utente che ha creato la Percezione.
+     * @return l'ID dell'utente
+     */
+    public String getUserId() {
+        return userId;
+    }
+    
     /**
      * Restituisce l'emozione corrispondente alla Percezione.
      * @return l'emozione corrispondente
@@ -52,7 +68,16 @@ public class Percezione implements Serializable {
     public int getScore() {
         return score;
     }
-
+    
+    /**
+     * Aggiunge uno score alla Percezione.
+     * @param score numero da 1 a 5 che definisce l'intensità dell'emozione
+     */
+    public void setScore(int score)
+    {
+        this.score = score;
+    }
+    
     /**
      * Restituisce il commento inserito dall'utente nella Percezione.
      * @return il commento relativo
@@ -60,23 +85,7 @@ public class Percezione implements Serializable {
     public String getNote() {
         return note;
     }
-
-    /**
-     * Restituisce l'ID della canzone associata alla Percezione.
-     * @return l'ID della canzone
-     */
-    public String getSongId() {
-        return songId;
-    }
-
-    /**
-     * Restituisce l'ID dell'utente che ha creato la Percezione.
-     * @return l'ID dell'utente
-     */
-    public String getUserId() {
-        return userId;
-    }
-
+    
     /**
      * Aggiunge un commento alla Percezione.
      * @param note il commento da aggiungere
