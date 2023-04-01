@@ -20,7 +20,8 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	{
 		try
 		{
-			PreparedStatement select = serverSLQ.prepareStatement("SELECT * FROM canzoni WHERE idCanzone = ?");
+			PreparedStatement select = serverSLQ.prepareStatement(
+					"SELECT * FROM canzoni WHERE idCanzone = ?");
 			select.setString(1, id);
 			ResultSet resultSet = select.executeQuery();
 			if (resultSet.next())
@@ -37,8 +38,8 @@ public class CanzoniSQLDB implements Dao<Canzone>
 		TreeMap<String , Canzone> albero = new TreeMap<>();
 		try
 		{
-			PreparedStatement select = serverSLQ.prepareStatement("SELECT * FROM canzoni");
-			ResultSet resultSet = select.executeQuery();
+			PreparedStatement selectAll = serverSLQ.prepareStatement("SELECT * FROM canzoni");
+			ResultSet resultSet = selectAll.executeQuery();
 			while(resultSet.next())
 			{
 				Canzone c = new Canzone(
@@ -54,19 +55,59 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	}
 	
 	@Override
-	public void save(Canzone canzone)
+	public boolean save(Canzone canzone)
 	{
-	
+		try
+		{
+			PreparedStatement insert = serverSLQ.prepareStatement(
+					"INSERT INTO canzoni(idCanzone, titolo, produttore, anno)" +
+						"VALUES (?, ?, ?, ?)");
+			insert.setString(1, canzone.getId());
+			insert.setString(2, canzone.getTitolo());
+			insert.setString(3, canzone.getArtista());
+			insert.setInt(4, canzone.getAnno());
+			ResultSet resultSet = insert.executeQuery();
+		} catch (SQLException e) {
+			return false;
+		} //LOG?
+		return true;
 	}
 	
 	@Override
-	public void update(Canzone canzone, Object[] params)
+	public boolean update(Canzone canzone, Object[] params)
 	{
-	
+		if(params.length != canzone.getClass().getDeclaredFields().length)
+			return false;
+		if(!canzone.getId().equals((String)params[1]))
+			return false;
+		try
+		{
+			PreparedStatement update = serverSLQ.prepareStatement(
+					"UPDATE canzoni SET titolo = ?, produttore = ?, anno = ?" +
+						"WHERE idCanzone = ?");
+			update.setString(1, (String)params[2]);
+			update.setString(2, (String)params[3]);
+			update.setInt(3, (Integer)params[4]);
+			update.setString(1, canzone.getId());
+			ResultSet resultSet = update.executeQuery();
+		} catch (SQLException e) {
+			return false;
+		} //LOG?
+		return true;
 	}
 	
 	@Override
-	public void delete(Canzone canzone)
+	public boolean delete(Canzone canzone)
 	{
+		try
+		{
+			PreparedStatement delete = serverSLQ.prepareStatement(
+					"DELETE FROM canzoni WHERE idCanzone = ?");
+			delete.setString(1, canzone.getId());
+			ResultSet resultSet = delete.executeQuery();
+		} catch (SQLException e) {
+			return false;
+		} //LOG?
+		return true;
 	}
 }

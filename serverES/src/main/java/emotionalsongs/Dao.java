@@ -7,7 +7,7 @@ public interface Dao<T>
 {
 	Optional<T> get(String id);
 	TreeMap<String, T> getAll();
-	void save(T t);
-	void update(T t, Object[] params);
-	void delete(T t);
+	boolean save(T t);
+	boolean update(T t, Object[] params);
+	boolean delete(T t);
 }
