@@ -78,7 +78,7 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	{
 		if(params.length != canzone.getClass().getDeclaredFields().length)
 			return false;
-		if(!canzone.getId().equals((String)params[1]))
+		if(!canzone.getId().equals((String)params[0]))
 			return false;
 		try
 		{

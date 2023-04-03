@@ -24,7 +24,7 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 		try
 		{
 			PreparedStatement select = serverSQL.prepareStatement(
-					"SELECT * FROM utentiRegistrati, persone" +
+					"SELECT * FROM utentiRegistrati" +
 						"WHERE idpersona = ?" +
 						"AND idpersona = codicefiscale");
 			select.setString(1, id);
