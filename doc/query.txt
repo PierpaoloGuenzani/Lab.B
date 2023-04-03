@@ -10,24 +10,31 @@ drop table if exists Playlist_Canzoni cascade;
 
 /*crea tabelle*/
 
-create table Persone(
+/*create table Persone(
 	codiceFiscale char(16) primary key,
 	nome varchar(25) not null,
 	cognome varchar(25) not null,
 	città varchar(25),
 	via varchar(50),
 	numeroCivico smallint,
-	cap smallint,
-	visibile boolean
-);
+	cap smallint
+); */
 
 create table UtentiRegistrati(
 	userid varchar(16) primary key,
 	password varchar(16) not null,
 	email varchar(50) not null,
+	codiceFiscale char(16) not null,
+	nome varchar(25) not null,
+	cognome varchar(25) not null,
+	indirizzo varchar(200) not null,
+	/* da separare
+	città varchar(25),
+	via varchar(50),
+	numeroCivico smallint,
+	cap smallint,
 	idPersona char(16) references Persone(codiceFiscale)
-	on delete restrict, /* chiedere se elimino utenteRegistrato cosa succede a presona*/
-	visibile boolean
+	on delete restrict  !chiedere se elimino utenteRegistrato cosa succede a presona*/
 );
 
 create table Canzoni(
@@ -36,14 +43,12 @@ create table Canzoni(
 	produttore varchar(100) not  null,
 	anno smallint not null,
 	album varchar(50),
-	durata smallint,
-	visibile boolean
+	durata smallint
 );
 
 create table Emozione(
 	id int primary key,
-	tipo varchar(15) not null,
-	visibile boolean
+	tipo varchar(15) not null
 );
 
 Create table Emozioni(
@@ -55,16 +60,14 @@ Create table Emozioni(
 	on delete restrict,
 	score smallint not null check (score >=1 and score <= 5),
 	note text,
-	visibile boolean,
 	primary key (idUtente, idCanzone, idEmozione)
 );
 
 create table Playlists(
 	idPlaylist char(16) primary key,
 	idUtente varchar(16) references UtentiRegistrati(userid)
-    on delete restrict,
-	titolo varchar(50) not null,
-	visibile boolean
+	on delete restrict,
+	titolo varchar(50) not null
 );
 
 create table Playlist_Canzoni(
@@ -72,7 +75,6 @@ create table Playlist_Canzoni(
 	on delete cascade,
 	idCanzone char(18) references Canzoni(idCanzone)
 	on delete cascade,
-	visibile boolean,
 	primary key(idPlaylist, idCanzone)
 );
 
