@@ -18,6 +18,8 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	@Override
 	public Optional<Canzone> get(String id)
 	{
+		if(id == null | id.length() == 0)
+			return Optional.empty();
 		try
 		{
 			PreparedStatement select = serverSLQ.prepareStatement(
@@ -57,6 +59,8 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	@Override
 	public boolean save(Canzone canzone)
 	{
+		if(canzone == null)
+			return false;
 		try
 		{
 			PreparedStatement insert = serverSLQ.prepareStatement(
@@ -76,6 +80,8 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	@Override
 	public boolean update(Canzone canzone, Object[] params)
 	{
+		if(canzone == null)
+			return false;
 		if(params.length != canzone.getClass().getDeclaredFields().length)
 			return false;
 		if(!canzone.getId().equals((String)params[0]))
@@ -88,7 +94,7 @@ public class CanzoniSQLDB implements Dao<Canzone>
 			update.setString(1, (String)params[2]);
 			update.setString(2, (String)params[3]);
 			update.setInt(3, (Integer)params[4]);
-			update.setString(1, canzone.getId());
+			update.setString(4, canzone.getId());
 			ResultSet resultSet = update.executeQuery();
 		} catch (SQLException e) {
 			return false;
@@ -99,6 +105,8 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	@Override
 	public boolean delete(Canzone canzone)
 	{
+		if(canzone == null)
+			return false;
 		try
 		{
 			PreparedStatement delete = serverSLQ.prepareStatement(

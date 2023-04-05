@@ -21,6 +21,8 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 	@Override
 	public Optional<UtenteRegistrato> get(String id)
 	{
+		if(id == null | id.length() == 0)
+			return Optional.empty();
 		try
 		{
 			PreparedStatement select = serverSQL.prepareStatement(
@@ -68,6 +70,8 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 	@Override
 	public boolean save(UtenteRegistrato utenteRegistrato)
 	{
+		if(utenteRegistrato == null)
+			return false;
 		try
 		{
 			PreparedStatement insert = serverSQL.prepareStatement(
@@ -91,6 +95,8 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 	@Override
 	public boolean update(UtenteRegistrato utenteRegistrato, Object[] params)
 	{
+		if(utenteRegistrato == null)
+			return false;
 		if(params.length != utenteRegistrato.getClass().getDeclaredFields().length)
 			return false;
 		if(!utenteRegistrato.getUserId().equals((String)params[0]))
@@ -117,6 +123,8 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 	@Override
 	public boolean delete(UtenteRegistrato utenteRegistrato)
 	{
+		if(utenteRegistrato == null)
+			return false;
 		try
 		{
 			PreparedStatement delete = serverSQL.prepareStatement(
