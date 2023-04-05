@@ -60,7 +60,7 @@ Create table Emozioni(
 	on delete restrict,
 	score smallint not null check (score >=1 and score <= 5),
 	note text,
-	primary key (idUtente, idCanzone, idEmozione)
+	primary key (idCanzone, idUtente, idEmozione)
 );
 
 create table Playlists(
