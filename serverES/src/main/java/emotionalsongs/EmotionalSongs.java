@@ -13,7 +13,7 @@ public class EmotionalSongs
 		{
 			c = DriverManager.getConnection("jdbc:postgresql://localhost/dbES","postgres","admin");
 			System.out.println("connessione con successo");
-			new CanzoniSQLDB(c).getAll();
+			new SongSQLDB(c).getAll();
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

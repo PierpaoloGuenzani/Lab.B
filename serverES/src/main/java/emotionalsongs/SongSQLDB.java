@@ -6,11 +6,11 @@ import java.sql.*;
 import java.util.Optional;
 import java.util.TreeMap;
 
-public class CanzoniSQLDB implements Dao<Canzone>
+public class SongSQLDB implements Dao<Canzone>
 {
 	private Connection serverSLQ;
 	
-	public CanzoniSQLDB(Connection serverSLQ)
+	public SongSQLDB(Connection serverSLQ)
 	{
 		this.serverSLQ = serverSLQ;
 	}
@@ -18,7 +18,7 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	@Override
 	public Optional<Canzone> get(String id)
 	{
-		if(id == null | id.length() == 0)
+		if(id == null | id.length() < 18)
 			return Optional.empty();
 		try
 		{
@@ -80,7 +80,7 @@ public class CanzoniSQLDB implements Dao<Canzone>
 	@Override
 	public boolean update(Canzone canzone, Object[] params)
 	{
-		if(canzone == null)
+		if(canzone == null || params == null)
 			return false;
 		if(params.length != canzone.getClass().getDeclaredFields().length)
 			return false;

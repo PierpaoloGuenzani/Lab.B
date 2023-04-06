@@ -17,10 +17,12 @@ public class PerceptionSQLDB implements Dao<Percezione>
 		this.serverSQL = serverSQL;
 	}
 	
-	//id composto quindi separo stringa in più
+	//id composto quindi separo stringa in più stringhe
 	@Override
 	public Optional<Percezione> get(String id)
 	{
+		if(id == null | id.isEmpty())
+			return Optional.empty();
 		if(!id.contains(SEPARATORE))
 			return Optional.empty();
 		String[] ids = id.split("<>");
@@ -29,6 +31,10 @@ public class PerceptionSQLDB implements Dao<Percezione>
 
 	public Optional<Percezione> get(String idCanzone, String idUtente, String emozione)
 	{
+		if(idCanzone == null || idUtente == null || emozione == null)
+			return Optional.empty();
+		if(idCanzone.length() < 18)
+			return Optional.empty();
 		try
 		{
 			PreparedStatement select = serverSQL.prepareStatement(
@@ -113,7 +119,7 @@ public class PerceptionSQLDB implements Dao<Percezione>
 	@Override
 	public boolean update(Percezione percezione, Object[] params)
 	{
-		if(percezione == null)
+		if(percezione == null || params == null)
 			return false;
 		if(params.length != percezione.getClass().getDeclaredFields().length)
 			return false;

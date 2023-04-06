@@ -21,19 +21,29 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 	@Override
 	public Optional<UtenteRegistrato> get(String id)
 	{
-		if(id == null | id.length() == 0)
+		if(id == null | id.isEmpty())
 			return Optional.empty();
 		try
 		{
 			PreparedStatement select = serverSQL.prepareStatement(
 					"SELECT * FROM utentiRegistrati" +
-						"WHERE idpersona = ?" +
-						"AND idpersona = codicefiscale");
+						"WHERE userid = ?");
 			select.setString(1, id);
 			ResultSet resultSet = select.executeQuery();
 			if (resultSet.next())
 			{
-				//return Optional.of(); //Prova
+				UtenteRegistrato u = new UtenteRegistrato(
+						resultSet.getString("nome"),
+						resultSet.getString("cognome"),
+						resultSet.getString("codicefiscale"),
+						resultSet.getString("città") +
+						resultSet.getString("via") +
+						resultSet.getInt("numerocivico"),
+						resultSet.getString("email"),
+						resultSet.getString("password"),
+						resultSet.getString("userid")
+				);
+				return Optional.of(u);
 			}
 		} catch (SQLException e) {} //LOG?
 		return Optional.empty();
@@ -95,7 +105,7 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 	@Override
 	public boolean update(UtenteRegistrato utenteRegistrato, Object[] params)
 	{
-		if(utenteRegistrato == null)
+		if(utenteRegistrato == null || params == null)
 			return false;
 		if(params.length != utenteRegistrato.getClass().getDeclaredFields().length)
 			return false;
