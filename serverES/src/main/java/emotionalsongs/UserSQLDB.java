@@ -64,9 +64,7 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 						resultSet.getString("nome"),
 						resultSet.getString("cognome"),
 						resultSet.getString("codicefiscale"),
-						resultSet.getString("città") +
-						resultSet.getString("via") +
-						resultSet.getInt("numerocivico"),
+						resultSet.getString("indirizzo"),
 						resultSet.getString("email"),
 						resultSet.getString("password"),
 						resultSet.getString("userid")

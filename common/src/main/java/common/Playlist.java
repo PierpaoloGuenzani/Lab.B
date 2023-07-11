@@ -118,10 +118,10 @@ public class Playlist implements Serializable
 	 * Aggiunge alla playlist la canzone passata come argomento.
 	 * @param c l'oggetto della classe Canzone da aggiungere
 	 */
-	public void aggiungiCanzone(Canzone c)
+	public boolean aggiungiCanzone(Canzone c)
 	{
 		if(c == null) throw new NullPointerException("Non si puo' aggiungere un'istanza null.");
-		aggiungiCanzone(c.getId());
+		return aggiungiCanzone(c.getId());
 	}
 
 	/**

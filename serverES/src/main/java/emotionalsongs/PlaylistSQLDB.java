@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.Optional;
 import java.util.TreeMap;
 
-public class PlaylistSQLDB implements Dao<Playlist>
+public class PlaylistSQLDB implements PlaylistDAOInterface
 {
 	
 	private Connection serverSQL;

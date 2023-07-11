@@ -4,10 +4,12 @@ import common.Emozione;
 import common.Percezione;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.TreeMap;
 
-public class PerceptionSQLDB implements Dao<Percezione>
+public class PerceptionSQLDB implements PerceptionDAOInterface
 {
 	private final static String SEPARATORE = "<>";
 	private Connection serverSQL;
@@ -16,54 +18,38 @@ public class PerceptionSQLDB implements Dao<Percezione>
 	{
 		this.serverSQL = serverSQL;
 	}
-	
-	//id composto quindi separo stringa in più stringhe
-	@Override
-	public Optional<Percezione> get(String id)
-	{
-		if(id == null | id.isEmpty())
-			return Optional.empty();
-		if(!id.contains(SEPARATORE))
-			return Optional.empty();
-		String[] ids = id.split("<>");
-		return get(ids[0], ids[1], ids[2]);
-	}
 
-	public Optional<Percezione> get(String idCanzone, String idUtente, String emozione)
+	public List<Percezione> get(String idCanzone, String idUtente)
 	{
-		if(idCanzone == null || idUtente == null || emozione == null)
-			return Optional.empty();
-		if(idCanzone.length() < 18)
-			return Optional.empty();
+		LinkedList<Percezione> lista = new LinkedList<>();
+		if(idCanzone == null || idUtente == null)
+			return lista;
 		try
 		{
 			PreparedStatement select = serverSQL.prepareStatement(
 					"SELECT * FROM emozioni" +
 							"WHERE idCanzone = ?" +
-							"AND idUtente = ? AND idEmozione = ?");
+							"AND idUtente = ?");
 			select.setString(1, idCanzone);
 			select.setString(2, idUtente);
-			select.setShort(3, Short.parseShort(emozione));
 			ResultSet resultSet = select.executeQuery();
-			if (resultSet.next())
+			while(resultSet.next())
 			{
-				return Optional.of(
-						new Percezione(
+				Percezione p = new Percezione(
 						Emozione.values()[resultSet.getShort("idEmozione")],
 						resultSet.getInt("score"),
 						resultSet.getString("idCanzone"),
-						resultSet.getString("idUtente")
-						));
+						resultSet.getString("idUtente"));
+				lista.add(p);
 			}
 		} catch (SQLException e) {} //LOG?
-		return Optional.empty();
+		return lista;
 	}
 
 	@Override
-	public TreeMap<String, Percezione> getAll()
+	public TreeMap<String, List<Percezione>> getAll()
 	{
-		//TODO IOException a TUTTI i metodi delle classi SQL
-		TreeMap<String, Percezione> albero = new TreeMap<>();
+		TreeMap<String, List<Percezione>> albero = new TreeMap<>();
 		try
 		{
 			PreparedStatement selectAll = serverSQL.prepareStatement(
@@ -72,6 +58,7 @@ public class PerceptionSQLDB implements Dao<Percezione>
 			while(resultSet.next())
 			{
 				short index = resultSet.getShort("idEmozione");
+				
 				Percezione p = new Percezione(
 						Emozione.values()[index],
 						resultSet.getInt("score"),
@@ -81,9 +68,18 @@ public class PerceptionSQLDB implements Dao<Percezione>
 				String note = resultSet.getString("note");
 				if(note != null)
 					p.aggiungiNote(note);
-				String key = p.getSongId() + SEPARATORE + p.getUserId()
-						   + SEPARATORE + p.getEmozione().ordinal();
-				albero.put(key, p);
+				List<Percezione> lista;
+				//se albero contiene già lista allora aggiungo altrimenti creo la lista
+				if(albero.containsKey(p.getSongId()))
+				{
+					lista = albero.get(p.getSongId());
+				}
+				else
+				{
+					lista = new LinkedList<>();
+					albero.put(p.getSongId(), lista);
+				}
+				lista.add(p);
 			}
 		} catch (SQLException e) {} //LOG?
 		return albero;

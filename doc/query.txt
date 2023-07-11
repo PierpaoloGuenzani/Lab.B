@@ -27,20 +27,19 @@ create table UtentiRegistrati(
 	codiceFiscale char(16) not null,
 	nome varchar(25) not null,
 	cognome varchar(25) not null,
-	indirizzo varchar(200) not null,
+	indirizzo varchar(200) not null);
 	/* da separare
 	città varchar(25),
 	via varchar(50),
 	numeroCivico smallint,
 	cap smallint,
 	idPersona char(16) references Persone(codiceFiscale)
-	on delete restrict  !chiedere se elimino utenteRegistrato cosa succede a presona*/
-);
+	on delete restrict  !chiedere se elimino utenteRegistrato cosa succede a presona);*/
 
 create table Canzoni(
 	idCanzone char(18) primary key,
-	titolo varchar(100) not null,
-	produttore varchar(100) not  null,
+	titolo text not null,
+	produttore text not  null,
 	anno smallint not null,
 	album varchar(50),
 	durata smallint
@@ -59,7 +58,7 @@ Create table Emozioni(
 	idEmozione smallint references Emozione(id)
 	on delete restrict,
 	score smallint not null check (score >=1 and score <= 5),
-	note text,
+	note varchar(256),
 	primary key (idCanzone, idUtente, idEmozione)
 );
 
@@ -91,3 +90,6 @@ values
 ('6', 'JOY'),
 ('7', 'TENSION'),
 ('8', 'SADNESS');
+
+/* va modificato il file: prima sostituire ~ con -, poi <SEP> con ~ ed infine inserire il file nella cartella Documents del utente pubblico in windows*/
+COPY canzoni(anno, idcanzone, produttore, titolo) from 'C:\Users\Public\Documents\FiveHundredThousandSongs.txt' DELIMITER '~'
