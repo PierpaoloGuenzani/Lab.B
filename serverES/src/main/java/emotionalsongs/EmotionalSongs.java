@@ -46,6 +46,7 @@ public class EmotionalSongs implements common.EmotionalSongs
         }
 
         //TODO AGGIUNGERRE IL SERVER E RIMUOVERE AUTENTICAZIONE
+        //TODO usare executeUpdate al posto di executeQuery
     }
 
     /**

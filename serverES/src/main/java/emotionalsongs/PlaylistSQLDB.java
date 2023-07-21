@@ -45,7 +45,9 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 				}
 				return Optional.of(p);
 			}
-		} catch (SQLException e) {} //LOG?
+		} catch (SQLException e) {
+			System.err.println(e.toString());
+		} //LOG?
 		return Optional.empty();
 	}
 	
@@ -56,25 +58,29 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 		try
 		{
 			PreparedStatement select = serverSQL.prepareStatement(
-					"SELECT * FROM playlist");
+					"SELECT * FROM playlists");
 			ResultSet resultSet = select.executeQuery();
 			while(resultSet.next())
 			{
 				Playlist p = new Playlist(
 						resultSet.getString("titolo"),
-						resultSet.getString("idUtente")
+						resultSet.getString("idUtente"),
+						resultSet.getString("idPlaylist")
 				);
+				albero.put(p.getIdPlaylist(), p);
 				PreparedStatement selectSong = serverSQL.prepareStatement(
-						"SELECT idCanzone FROM Playlist_Canzoni" +
+						"SELECT * FROM Playlist_Canzoni " +
 								"WHERE idPlaylist = ?");
 				selectSong.setString(1,p.getIdPlaylist());
 				ResultSet canzoni =  selectSong.executeQuery();
 				while (canzoni.next())
 				{
-					p.aggiungiCanzone(canzoni.getString("idCazone"));
+					p.aggiungiCanzone(canzoni.getString("idCanzone"));
 				}
 			}
-		} catch (SQLException e) {} //LOG?
+		} catch (SQLException e) {
+			System.err.println(e.toString());
+		} //LOG?
 		return albero;
 	}
 	
@@ -86,25 +92,26 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 		try
 		{
 			PreparedStatement insert = serverSQL.prepareStatement(
-					"INSERT INTO emozioni(" +
+					"INSERT INTO Playlists(" +
 						"idPlaylist, idUtente, titolo)" +
 						"VALUES (?, ?, ?)");
 			insert.setString(1, playlist.getIdPlaylist());
 			insert.setString(2, playlist.getIdPersona());
 			insert.setString(3, playlist.getTitolo());
-			ResultSet resultSet = insert.executeQuery();
+			insert.executeUpdate();/*
 			PreparedStatement insertSong = serverSQL.prepareStatement(
 					"INSERT INTO Playlist_Canzoni(" +
 						"idPlaylist, idCanzone" +
 						"VALUES (?, ?)");
 			String id = playlist.getIdPlaylist();
-			for(String canzone : playlist.getListaCanzoni())
+			for(String idCanzone : playlist.getListaCanzoni())
 			{
-				insertSong.setString(1, id);
-				insertSong.setString(2, canzone);
+				insertSong.setString(1, playlist.getIdPlaylist());
+				insertSong.setString(2, idCanzone);
 				insertSong.executeQuery();
-			}
+			}*/
 		} catch (SQLException e) {
+			System.err.println(e.toString());
 			return false;
 		} //LOG?
 		return true;
@@ -117,9 +124,9 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 		return false;
 	}
 	
-	public boolean addSong(String idPlaylist, String idCanzone)
+	public boolean addSong(String idCanzone, String idPlaylist)
 	{
-		if(idPlaylist == null | idPlaylist.length() < 18)
+		if(idPlaylist == null | idPlaylist.length() < 16)
 			return false;
 		if(idCanzone == null | idCanzone.isBlank())
 			return false;
@@ -127,13 +134,14 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 		try
 		{
 			insert = serverSQL.prepareStatement(
-					"INSERT INTO Playlist_Canzoni" +
+					"INSERT INTO Playlist_Canzoni(idPlaylist, idCanzone) " +
 						"VALUES (?, ?)");
 			insert.setString(1,idPlaylist);
 			insert.setString(2,idCanzone);
-			ResultSet resultSet = insert.executeQuery();
+			insert.executeUpdate();
 		} catch (SQLException e)
 		{
+			System.err.println(e.toString());
 			return false;
 		}
 		return true;
@@ -149,7 +157,7 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 			PreparedStatement delete = serverSQL.prepareStatement(
 					"DELETE FROM Playlists WHERE idPlaylist = ?");
 			delete.setString(1, playlist.getIdPlaylist());
-			ResultSet resultSet = delete.executeQuery();
+			delete.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?

@@ -143,6 +143,13 @@ public class Playlists
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
 	public void aggiungiPlaylist(Playlist playlist) throws IOException{
+		if(mappa.containsKey(playlist.getIdPlaylist()))
+		{
+			Playlist.setCount(mappa.size());
+			Playlist newplaylist = new Playlist(playlist.getTitolo(), playlist.getIdPersona());
+			newplaylist.setListaCanzoni(playlist.getAlberoCanzoni());
+			playlist = newplaylist;
+		}
 		mappa.put(playlist.getIdPlaylist(),playlist);
 		db.save(playlist);
 	}
@@ -152,6 +159,7 @@ public class Playlists
 		if(db == null)
 			return false;
 		mappa = db.getAll();
+		Playlist.setCount(mappa.size());
 		return true;
 	}
 }

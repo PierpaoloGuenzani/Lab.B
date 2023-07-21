@@ -12,9 +12,9 @@ import java.util.TreeSet;
  * @author Paradiso Fabiola 749727 VA
  * @author Cuvato Paolo 748691 VA
  */
-public class Playlist implements Serializable
+public class Playlist implements Serializable, Comparable<Playlist>
 {
-	private static int COUNT = 0; //va fatto settare ogni volta che riapro la applicazione
+	private static long COUNT = 0; //va fatto settare ogni volta che riapro la applicazione
 	private final String idPlaylist;
 	private final String idPersona;
 	private String titolo;
@@ -31,7 +31,17 @@ public class Playlist implements Serializable
 		if(idPersona == null) throw new NullPointerException("L' id della persona che ha creato la playlist non puo' essere minore di 0.");
 		this.idPersona = idPersona;
 		this.titolo = titolo;
-		idPlaylist = Integer.toHexString(COUNT++);
+		idPlaylist = String.format("%1$016x",COUNT); //Long.toHexString(COUNT++);
+		listaCanzoni = new TreeSet<>();
+	}
+	
+	public Playlist(String titolo, String idPersona, String idPlaylist)
+	{
+		if(titolo == null) throw new NullPointerException("Il nome della playlist non puo' essere null.");
+		if(idPersona == null) throw new NullPointerException("L' id della persona che ha creato la playlist non puo' essere minore di 0.");
+		this.idPersona = idPersona;
+		this.titolo = titolo;
+		this.idPlaylist = idPlaylist;
 		listaCanzoni = new TreeSet<>();
 	}
 	
@@ -79,6 +89,8 @@ public class Playlist implements Serializable
 	{
 		return new LinkedList<>(listaCanzoni);
 	}
+	
+	public TreeSet<String> getAlberoCanzoni() {return listaCanzoni;}
 
 	/**
 	 * Assegna la lista delle canzoni alla playlist.
@@ -96,8 +108,8 @@ public class Playlist implements Serializable
 	 */
 	public void setListaCanzoni(TreeSet<String> alberoCanzoni)
 	{
-		if(listaCanzoni == null) throw new NullPointerException("La lista che deve essere assegnata non puo' avere riferimento null.");
-		this.listaCanzoni = new TreeSet<String>(listaCanzoni);
+		if(alberoCanzoni == null) throw new NullPointerException("La lista che deve essere assegnata non puo' avere riferimento null.");
+		this.listaCanzoni = listaCanzoni;
 	}
 
 	/**
@@ -177,8 +189,23 @@ public class Playlist implements Serializable
 	 * Assegna l'intero passato come argomento al contatore della classe. Tiene traccia del numero di playlist create dall'ultimo avvio dell'applicazione.
 	 * @param id l'intero da assegnare
 	 */
-	public static void setCount(int id)
+	public static void setCount(long id)
 	{
 		COUNT = id;
 	}
+	
+	public static void setCOUNT(String id) {
+		COUNT = Long.decode("#"+id);
+	}
+	
+	@Override
+	public int compareTo(Playlist playlist)
+	{
+		return this.idPlaylist.compareTo(playlist.getIdPlaylist());
+	}
+	
+	public static String convertitoreIdString(long id) {
+		return String.format("%1$016x",COUNT);
+	}
+	
 }
