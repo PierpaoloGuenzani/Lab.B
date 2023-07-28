@@ -15,7 +15,7 @@ import java.util.Scanner;
  * @author Paradiso Fabiola 749727 VA
  * @author Cuvato Paolo 748691 VA
  */
-public class EmotionalSongs implements common.EmotionalSongs
+public class EmotionalSongsService implements common.EmotionalSongs
 {
     
     Canzoni canzoni;
@@ -27,7 +27,7 @@ public class EmotionalSongs implements common.EmotionalSongs
      * Crea un oggetto che gestisce tutti i dati dell'applicazione.
      * @throws IOException se si verifica un errore di Input/Output relativo al database
      */
-    public EmotionalSongs() throws IOException {
+    public EmotionalSongsService() throws IOException {
         new ServerGUI();
         canzoni = new Canzoni();
         persone = new Persone();
@@ -303,7 +303,7 @@ public class EmotionalSongs implements common.EmotionalSongs
             String R = "\u001B[31m", V = "\u001B[32m", B = "\u001B[0m";
             Canzone canzoneSelezionata;
             Scanner sc = new Scanner(System.in);
-            EmotionalSongs emotionalSongs = new EmotionalSongs();
+            EmotionalSongsService emotionalSongsService = new EmotionalSongsService();
             
             do {
                 //stampiamo il menù iniziale
@@ -333,7 +333,7 @@ public class EmotionalSongs implements common.EmotionalSongs
                         if (titolo.equals("")) {
                             break;
                         }
-                        List<Canzone> possibiliTitoli = emotionalSongs.cercaBranoMusicale(titolo);
+                        List<Canzone> possibiliTitoli = emotionalSongsService.cercaBranoMusicale(titolo);
                         if (possibiliTitoli.isEmpty()) {
                             System.out.println(R + "Nessun brano trovato." + B);
                             break;   //mi fa uscire dallo switch
@@ -349,7 +349,7 @@ public class EmotionalSongs implements common.EmotionalSongs
                         }
                         System.out.print("Inserisci l'anno da cercare: ");
                         int anno = convertitore(sc.nextLine());
-                        List<Canzone> possibiliBrani = emotionalSongs.cercaBranoMusicale(autore, anno);
+                        List<Canzone> possibiliBrani = emotionalSongsService.cercaBranoMusicale(autore, anno);
                         if (possibiliBrani.isEmpty()) {
                             System.out.println(R + "Nessun brano trovato. " + B);
                             break;
@@ -364,14 +364,14 @@ public class EmotionalSongs implements common.EmotionalSongs
                         if (IdBrano.equals("")) {
                             break;
                         }
-                        canzoneSelezionata = emotionalSongs.cercaCanzone(IdBrano);
+                        canzoneSelezionata = emotionalSongsService.cercaCanzone(IdBrano);
                         if (canzoneSelezionata == null) {
                             System.out.println(R + "Nessun brano trovato. " + B);
                             break;
                         }
                         System.out.print("Hai selezionato la seguente canzone: ");
                         System.out.print(V + canzoneSelezionata.toString() + B);
-                        emotionalSongs.visualizzaEmozioniBrano(IdBrano);
+                        emotionalSongsService.visualizzaEmozioniBrano(IdBrano);
 
                         break;
                     
@@ -406,7 +406,7 @@ public class EmotionalSongs implements common.EmotionalSongs
                             System.out.println(R+"E-mail non valida - è necessario un dominio (.com, .eu, .it)."+B);
                             break;
                         }
-                        if(emotionalSongs.controlloUserid(userId))
+                        if(emotionalSongsService.controlloUserid(userId))
                         {
                             System.out.println(R+"UserId già in uso."+B);
                             break;
@@ -422,7 +422,7 @@ public class EmotionalSongs implements common.EmotionalSongs
                             System.out.println(R + "Nessun campo può essere vuoto. Ripeti la registrazione." + B);
                             break;
                         }
-                        if (emotionalSongs.Registrazione(newUtenteRegistrato)) {
+                        if (emotionalSongsService.Registrazione(newUtenteRegistrato)) {
                             System.out.println(V + "La registrazione è andata a buon fine. Ora puoi eseguire l'accesso." + B);
                             break;
                         } else {
@@ -458,7 +458,7 @@ public class EmotionalSongs implements common.EmotionalSongs
                         }
                         System.out.print("Password: ");
                         password = sc.nextLine();
-                        if (emotionalSongs.accedi(userId, password)) {
+                        if (emotionalSongsService.accedi(userId, password)) {
                             System.out.println(V + "Accesso riuscito. Ora puoi creare playlist e inserire le tue emozioni." + B);
                         } else {
                             System.out.println(R + "Accesso non riuscito." + B);
@@ -466,7 +466,7 @@ public class EmotionalSongs implements common.EmotionalSongs
                         break;
                     
                     case 6:
-                        emotionalSongs.logOut();
+                        emotionalSongsService.logOut();
                         System.out.println(V + "Disconnessione avvenuta con successo." + B);
                         break;
                     
@@ -480,7 +480,7 @@ public class EmotionalSongs implements common.EmotionalSongs
                         if (titoloPlaylist.equals("")) {
                             break;
                         }
-                        Playlist p = emotionalSongs.RegistraPlaylist(titoloPlaylist);
+                        Playlist p = emotionalSongsService.RegistraPlaylist(titoloPlaylist);
                         System.out.print(V + "Hai creato la playlist " + p.toString() + B);
                         break;
                     
@@ -489,11 +489,11 @@ public class EmotionalSongs implements common.EmotionalSongs
                             System.out.println(R + "Per visualizzare le playlist che hai creato, devi prima effettuare l'accesso." + B);
                             break;
                         }
-                        if ((emotionalSongs.cercaPlaylistPerUtente().size() == 0)) {
+                        if ((emotionalSongsService.cercaPlaylistPerUtente().size() == 0)) {
                             System.out.println("Non hai creato alcuna playlist.");
                             break;
                         }
-                        emotionalSongs.mostraPlaylist();
+                        emotionalSongsService.mostraPlaylist();
                         break;
                     
                     case 9:
@@ -501,7 +501,7 @@ public class EmotionalSongs implements common.EmotionalSongs
                             System.out.println(R + "Devi prima effettuare l'accesso!" + B);
                             break;
                         }
-                        List<Playlist> possibiliPlaylist = emotionalSongs.cercaPlaylistPerUtente();
+                        List<Playlist> possibiliPlaylist = emotionalSongsService.cercaPlaylistPerUtente();
                         if (possibiliPlaylist.isEmpty()) {
                             System.out.println(R + "Non hai ancora creato una playlist. " + B);
                             break;
@@ -541,20 +541,20 @@ public class EmotionalSongs implements common.EmotionalSongs
                             if (idCanzone.equals("")) {
                                 break;
                             }
-                            if (emotionalSongs.cercaCanzone(idCanzone) == null) {
+                            if (emotionalSongsService.cercaCanzone(idCanzone) == null) {
                                 System.out.println(R + "Non ho trovato nessuna canzone." + B);
                                 break;
                             }
-                            flag = emotionalSongs.aggiungiCanzone(idCanzone, idPlaylist);
+                            flag = emotionalSongsService.aggiungiCanzone(idCanzone, idPlaylist);
                         } else {
                             System.out.print("Inserisci il nome completo dell'artista: ");
                             String artista = sc.nextLine();
-                            List<Canzone> listaDaAggiungere = emotionalSongs.cercaBraniPerAutore(artista);
+                            List<Canzone> listaDaAggiungere = emotionalSongsService.cercaBraniPerAutore(artista);
                             if (listaDaAggiungere.isEmpty()) {
                                 System.out.println("Non ho trovato nessun artista. Nessuna compilation aggiunta.");
                                 break;
                             }
-                            flag = emotionalSongs.aggiungiCompilation(listaDaAggiungere, idPlaylist);
+                            flag = emotionalSongsService.aggiungiCompilation(listaDaAggiungere, idPlaylist);
                         }
                         if (flag)
                             System.out.println(V + "L'aggiunta è andata a buon fine." + B);
@@ -572,11 +572,11 @@ public class EmotionalSongs implements common.EmotionalSongs
                         if (idCanzone.equals("")) {
                             break;
                         }
-                        if (!emotionalSongs.controllaCanzoneUtente(idCanzone)) {
+                        if (!emotionalSongsService.controllaCanzoneUtente(idCanzone)) {
                             System.out.println(R + "Devi prima inserire la canzone in una playlist. " + B);
                             break;
                         }
-                        if (emotionalSongs.controllaEmozioniUtente(idCanzone)) {
+                        if (emotionalSongsService.controllaEmozioniUtente(idCanzone)) {
                             System.out.println(R + "Hai già inserito delle emozioni per questa canzone. " + B);
                             break;
                         }
@@ -603,13 +603,13 @@ public class EmotionalSongs implements common.EmotionalSongs
                                 if (!note.equals("\n")) {
                                     newPercezione.aggiungiNote(note);
                                 }
-                                emotionalSongs.inserisciEmozioni(newPercezione);
+                                emotionalSongsService.inserisciEmozioni(newPercezione);
                             }
                         }
                         break;
                     
                     case 0:
-                        emotionalSongs.logOut();
+                        emotionalSongsService.logOut();
                         System.out.println("Ciao.");
                         break;
                     
