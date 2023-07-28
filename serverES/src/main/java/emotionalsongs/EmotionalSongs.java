@@ -28,6 +28,7 @@ public class EmotionalSongs implements common.EmotionalSongs
      * @throws IOException se si verifica un errore di Input/Output relativo al database
      */
     public EmotionalSongs() throws IOException {
+        new ServerGUI();
         canzoni = new Canzoni();
         persone = new Persone();
         percezioni = new Percezioni();
