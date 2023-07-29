@@ -2,11 +2,11 @@ package emotionalsongs;
 
 import common.*;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Classe contenente le funzioni centrali per l'esecuzione dell'applicazione.
@@ -15,9 +15,10 @@ import java.util.Scanner;
  * @author Paradiso Fabiola 749727 VA
  * @author Cuvato Paolo 748691 VA
  */
-public class EmotionalSongsService implements common.EmotionalSongs
+public class EmotionalSongsService implements EmotionalSongsInterface
 {
     
+    SortedSet<String> userLoggedIn;
     Canzoni canzoni;
     Persone persone;
     Percezioni percezioni;
@@ -28,7 +29,8 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @throws IOException se si verifica un errore di Input/Output relativo al database
      */
     public EmotionalSongsService() throws IOException {
-        new ServerGUI();
+        //new ServerGUI();
+        userLoggedIn = Collections.synchronizedSortedSet(new TreeSet<String>());
         canzoni = new Canzoni();
         persone = new Persone();
         percezioni = new Percezioni();
@@ -78,7 +80,6 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @param idCanzone l'ID della canzone da restituire
      * @see Percezioni#cercaEmozioni(String)
      */
-    @Override
     public void visualizzaEmozioniBrano(String idCanzone) {
         Scanner sc = new Scanner(System.in);
         List<Percezione>  possibiliEmozioni = percezioni.cercaEmozioni(idCanzone);
@@ -88,7 +89,8 @@ public class EmotionalSongsService implements common.EmotionalSongs
             System.out.println(R + "Il brano ricercato non contiene emozioni inserite dagli utenti. " + B);
             return;
         }
-        int n_enum = Emozione.values().length;
+        Emozione[] emozione = Emozione.values();
+        int n_enum = emozione.length;
         int[] countEmozione = new int[n_enum];
         long[] totaleEmozione = new long[n_enum];
         float[] mediaEmozione = new float[n_enum];
@@ -100,7 +102,6 @@ public class EmotionalSongsService implements common.EmotionalSongs
 
         System.out.println("Per il brano selezionato sono state inserite le seguenti informazioni: ");
         System.out.print("(il primo intero corrisponde al numero di utenti che hanno inserito tale emozione e il secondo alla media dei punteggi)");
-        Emozione[] emozione = Emozione.values();
         for (int i = 0; i < n_enum; i++) {
             System.out.printf("\n%-12s", emozione[i].toString());
             System.out.printf("\t%-5s", countEmozione[i]);
@@ -145,14 +146,36 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @see Persone#accedi(String, String)
      */
     @Override
-    public boolean accedi(String userId, String password) {
-        return persone.accedi(userId, password);
+    public boolean accedi(String userId, String password)
+    {
+        boolean b = persone.accedi(userId, password);
+        if(b)
+        {
+            if(userLoggedIn.contains(userId))
+            {
+                return true;
+            }
+            userLoggedIn.add(userId);
+        }
+        return b;
     }
 
     /**
      * Permette di effettuare il logout dall'applicazione.
      */
-    public void logOut() {
+    public void logOut(String idUtente)
+    {
+        userLoggedIn.remove(idUtente);
+    }
+    
+    @Override
+    public boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException
+    {
+        return playlists.aggiungiPlaylist(newPlaylist);
+    }
+    
+    private void logOut()
+    {
         Authentication.logOut();
     }
 
@@ -163,17 +186,15 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @throws IOException se si verifica un errore di Input/Output relativo al database
      * @see Playlists#aggiungiPlaylist(Playlist)
      */
-    @Override
-    public Playlist RegistraPlaylist(String titolo) throws IOException {
+    public boolean RegistraPlaylist(String titolo) throws IOException {
         Playlist newPlaylist = new Playlist(titolo, Authentication.getLoggedAs());
         playlists.aggiungiPlaylist(newPlaylist);
-        return newPlaylist;
+        return true;
     }
 
     /**
      * Mostra l'elenco delle playlist create dall'utente che ha eseguito l'accesso e i brani in esse contenute.
      */
-    @Override
     public boolean mostraPlaylist() {
         if(!Authentication.isLogged())
             return false;
@@ -210,8 +231,13 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @see Percezioni#add(Percezione)
      */
     @Override
-    public void inserisciEmozioni(Percezione newPercezione) throws IOException {
-        percezioni.add(newPercezione);
+    public boolean inserisciEmozioni(Percezione newPercezione) throws IOException {
+        if(userLoggedIn.contains(newPercezione.getUserId()))
+        {
+            percezioni.add(newPercezione);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -220,7 +246,6 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @return la Canzone corrispondente all'ID
      * @see Canzoni#getCanzone(String)
      */
-    @Override
     public Canzone cercaCanzone(String idCanzone) {
         return canzoni.getCanzone(idCanzone);
     }
@@ -235,7 +260,39 @@ public class EmotionalSongsService implements common.EmotionalSongs
     public List<Canzone> cercaBraniPerAutore(String autore) {
         return canzoni.cercaBraniPerAutore(autore);
     }
-
+    
+    @Override
+    public ProspettoRiassuntivo visualizzaEmozioni(String idCanzone) throws RemoteException
+    {
+        List<Percezione>  possibiliEmozioni = percezioni.cercaEmozioni(idCanzone);
+        Emozione[] emozione = Emozione.values();
+        int n_enum = emozione.length;
+        int[] countEmozione = new int[n_enum];
+        long[] totaleEmozione = new long[n_enum];
+        float[] mediaEmozione = new float[n_enum];
+        if (possibiliEmozioni.isEmpty())
+        {
+            return new ProspettoRiassuntivo(mediaEmozione);
+        }
+        for (Percezione e : possibiliEmozioni) {
+            int n = e.getEmozione().ordinal();
+            countEmozione[n]++;
+            totaleEmozione[n] += e.getScore();
+        }
+        for (int i = 0; i < n_enum; i++) {
+            if (countEmozione[i] != 0) {
+                mediaEmozione[i] = (float) totaleEmozione[i] / countEmozione[i];
+            }
+        }
+        ProspettoRiassuntivo prospetto = new ProspettoRiassuntivo(mediaEmozione);
+        for (Percezione p : possibiliEmozioni)
+        {
+            String commento = p.getNote();
+            if(!commento.equals("")) prospetto.addCommento(commento);
+        }
+        return prospetto;
+    }
+    
     /**
      * Aggiunge una compilation alla playlist specificata.
      * @param listaCanzoni la lista di canzoni da aggiungere
@@ -255,7 +312,6 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @return true se la canzone e' presente in almeno una delle playlist dell'utente, false altrimenti
      * @see Playlists#controllaCanzonePersona(String, String)
      */
-    @Override
     public boolean controllaCanzoneUtente(String idCanzone) {
         return playlists.controllaCanzonePersona(Authentication.getLoggedAs().getUserId(),idCanzone);
     }
@@ -266,7 +322,6 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @return true se l'utente ha gia' inserito emozioni, false altrimenti
      * @see Percezioni#controllaEmozioniPersona(String, String)
      */
-    @Override
     public boolean controllaEmozioniUtente(String idCanzone) {
         return percezioni.controllaEmozioniPersona(Authentication.getLoggedAs().getUserId(),idCanzone);
     }
@@ -277,7 +332,7 @@ public class EmotionalSongsService implements common.EmotionalSongs
      * @see Playlists#cercaPlaylistPerIdPersona(String)
      */
     @Override
-    public List<Playlist> cercaPlaylistPerUtente(){
+    public List<Playlist> cercaPlaylistPerUtente(String idUtente){
         return playlists.cercaPlaylistPerIdPersona(Authentication.getLoggedAs().getUserId());
     }
     
@@ -480,8 +535,9 @@ public class EmotionalSongsService implements common.EmotionalSongs
                         if (titoloPlaylist.equals("")) {
                             break;
                         }
-                        Playlist p = emotionalSongsService.RegistraPlaylist(titoloPlaylist);
-                        System.out.print(V + "Hai creato la playlist " + p.toString() + B);
+                        Playlist newPlaylist = new Playlist(titoloPlaylist, Authentication.getLoggedAs().getUserId());
+                        emotionalSongsService.RegistraPlaylist(newPlaylist);
+                        System.out.print(V + "Hai creato la playlist " + newPlaylist.toString() + B);
                         break;
                     
                     case 8:
@@ -489,7 +545,7 @@ public class EmotionalSongsService implements common.EmotionalSongs
                             System.out.println(R + "Per visualizzare le playlist che hai creato, devi prima effettuare l'accesso." + B);
                             break;
                         }
-                        if ((emotionalSongsService.cercaPlaylistPerUtente().size() == 0)) {
+                        if ((emotionalSongsService.cercaPlaylistPerUtente(Authentication.getLoggedAs().getUserId()).size() == 0)) {
                             System.out.println("Non hai creato alcuna playlist.");
                             break;
                         }
@@ -501,7 +557,7 @@ public class EmotionalSongsService implements common.EmotionalSongs
                             System.out.println(R + "Devi prima effettuare l'accesso!" + B);
                             break;
                         }
-                        List<Playlist> possibiliPlaylist = emotionalSongsService.cercaPlaylistPerUtente();
+                        List<Playlist> possibiliPlaylist = emotionalSongsService.cercaPlaylistPerUtente(Authentication.getLoggedAs().getUserId());
                         if (possibiliPlaylist.isEmpty()) {
                             System.out.println(R + "Non hai ancora creato una playlist. " + B);
                             break;

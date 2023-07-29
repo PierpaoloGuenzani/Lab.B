@@ -142,7 +142,7 @@ public class Playlists
 	 * @param playlist la playlist da aggiungere
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
-	public void aggiungiPlaylist(Playlist playlist) throws IOException{
+	public boolean aggiungiPlaylist(Playlist playlist) throws IOException{
 		if(mappa.containsKey(playlist.getIdPlaylist()))
 		{
 			Playlist.setCount(mappa.size());
@@ -152,6 +152,7 @@ public class Playlists
 		}
 		mappa.put(playlist.getIdPlaylist(),playlist);
 		db.save(playlist);
+		return true;
 	}
 	
 	public boolean update()
