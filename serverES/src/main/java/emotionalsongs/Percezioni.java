@@ -2,10 +2,9 @@ package emotionalsongs;
 
 import common.Percezione;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Classe per la gestione delle percezioni.
@@ -17,7 +16,7 @@ import java.util.TreeMap;
 public class Percezioni {
     private static final String dbFile = "data/Emozioni.dati.txt";
     private PerceptionDAOInterface db;
-    private TreeMap<String, List<Percezione>> mappa;
+    private ConcurrentHashMap<String, List<Percezione>> mappa;
 
     /**
      * Crea un oggetto che raccoglie in una lista le percezioni presenti nel database e ne permette la gestione.

@@ -2,7 +2,7 @@ package emotionalsongs;
 
 import common.UtenteRegistrato;
 import java.io.IOException;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Permette di controllare la situazione degli utenti gia' registrati.
@@ -15,7 +15,7 @@ public class Persone
 {
 	private static final String dbFile = "data/UtentiRegistrati.dati.txt";
 	private Dao<UtenteRegistrato> db;
-	private TreeMap<String,UtenteRegistrato> mappa;
+	private ConcurrentHashMap<String,UtenteRegistrato> mappa;
 
 	//costruttore
 	/**

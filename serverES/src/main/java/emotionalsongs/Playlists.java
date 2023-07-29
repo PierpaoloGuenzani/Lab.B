@@ -3,9 +3,9 @@ package emotionalsongs;
 import common.Canzone;
 import common.Playlist;
 import java.io.IOException;
-import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Classe per la gestione e il salvataggio delle playlist.
@@ -18,7 +18,7 @@ public class Playlists
 {
 	private static final String dbFile = "data/Playlist.dati.txt";
 	private PlaylistDAOInterface db;
-	private TreeMap<String ,Playlist> mappa;
+	private ConcurrentHashMap<String ,Playlist> mappa;
 
 	/**
 	 * Costruisce un oggetto che contiene le playlist presenti nel database.

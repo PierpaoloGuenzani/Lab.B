@@ -4,7 +4,7 @@ import common.Canzone;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Classe per la gestione dei brani musicali.
@@ -16,7 +16,7 @@ import java.util.TreeMap;
 public class Canzoni {
     private static final String dbFile = "data/Canzoni.dati.txt";
     private Dao<Canzone> db;
-    private TreeMap<String, Canzone> mappa;
+    private ConcurrentHashMap<String, Canzone> mappa;
     
     /**
      * Crea un oggetto che raccoglie le canzoni presenti e ne permette la gestione.

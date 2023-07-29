@@ -49,7 +49,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         }
 
         //TODO AGGIUNGERRE IL SERVER E RIMUOVERE AUTENTICAZIONE
-        //TODO usare executeUpdate al posto di executeQuery
+        //TODO usare ConcurrentHashMap anziche treemap
+        //TODO usare executeUpdate al posto di executeQuery quando non ritornano valori
     }
 
     /**
