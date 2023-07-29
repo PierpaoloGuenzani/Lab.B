@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UserSQLDB implements Dao<UtenteRegistrato>
 {
@@ -50,9 +51,9 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 	}
 	
 	@Override
-	public TreeMap<String, UtenteRegistrato> getAll()
+	public ConcurrentHashMap<String, UtenteRegistrato> getAll()
 	{
-		TreeMap<String , UtenteRegistrato> albero = new TreeMap<>();
+		ConcurrentHashMap<String , UtenteRegistrato> albero = new ConcurrentHashMap<String , UtenteRegistrato>();
 		try
 		{
 			PreparedStatement selectAll = serverSQL.prepareStatement(

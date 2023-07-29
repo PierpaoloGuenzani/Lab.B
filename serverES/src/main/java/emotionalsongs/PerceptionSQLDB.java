@@ -6,8 +6,7 @@ import common.Percezione;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PerceptionSQLDB implements PerceptionDAOInterface
 {
@@ -47,9 +46,9 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 	}
 
 	@Override
-	public TreeMap<String, List<Percezione>> getAll()
+	public ConcurrentHashMap<String, List<Percezione>> getAll()
 	{
-		TreeMap<String, List<Percezione>> albero = new TreeMap<>();
+		ConcurrentHashMap<String, List<Percezione>> albero = new ConcurrentHashMap<>();
 		try
 		{
 			PreparedStatement selectAll = serverSQL.prepareStatement(

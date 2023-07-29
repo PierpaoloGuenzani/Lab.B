@@ -5,6 +5,7 @@ import common.Canzone;
 import java.sql.*;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SongSQLDB implements Dao<Canzone>
 {
@@ -35,9 +36,9 @@ public class SongSQLDB implements Dao<Canzone>
 	}
 	
 	@Override
-	public TreeMap<String, Canzone> getAll()
+	public ConcurrentHashMap<String, Canzone> getAll()
 	{
-		TreeMap<String , Canzone> albero = new TreeMap<>();
+		ConcurrentHashMap<String , Canzone> albero = new ConcurrentHashMap<>();
 		try
 		{
 			PreparedStatement selectAll = serverSLQ.prepareStatement("SELECT * FROM canzoni");

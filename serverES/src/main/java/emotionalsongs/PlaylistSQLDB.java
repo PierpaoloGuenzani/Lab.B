@@ -5,6 +5,7 @@ import common.Playlist;
 import java.sql.*;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlaylistSQLDB implements PlaylistDAOInterface
 {
@@ -52,9 +53,9 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 	}
 	
 	@Override
-	public TreeMap<String, Playlist> getAll()
+	public ConcurrentHashMap<String, Playlist> getAll()
 	{
-		TreeMap<String, Playlist> albero = new TreeMap<>();
+		ConcurrentHashMap<String, Playlist> albero = new ConcurrentHashMap<>();
 		try
 		{
 			PreparedStatement select = serverSQL.prepareStatement(
