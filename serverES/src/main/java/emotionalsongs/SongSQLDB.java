@@ -38,7 +38,7 @@ public class SongSQLDB implements Dao<Canzone>
 	@Override
 	public ConcurrentHashMap<String, Canzone> getAll()
 	{
-		ConcurrentHashMap<String , Canzone> albero = new ConcurrentHashMap<>();
+		ConcurrentHashMap<String , Canzone> albero = new ConcurrentHashMap<String , Canzone>(524288); //pari a 2^19 dato che log2(n.canzoni) = 19
 		try
 		{
 			PreparedStatement selectAll = serverSLQ.prepareStatement("SELECT * FROM canzoni");
