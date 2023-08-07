@@ -20,4 +20,15 @@ public enum Emozione implements Serializable
     JOY,
     TENSION,
     SADNESS;
+    
+    public String[] names()
+    {
+        int n = values().length;
+        String[] names = new String[n];
+        for (int i = 0; i < n; i++)
+        {
+            names[i] = values()[i].name();
+        }
+        return names;
+    }
 }
