@@ -5,9 +5,12 @@ import java.awt.*;
 import java.text.Format;
 import java.text.NumberFormat;
 
-public class MainView extends JFrame
+public class MainView
 {
 	private MainController mc;
+	private MainModel mainModel;
+	
+	JFrame finestra;
 	JPanel MainPanel;
 	JButton ricercaButton;
 	JButton visualizzaEmozioniButton;
@@ -15,7 +18,7 @@ public class MainView extends JFrame
 	JButton logOutButton;
 	JList SongList;
 	JTextField SearchField;
-	JFormattedTextField annoField;
+	JTextField annoField;
 	JRadioButton titoloRadioButton;
 	JRadioButton autoreRadioButton;
 	JRadioButton autoreEAnnoRadioButton;
@@ -27,17 +30,18 @@ public class MainView extends JFrame
 	
 	public MainView()
 	{
-		super("EmotionalSong");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		finestra = new JFrame("EmotionalSong");
+		finestra.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		finestra.setMinimumSize(new Dimension(600, 400));
 		buttonGroup = new ButtonGroup();
 		buttonGroup.add(titoloRadioButton);
 		buttonGroup.add(autoreRadioButton);
 		buttonGroup.add(autoreEAnnoRadioButton);
 		titoloRadioButton.setSelected(true);
-		annoField = new JFormattedTextField(NumberFormat.getNumberInstance());
 		annoField.setColumns(5);
 		
-		mc = new MainController(this); //TODO controlla interazione tra le 3 classi dal main
+		mc = new MainController(); //TODO controlla interazione tra le 3 classi dal main
+		mc.setMainView(this);
 		accediButton.addActionListener(mc);
 		ricercaButton.addActionListener(mc);
 		visualizzaEmozioniButton.addActionListener(mc);
@@ -47,6 +51,14 @@ public class MainView extends JFrame
 		autoreRadioButton.addActionListener(mc);
 		autoreEAnnoRadioButton.addActionListener(mc);
 		
+		mainModel = new MainModel();
+		mainModel.setMainView(this);
+		mainModel.setMainController(mc);
+		
+		mc.setMainModel(mainModel);
+		
+		finestra.add($$$getRootComponent$$$());
+		finestra.setVisible(true);
 	}
 	
 	public void setLoggedIn()
@@ -143,8 +155,10 @@ public class MainView extends JFrame
 		SearchField.setPreferredSize(new Dimension(256, 30));
 		SearchField.setText("");
 		SearchPanel.add(SearchField);
+		annoField = new JTextField();
+		annoField.setColumns(5);
 		annoField.setMinimumSize(new Dimension(50, 30));
-		annoField.setPreferredSize(new Dimension(50, 30));
+		annoField.setPreferredSize(new Dimension(56, 30));
 		annoField.setVisible(false);
 		SearchPanel.add(annoField);
 		final JLabel label1 = new JLabel();
