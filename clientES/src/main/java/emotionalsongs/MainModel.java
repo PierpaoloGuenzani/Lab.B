@@ -15,13 +15,18 @@ import java.util.List;
 
 public class MainModel
 {
-	private EmotionalSongsInterface stub;
+	private MainView mainView;
+	private MainController mainController;
 	
+	private EmotionalSongsInterface stub;
 	private DefaultListModel<Canzone> canzoneJlist;
 	private String userId;
 	private boolean isLogged = false;
 	
-	public MainModel() {}
+	public MainModel()
+	{
+		new ServerInternetProtocolAddressDialog(this);
+	}
 	
 	public void setStub(String serverIP) throws RemoteException
 	{
@@ -34,6 +39,16 @@ public class MainModel
 		{} //Non pùò essere il nome è HardCoded nelle classi
 	}
 	
+	public void setMainView(MainView mainView)
+	{
+		this.mainView = mainView;
+	}
+	
+	public void setMainController(MainController mainController)
+	{
+		this.mainController = mainController;
+	}
+	
 	/**
 	 * Metodo che controlla la logica di ricerca lato client
 	 * @param titolo il titolo del brano da ricercare nel server
@@ -42,7 +57,6 @@ public class MainModel
 	 */
 	public void cercaBranoMusicale(String titolo) throws IllegalArgumentException, RemoteException
 	{
-		if(titolo == null | titolo.equals("")) throw new IllegalArgumentException("Il titolo è vuoto!");
 		canzoneJlist = new DefaultListModel<Canzone>();
 		List<Canzone> lista = stub.cercaBranoMusicale(titolo);
 		lista.forEach(canzoneJlist::addElement);
@@ -81,7 +95,6 @@ public class MainModel
 	
 	public void visualizzaEmozioni(String idCanzone) throws RemoteException
 	{
-		//TODO qualche tipo di controllo per verificare che sia selezionata una canzone
 		ProspettoRiassuntivo prospettoRiassuntivo = stub.visualizzaEmozioni(idCanzone);
 		new ProspettoRiassuntivoDialog(prospettoRiassuntivo);
 	}
@@ -99,7 +112,7 @@ public class MainModel
 	
 	public void logOut(String idUtente) throws RemoteException
 	{
-	
+		stub.logOut(idUtente);
 	}
 	
 	public boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException
@@ -132,8 +145,4 @@ public class MainModel
 		return false;
 	}
 	
-	public DefaultListModel<Canzone> getCanzoneJlist()
-	{
-		return canzoneJlist;
-	}
 }
