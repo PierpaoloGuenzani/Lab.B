@@ -1,6 +1,6 @@
 package emotionalsongs;
 
-import common.EmotionalSongsInterface;
+import common.Canzone;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +12,17 @@ public class MainController implements ActionListener
 	private MainView mainView;
 	private MainModel mainModel;
 	
-	public MainController(MainView mainView)
+	public MainController()
+	{}
+	
+	public void setMainView(MainView mainView)
 	{
 		this.mainView = mainView;
+	}
+	
+	public void setMainModel(MainModel mainModel)
+	{
+		this.mainModel = mainModel;
 	}
 	
 	@Override
@@ -25,7 +33,7 @@ public class MainController implements ActionListener
 		{
 			if (source.equals(mainView.accediButton))
 			{
-				mainView.setLoggedIn();
+				new AccediDialog(mainModel);
 			}
 			if (source.equals(mainView.logOutButton))
 			{
@@ -43,26 +51,54 @@ public class MainController implements ActionListener
 			{
 				mainView.setMonoBar();
 			}
+			//RICERCA
 			if (source.equals(mainView.ricercaButton))
 			{
 				if (mainView.titoloRadioButton.isSelected())
 				{
+					if(mainView.SearchField.getText().equals(""))
+					{
+						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun titolo!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 					mainModel.cercaBranoMusicale(mainView.SearchField.getText());
-					
 				}
 				if (mainView.autoreRadioButton.isSelected())
 				{
+					if(mainView.SearchField.getText().equals(""))
+					{
+						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun autore!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 					mainModel.cercaBraniPerAutore(mainView.SearchField.getText());
 				}
 				if (mainView.autoreEAnnoRadioButton.isSelected())
 				{
-					mainModel.cercaBranoMusicale(mainView.SearchField.getText(), ((Number)mainView.annoField.getValue()).intValue());
+					if(mainView.SearchField.getText().equals("") || mainView.annoField.getText().equals(""))
+					{
+						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito l'autore e/o l'anno!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					mainModel.cercaBranoMusicale(mainView.SearchField.getText(), Integer.parseInt(mainView.annoField.getText()));
 				}
+			}
+			//VISUALIZZA EMOZIONE
+			if(source.equals(mainView.visualizzaEmozioniButton))
+			{
+				Canzone canzone = (Canzone) mainView.SongList.getSelectedValue();
+				if(canzone == null)
+				{
+					JOptionPane.showMessageDialog(mainView.finestra, "Nessun canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
+					//TODO rimuove solo debug
+					new ProspettoRiassuntivoDialog();
+					return;
+				}
+				mainModel.visualizzaEmozioni(canzone.getId());
 			}
 		}
 		catch (RemoteException remoteException)
 		{
-			JOptionPane.showMessageDialog(mainView, "Connessione con il server non disponibile", "Connection Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mainView.finestra, "Connessione con il server non disponibile", "Connection Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
