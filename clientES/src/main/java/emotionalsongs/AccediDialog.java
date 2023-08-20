@@ -73,7 +73,17 @@ public class AccediDialog
 			public void actionPerformed(ActionEvent e)
 			{
 				String user = userField.getText();
+				if(user.equals(""))
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Username vuoto", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				String password = String.valueOf(passwordField.getPassword());
+				if(password.equals(""))
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Password vuota", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				try
 				{
 					if(mainModel.accedi(user, password))
