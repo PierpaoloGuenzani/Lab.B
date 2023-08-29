@@ -127,9 +127,10 @@ public class MainView
 	
 	private void initializeList()
 	{
-		listPanel = new JPanel();
+		listPanel = new JPanel(new BorderLayout());
 		canzoneJList = new JList<>();
-		listPanel.add(new JScrollPane(canzoneJList));
+		JScrollPane scrollPane = new JScrollPane(canzoneJList);
+		listPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		mainPanel.add(listPanel, BorderLayout.CENTER);
 	}
