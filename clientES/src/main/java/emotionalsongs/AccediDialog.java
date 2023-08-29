@@ -29,6 +29,7 @@ public class AccediDialog
 		finestra = new JDialog();
 		finestra.setTitle("ACCEDI");
 		finestra.setSize(250, 150);
+		finestra.setModal(true);
 		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		mainPanel = new JPanel(new BorderLayout());

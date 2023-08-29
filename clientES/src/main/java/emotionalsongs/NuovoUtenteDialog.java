@@ -20,9 +20,10 @@ public class NuovoUtenteDialog
 	public NuovoUtenteDialog()
 	{
 		finestra = new JDialog();
-		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		finestra.setModal(true);
 		finestra.setTitle("Nuovo utente");
 		finestra.setMinimumSize(new Dimension(500, 400));
+		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		mainPanel = new JPanel(new BorderLayout());
 		

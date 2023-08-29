@@ -43,11 +43,14 @@ public class ProspettoRiassuntivoDialog
 		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		finestra.setPreferredSize(new Dimension(850, 400));
 		finestra.setMinimumSize(new Dimension(850, 400));
+		finestra.setModal(true);
 		
 		mainPanel = new JPanel(new BorderLayout());
+		
 		initializeTable();
 		initializeScroll();
 		initializeButtons();
+		
 		finestra.add(mainPanel);
 		finestra.setVisible(true);
 	}
