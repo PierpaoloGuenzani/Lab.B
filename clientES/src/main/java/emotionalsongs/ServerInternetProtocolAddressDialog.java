@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 public class ServerInternetProtocolAddressDialog
 {
@@ -13,9 +14,12 @@ public class ServerInternetProtocolAddressDialog
 	private JButton connettiButton, annullaButton;
 	private JPanel buttonPanel, fieldPanel, mainPanel;
 	
+	private MainModel mainModel;
+	
 	public ServerInternetProtocolAddressDialog()
 	{
 		finestra = new JDialog();
+		finestra.setModal(true);
 		finestra.setTitle("SERVER IP");
 		finestra.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		mainPanel = new JPanel(new BorderLayout());
@@ -26,6 +30,12 @@ public class ServerInternetProtocolAddressDialog
 		
 		finestra.add(mainPanel);
 		finestra.setVisible(true);
+	}
+	
+	public ServerInternetProtocolAddressDialog(MainModel mainModel)
+	{
+		this();
+		this.mainModel = mainModel;
 	}
 	
 	private void initializeField()
@@ -47,7 +57,21 @@ public class ServerInternetProtocolAddressDialog
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
-			{}
+			{
+				try
+				{
+					if (serverIPField.getText().equals(""))
+					{
+						mainModel.setStub(null);
+					}
+					mainModel.setStub(serverIPField.getText());
+					finestra.dispose();
+				}
+				catch(RemoteException exception)
+				{
+					JOptionPane.showMessageDialog(mainPanel, exception.getMessage(), "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		});
 		buttonPanel.add(connettiButton);
 		

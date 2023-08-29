@@ -1,6 +1,5 @@
 package emotionalsongs;
 
-import com.sun.tools.javac.Main;
 import common.*;
 
 import javax.swing.*;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class MainModel
 {
-	private MainView mainView;
+	private MainViewGUIGenerated mainView;
 	private MainController mainController;
 	
 	private EmotionalSongsInterface stub;
@@ -39,7 +38,7 @@ public class MainModel
 		{} //Non pùò essere il nome è HardCoded nelle classi
 	}
 	
-	public void setMainView(MainView mainView)
+	public void setMainView(MainViewGUIGenerated mainView)
 	{
 		this.mainView = mainView;
 	}
@@ -106,13 +105,18 @@ public class MainModel
 	
 	public boolean accedi(String userId, String password) throws RemoteException
 	{
-		
+		if(stub.accedi(userId,password))
+		{
+			mainView.setLoggedIn();
+			return true;
+		}
 		return false;
 	}
 	
 	public void logOut(String idUtente) throws RemoteException
 	{
 		stub.logOut(idUtente);
+		mainView.setLoggedOut();
 	}
 	
 	public boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException
@@ -145,4 +149,13 @@ public class MainModel
 		return false;
 	}
 	
+	public DefaultListModel<Canzone> getCanzoneJlist()
+	{
+		return canzoneJlist;
+	}
+	
+	public String getUserId()
+	{
+		return userId;
+	}
 }

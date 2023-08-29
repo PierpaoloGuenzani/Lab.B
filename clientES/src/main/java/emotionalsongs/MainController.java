@@ -56,36 +56,37 @@ public class MainController implements ActionListener
 			{
 				if (mainView.titoloRadioButton.isSelected())
 				{
-					if(mainView.SearchField.getText().equals(""))
+					if(mainView.searchField.getText().equals(""))
 					{
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun titolo!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					mainModel.cercaBranoMusicale(mainView.SearchField.getText());
+					mainModel.cercaBranoMusicale(mainView.searchField.getText());
 				}
 				if (mainView.autoreRadioButton.isSelected())
 				{
-					if(mainView.SearchField.getText().equals(""))
+					if(mainView.searchField.getText().equals(""))
 					{
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun autore!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					mainModel.cercaBraniPerAutore(mainView.SearchField.getText());
+					mainModel.cercaBraniPerAutore(mainView.searchField.getText());
 				}
 				if (mainView.autoreEAnnoRadioButton.isSelected())
 				{
-					if(mainView.SearchField.getText().equals("") || mainView.annoField.getText().equals(""))
+					if(mainView.searchField.getText().equals("") || mainView.annoField.getText().equals(""))
 					{
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito l'autore e/o l'anno!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					mainModel.cercaBranoMusicale(mainView.SearchField.getText(), Integer.parseInt(mainView.annoField.getText()));
+					mainModel.cercaBranoMusicale(mainView.searchField.getText(), Integer.parseInt(mainView.annoField.getText()));
 				}
+				mainView.setJListModel();
 			}
 			//VISUALIZZA EMOZIONE
 			if(source.equals(mainView.visualizzaEmozioniButton))
 			{
-				Canzone canzone = (Canzone) mainView.SongList.getSelectedValue();
+				Canzone canzone = (Canzone) mainView.canzoneJList.getSelectedValue();
 				if(canzone == null)
 				{
 					JOptionPane.showMessageDialog(mainView.finestra, "Nessun canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);

@@ -1,94 +1,203 @@
 package emotionalsongs;
 
+import common.Canzone;
+
 import javax.swing.*;
 import java.awt.*;
-import java.text.Format;
-import java.text.NumberFormat;
 
 public class MainView
 {
-	private MainController mc;
-	private MainModel mainModel;
-	
+	private final int DEFAULT_WIDTH = 600;
+	private final int DEFAULT_HEIGHT = 400;
 	JFrame finestra;
-	JPanel MainPanel;
-	JButton ricercaButton;
-	JButton visualizzaEmozioniButton;
-	JPanel ButtonPanel;
-	JButton logOutButton;
-	JList SongList;
-	JTextField SearchField;
-	JTextField annoField;
-	JRadioButton titoloRadioButton;
-	JRadioButton autoreRadioButton;
-	JRadioButton autoreEAnnoRadioButton;
-	JButton inserisciEmozioneButton;
-	JButton accediButton;
-	JPanel SearchPanel;
-	JPanel ListPanel;
-	ButtonGroup buttonGroup;
+	private JPanel mainPanel, searchPanel, buttonPanel, listPanel;
+	private JMenuBar menuBar;
+	private JMenu playlistMenu, accountMenu, helpMenu;
+	JMenuItem nuovaPlaylistItem, visualizzaPlaylistItem, nuovoAccountItem, helpItem;
+	JTextField searchField, annoField;
+	private ButtonGroup buttonGroup;
+	JRadioButton titoloRadioButton, autoreRadioButton, autoreEAnnoRadioButton;
+	JList<Canzone> canzoneJList;
+	JButton accediButton, logOutButton, ricercaButton, visualizzaEmozioniButton, inserisciEmozioneButton;
+	
+	private MainModel mainModel;
+	private MainController mainController;
 	
 	public MainView()
 	{
-		finestra = new JFrame("EmotionalSong");
+		initializeGUI();
+	}
+	
+	private void initializeGUI()
+	{
+		finestra = new JFrame("EMOTIONAL SONG");
 		finestra.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		finestra.setMinimumSize(new Dimension(600, 400));
-		buttonGroup = new ButtonGroup();
-		buttonGroup.add(titoloRadioButton);
-		buttonGroup.add(autoreRadioButton);
-		buttonGroup.add(autoreEAnnoRadioButton);
-		titoloRadioButton.setSelected(true);
-		annoField.setColumns(5);
+		finestra.setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		
-		mc = new MainController(); //TODO controlla interazione tra le 3 classi dal main
-		mc.setMainView(this);
-		accediButton.addActionListener(mc);
-		ricercaButton.addActionListener(mc);
-		visualizzaEmozioniButton.addActionListener(mc);
-		logOutButton.addActionListener(mc);
-		inserisciEmozioneButton.addActionListener(mc);
-		titoloRadioButton.addActionListener(mc);
-		autoreRadioButton.addActionListener(mc);
-		autoreEAnnoRadioButton.addActionListener(mc);
+		initializeMenuBar();
 		
-		mainModel = new MainModel();
-		mainModel.setMainView(this);
-		mainModel.setMainController(mc);
+		mainPanel = new JPanel(new BorderLayout());
 		
-		mc.setMainModel(mainModel);
+		initializeSearchBar();
+		initializeList();
+		initializeButton();
+		setMonoBar();
 		
-		finestra.add($$$getRootComponent$$$());
+		finestra.add(mainPanel);
 		finestra.setVisible(true);
+		System.out.println(searchField.getSize());
+	}
+	
+	private void initializeMenuBar()
+	{
+		menuBar = new JMenuBar();
+		
+		playlistMenu = new JMenu("Playlist");
+		playlistMenu.setVisible(false);
+		playlistMenu.setMnemonic('p');
+		
+		nuovaPlaylistItem = new JMenuItem("Nuova Playlist");
+		nuovaPlaylistItem.setMnemonic('N');
+		playlistMenu.add(nuovaPlaylistItem);
+		
+		visualizzaPlaylistItem = new JMenuItem("Visualizza Playlist");
+		visualizzaPlaylistItem.setMnemonic('V');
+		playlistMenu.add(visualizzaPlaylistItem);
+		
+		menuBar.add(playlistMenu);
+		
+		accountMenu = new JMenu("Account");
+		accountMenu.setVisible(false);
+		accountMenu.setMnemonic('A');
+		
+		nuovoAccountItem = new JMenuItem("Nuovo Account");
+		nuovoAccountItem.setMnemonic('u');
+		accountMenu.add(nuovoAccountItem);
+		
+		menuBar.add(accountMenu);
+		
+		helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic('h');
+		
+		helpItem = new JMenuItem("?");
+		helpMenu.add(helpItem);
+		
+		menuBar.add(helpMenu);
+		finestra.setJMenuBar(menuBar);
+	}
+	
+	private void initializeSearchBar()
+	{
+		searchPanel = new JPanel();
+		
+		searchField = new JTextField();
+		searchField.setMinimumSize(new Dimension(100, 30));
+		searchField.setColumns(25);
+		searchPanel.add(searchField);
+		
+		annoField = new JTextField(5);
+		annoField.setMinimumSize(new Dimension(40, 30));
+		annoField.setColumns(5);
+		annoField.setVisible(false);
+		searchPanel.add(annoField);
+		
+		JLabel label = new JLabel("Ricerca per:");
+		searchPanel.add(label);
+		
+		buttonGroup = new ButtonGroup();
+		
+		titoloRadioButton = new JRadioButton("Titolo");
+		titoloRadioButton.setMnemonic('t');
+		titoloRadioButton.setSelected(true);
+		buttonGroup.add(titoloRadioButton);
+		searchPanel.add(titoloRadioButton);
+		
+		autoreRadioButton = new JRadioButton("Autore");
+		autoreRadioButton.setMnemonic('u');
+		buttonGroup.add(autoreRadioButton);
+		searchPanel.add(autoreRadioButton);
+		
+		autoreEAnnoRadioButton = new JRadioButton("Autore e Anno");
+		autoreEAnnoRadioButton.setMnemonic('n');
+		buttonGroup.add(autoreEAnnoRadioButton);
+		searchPanel.add(autoreEAnnoRadioButton);
+		
+		mainPanel.add(searchPanel, BorderLayout.NORTH);
+	}
+	
+	private void initializeList()
+	{
+		listPanel = new JPanel();
+		canzoneJList = new JList<>();
+		listPanel.add(new JScrollPane(canzoneJList));
+		
+		mainPanel.add(listPanel, BorderLayout.CENTER);
+	}
+	
+	private void initializeButton()
+	{
+		buttonPanel = new JPanel();
+		
+		accediButton = new JButton("Accedi");
+		accediButton.setMnemonic('a');
+		buttonPanel.add(accediButton);
+		
+		logOutButton = new JButton("Logout");
+		logOutButton.setVisible(false);
+		logOutButton.setMnemonic('l');
+		buttonPanel.add(logOutButton);
+		
+		ricercaButton = new JButton("Ricerca");
+		ricercaButton.setMnemonic('r');
+		buttonPanel.add(ricercaButton);
+		
+		visualizzaEmozioniButton = new JButton("Visualizza Emozione");
+		visualizzaEmozioniButton.setMnemonic('v');
+		buttonPanel.add(visualizzaEmozioniButton);
+		
+		inserisciEmozioneButton = new JButton("Inserisci Emozione");
+		inserisciEmozioneButton.setVisible(false);
+		inserisciEmozioneButton.setMnemonic('i');
+		buttonPanel.add(inserisciEmozioneButton);
+		
+		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
 	public void setLoggedIn()
 	{
 		accediButton.setVisible(false);
 		logOutButton.setVisible(true);
-		update(ButtonPanel);
+		update(buttonPanel);
 	}
 	
 	public void setLoggedOut()
 	{
 		logOutButton.setVisible(false);
 		accediButton.setVisible(true);
-		update(ButtonPanel);
+		update(buttonPanel);
 	}
 	
 	public void setDoubleBar()
 	{
-		SearchField.setColumns(15);
+		searchField.setColumns(15);
 		annoField.setColumns(5);
 		annoField.setVisible(true);
-		update(SearchPanel);
+		update(searchPanel);
 	}
 	
 	public void setMonoBar()
 	{
-		SearchField.setColumns(25);
+		searchField.setColumns(25);
 		annoField.setVisible(false);
 		annoField.setText("");
-		update(SearchPanel);
+		update(searchPanel);
+	}
+	
+	public void setJListModel()
+	{
+		if(mainModel == null) return;
+		canzoneJList.setModel(mainModel.getCanzoneJlist());
+		update(listPanel);
 	}
 	
 	private void update(JPanel panel)
@@ -97,90 +206,21 @@ public class MainView
 		panel.repaint();
 	}
 	
+	public void setMainModel(MainModel mainModel)
 	{
-		// GUI initializer generated by IntelliJ IDEA GUI Designer
-		// >>> IMPORTANT!! <<<
-		// DO NOT EDIT OR ADD ANY CODE HERE!
-		$$$setupUI$$$();
+		this.mainModel = mainModel;
 	}
 	
-	/**
-	 * Method generated by IntelliJ IDEA GUI Designer
-	 * >>> IMPORTANT!! <<<
-	 * DO NOT edit this method OR call it in your code!
-	 *
-	 * @noinspection ALL
-	 */
-	private void $$$setupUI$$$()
+	public void setMainController(MainController mainController)
 	{
-		MainPanel = new JPanel();
-		MainPanel.setLayout(new BorderLayout(0, 0));
-		ListPanel = new JPanel();
-		ListPanel.setLayout(new BorderLayout(0, 0));
-		MainPanel.add(ListPanel, BorderLayout.CENTER);
-		final JScrollPane scrollPane1 = new JScrollPane();
-		scrollPane1.setPreferredSize(new Dimension(300, 200));
-		ListPanel.add(scrollPane1, BorderLayout.CENTER);
-		SongList = new JList();
-		final DefaultListModel defaultListModel1 = new DefaultListModel();
-		SongList.setModel(defaultListModel1);
-		scrollPane1.setViewportView(SongList);
-		ButtonPanel = new JPanel();
-		ButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		MainPanel.add(ButtonPanel, BorderLayout.SOUTH);
-		accediButton = new JButton();
-		accediButton.setText("Accedi");
-		ButtonPanel.add(accediButton);
-		ricercaButton = new JButton();
-		ricercaButton.setText("Ricerca");
-		ButtonPanel.add(ricercaButton);
-		visualizzaEmozioniButton = new JButton();
-		visualizzaEmozioniButton.setText("Visualizza Emozioni");
-		ButtonPanel.add(visualizzaEmozioniButton);
-		logOutButton = new JButton();
-		logOutButton.setEnabled(true);
-		logOutButton.setText("Log Out");
-		logOutButton.setVisible(false);
-		ButtonPanel.add(logOutButton);
-		inserisciEmozioneButton = new JButton();
-		inserisciEmozioneButton.setText("Inserisci Emozione");
-		inserisciEmozioneButton.setVisible(false);
-		ButtonPanel.add(inserisciEmozioneButton);
-		SearchPanel = new JPanel();
-		SearchPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		MainPanel.add(SearchPanel, BorderLayout.NORTH);
-		SearchField = new JTextField();
-		SearchField.setColumns(25);
-		SearchField.setMinimumSize(new Dimension(100, 30));
-		SearchField.setPreferredSize(new Dimension(256, 30));
-		SearchField.setText("");
-		SearchPanel.add(SearchField);
-		annoField = new JTextField();
-		annoField.setColumns(5);
-		annoField.setMinimumSize(new Dimension(50, 30));
-		annoField.setPreferredSize(new Dimension(56, 30));
-		annoField.setVisible(false);
-		SearchPanel.add(annoField);
-		final JLabel label1 = new JLabel();
-		label1.setText("Ricerca per:");
-		SearchPanel.add(label1);
-		titoloRadioButton = new JRadioButton();
-		titoloRadioButton.setText("Titolo");
-		SearchPanel.add(titoloRadioButton);
-		autoreRadioButton = new JRadioButton();
-		autoreRadioButton.setText("Autore");
-		SearchPanel.add(autoreRadioButton);
-		autoreEAnnoRadioButton = new JRadioButton();
-		autoreEAnnoRadioButton.setText("Autore e Anno");
-		SearchPanel.add(autoreEAnnoRadioButton);
+		this.mainController = mainController;
+		titoloRadioButton.addActionListener(mainController);
+		autoreRadioButton.addActionListener(mainController);
+		autoreEAnnoRadioButton.addActionListener(mainController);
+		accediButton.addActionListener(mainController);
+		logOutButton.addActionListener(mainController);
+		ricercaButton.addActionListener(mainController);
+		visualizzaEmozioniButton.addActionListener(mainController);
+		inserisciEmozioneButton.addActionListener(mainController);
 	}
-	
-	/**
-	 * @noinspection ALL
-	 */
-	public JComponent $$$getRootComponent$$$()
-	{
-		return MainPanel;
-	}
-	
 }

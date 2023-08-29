@@ -22,7 +22,6 @@ public class AccediDialog
 	{
 		this();
 		this.mainModel = mainModel;
-
 	}
 	
 	public AccediDialog()
@@ -88,6 +87,7 @@ public class AccediDialog
 				{
 					if(mainModel.accedi(user, password))
 					{
+						JOptionPane.showMessageDialog(mainPanel, "Login effettuato", "AUTENTICAZIONE ACCETTATA", JOptionPane.INFORMATION_MESSAGE);
 						finestra.dispose();
 					}
 					else
