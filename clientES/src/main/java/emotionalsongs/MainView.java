@@ -67,7 +67,7 @@ public class MainView
 		menuBar.add(playlistMenu);
 		
 		accountMenu = new JMenu("Account");
-		accountMenu.setVisible(false);
+		//accountMenu.setVisible(false);
 		accountMenu.setMnemonic('A');
 		
 		nuovoAccountItem = new JMenuItem("Nuovo Account");
