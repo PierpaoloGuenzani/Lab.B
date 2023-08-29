@@ -35,6 +35,7 @@ public class AggiungiEmozioneDialog
 		finestra.add(mainPanel);
 		finestra.pack();
 		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	public AggiungiEmozioneDialog(MainModel mainModel, String songId)

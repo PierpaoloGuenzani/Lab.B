@@ -9,7 +9,7 @@ public class MainView
 {
 	private final int DEFAULT_WIDTH = 600;
 	private final int DEFAULT_HEIGHT = 400;
-	JFrame finestra;
+	static JFrame finestra;
 	private JPanel mainPanel, searchPanel, buttonPanel, listPanel;
 	private JMenuBar menuBar;
 	private JMenu playlistMenu, accountMenu, helpMenu;

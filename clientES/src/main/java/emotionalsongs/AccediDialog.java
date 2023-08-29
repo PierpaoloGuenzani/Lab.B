@@ -16,6 +16,7 @@ public class AccediDialog
 	JButton accediButton;
 	private JButton	annullaButton;
 	private JLabel userLabel, passwordLabel;
+	
 	private MainModel mainModel;
 	
 	public AccediDialog(MainModel mainModel)
@@ -26,11 +27,11 @@ public class AccediDialog
 	
 	public AccediDialog()
 	{
-		finestra = new JDialog();
+		finestra = new JDialog(MainView.finestra);
 		finestra.setTitle("ACCEDI");
-		finestra.setSize(250, 150);
 		finestra.setModal(true);
 		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		finestra.setSize(250, 150);
 		
 		mainPanel = new JPanel(new BorderLayout());
 		initializeField();
@@ -38,6 +39,7 @@ public class AccediDialog
 		
 		finestra.add(mainPanel);
 		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeField()

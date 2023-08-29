@@ -29,6 +29,7 @@ public class AggiungiCanzoneDialog
 		
 		finestra.add(mainPanel);
 		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeMain()

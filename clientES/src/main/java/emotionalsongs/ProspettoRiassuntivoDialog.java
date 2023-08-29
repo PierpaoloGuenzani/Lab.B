@@ -53,6 +53,7 @@ public class ProspettoRiassuntivoDialog
 		
 		finestra.add(mainPanel);
 		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeTable()

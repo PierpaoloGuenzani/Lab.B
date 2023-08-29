@@ -29,6 +29,7 @@ public class NuovaPlaylistDialog
 		finestra.add(mainPanel);
 		finestra.pack();
 		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeField()

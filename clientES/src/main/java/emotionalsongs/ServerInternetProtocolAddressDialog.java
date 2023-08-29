@@ -30,6 +30,7 @@ public class ServerInternetProtocolAddressDialog
 		
 		finestra.add(mainPanel);
 		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	public ServerInternetProtocolAddressDialog(MainModel mainModel)

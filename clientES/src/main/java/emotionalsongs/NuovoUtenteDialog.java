@@ -32,6 +32,7 @@ public class NuovoUtenteDialog
 		
 		finestra.add(mainPanel);
 		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeField()
