@@ -1,9 +1,12 @@
 package emotionalsongs;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class NuovaPlaylistDialog implements MyDialog
 {
@@ -48,14 +51,6 @@ public class NuovaPlaylistDialog implements MyDialog
 		buttonPanel.setVisible(true);
 		
 		confermaButton = new JButton("Conferma");
-		confermaButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				//TODO
-			}
-		});
 		buttonPanel.add(confermaButton);
 		
 		annullaButton = new JButton("Annulla");
@@ -74,5 +69,24 @@ public class NuovaPlaylistDialog implements MyDialog
 		finestra.pack();
 		finestra.setLocationRelativeTo(MainView.finestra);
 		finestra.setVisible(true);
+	}
+
+	public void setMainModel(MainModel mainModel)
+	{
+		confermaButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try
+				{
+					mainModel.RegistraPlaylist(nomeField.getText());
+				}
+				catch (IOException ex)
+				{
+					String titolo = "CONNECTION ERROR";
+					String message = "Errore di comunicazione con il server!";
+					JOptionPane.showMessageDialog(MainView.finestra, message, titolo, JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 	}
 }

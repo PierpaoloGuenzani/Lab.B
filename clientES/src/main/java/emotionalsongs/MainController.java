@@ -42,7 +42,7 @@ public class MainController implements ActionListener
 			if(source.equals(mainView.nuovaPlaylistItem))
 			{
 				NuovaPlaylistDialog nuovaPlaylistDialog = new NuovaPlaylistDialog();
-				//TODO creare logica
+				if(mainModel != null) nuovaPlaylistDialog.setMainModel(mainModel);
 				nuovaPlaylistDialog.draw();
 			}
 			if(source.equals(mainView.visualizzaPlaylistItem))

@@ -166,8 +166,7 @@ public class EmotionalSongsService implements EmotionalSongsInterface
     {
         userLoggedIn.remove(idUtente);
     }
-    
-    @Override
+
     public boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException
     {
         return playlists.aggiungiPlaylist(newPlaylist);

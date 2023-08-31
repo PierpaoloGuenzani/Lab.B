@@ -106,9 +106,10 @@ public class MainModel
 		userId = null;
 	}
 	
-	public boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException
+	public boolean RegistraPlaylist(String nomePlaylist) throws IOException, RemoteException
 	{
-		return false;
+		//TODO
+		return true;
 	}
 	
 	public boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException, RemoteException

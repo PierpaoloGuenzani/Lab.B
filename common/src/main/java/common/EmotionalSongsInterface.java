@@ -21,7 +21,7 @@ public interface EmotionalSongsInterface extends Remote
 	
 	void logOut(String idUtente) throws RemoteException;
 	
-	boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException;
+	boolean RegistraPlaylist(String nomePlaylist) throws IOException, RemoteException;
 	
 	boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException, RemoteException;
 	
