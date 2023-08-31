@@ -33,11 +33,14 @@ public class MainController implements ActionListener
 		{
 			if (source.equals(mainView.accediButton))
 			{
-				new AccediDialog(mainModel);
+				if(mainModel == null || mainView == null) return;
+				new AccediDialog(mainView, mainModel).draw();
 			}
 			if (source.equals(mainView.logOutButton))
 			{
 				mainView.setLoggedOut();
+				if(mainModel == null) return;
+				mainModel.logOut();
 			}
 			if (source.equals(mainView.autoreEAnnoRadioButton))
 			{
@@ -61,6 +64,7 @@ public class MainController implements ActionListener
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun titolo!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
+					if(mainModel == null) return;
 					mainModel.cercaBranoMusicale(mainView.searchField.getText());
 				}
 				if (mainView.autoreRadioButton.isSelected())
@@ -70,6 +74,7 @@ public class MainController implements ActionListener
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun autore!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
+					if(mainModel == null) return;
 					mainModel.cercaBraniPerAutore(mainView.searchField.getText());
 				}
 				if (mainView.autoreEAnnoRadioButton.isSelected())
@@ -79,9 +84,10 @@ public class MainController implements ActionListener
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito l'autore e/o l'anno!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
+					if(mainModel == null) return;
 					mainModel.cercaBranoMusicale(mainView.searchField.getText(), Integer.parseInt(mainView.annoField.getText()));
 				}
-				mainView.setJListModel();
+				mainView.setJListModel(mainModel.getCanzoneJlist());
 			}
 			//VISUALIZZA EMOZIONE
 			if(source.equals(mainView.visualizzaEmozioniButton))
@@ -94,7 +100,12 @@ public class MainController implements ActionListener
 					new ProspettoRiassuntivoDialog();
 					return;
 				}
+				if(mainModel == null) return;
 				mainModel.visualizzaEmozioni(canzone.getId());
+			}
+			if(source.equals(mainView.nuovoAccountItem))
+			{
+				new NuovoUtenteDialog();
 			}
 		}
 		catch (RemoteException remoteException)

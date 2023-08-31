@@ -20,9 +20,6 @@ public class MainView
 	JList<Canzone> canzoneJList;
 	JButton accediButton, logOutButton, ricercaButton, visualizzaEmozioniButton, inserisciEmozioneButton;
 	
-	private MainModel mainModel;
-	private MainController mainController;
-	
 	public MainView()
 	{
 		initializeGUI();
@@ -166,6 +163,9 @@ public class MainView
 	
 	public void setLoggedIn()
 	{
+		playlistMenu.setVisible(true);
+		
+		inserisciEmozioneButton.setVisible(true);
 		accediButton.setVisible(false);
 		logOutButton.setVisible(true);
 		update(buttonPanel);
@@ -173,6 +173,9 @@ public class MainView
 	
 	public void setLoggedOut()
 	{
+		playlistMenu.setVisible(false);
+		
+		inserisciEmozioneButton.setVisible(false);
 		logOutButton.setVisible(false);
 		accediButton.setVisible(true);
 		update(buttonPanel);
@@ -194,10 +197,9 @@ public class MainView
 		update(searchPanel);
 	}
 	
-	public void setJListModel()
+	public void setJListModel(ListModel model)
 	{
-		if(mainModel == null) return;
-		canzoneJList.setModel(mainModel.getCanzoneJlist());
+		canzoneJList.setModel(model);
 		update(listPanel);
 	}
 	
@@ -207,14 +209,8 @@ public class MainView
 		panel.repaint();
 	}
 	
-	public void setMainModel(MainModel mainModel)
-	{
-		this.mainModel = mainModel;
-	}
-	
 	public void setMainController(MainController mainController)
 	{
-		this.mainController = mainController;
 		titoloRadioButton.addActionListener(mainController);
 		autoreRadioButton.addActionListener(mainController);
 		autoreEAnnoRadioButton.addActionListener(mainController);
@@ -223,5 +219,8 @@ public class MainView
 		ricercaButton.addActionListener(mainController);
 		visualizzaEmozioniButton.addActionListener(mainController);
 		inserisciEmozioneButton.addActionListener(mainController);
+		nuovoAccountItem.addActionListener(mainController);
+		nuovaPlaylistItem.addActionListener(mainController);
+		visualizzaPlaylistItem.addActionListener(mainController);
 	}
 }

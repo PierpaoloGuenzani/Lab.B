@@ -14,8 +14,6 @@ import java.util.List;
 
 public class MainModel
 {
-	private MainViewGUIGenerated mainView;
-	private MainController mainController;
 	
 	private EmotionalSongsInterface stub;
 	private DefaultListModel<Canzone> canzoneJlist;
@@ -23,9 +21,7 @@ public class MainModel
 	private boolean isLogged = false;
 	
 	public MainModel()
-	{
-		new ServerInternetProtocolAddressDialog(this);
-	}
+	{}
 	
 	public void setStub(String serverIP) throws RemoteException
 	{
@@ -36,16 +32,6 @@ public class MainModel
 		}
 		catch (NotBoundException e)
 		{} //Non pùò essere il nome è HardCoded nelle classi
-	}
-	
-	public void setMainView(MainViewGUIGenerated mainView)
-	{
-		this.mainView = mainView;
-	}
-	
-	public void setMainController(MainController mainController)
-	{
-		this.mainController = mainController;
 	}
 	
 	/**
@@ -107,16 +93,17 @@ public class MainModel
 	{
 		if(stub.accedi(userId,password))
 		{
-			mainView.setLoggedIn();
+			this.userId = userId;
 			return true;
 		}
 		return false;
 	}
 	
-	public void logOut(String idUtente) throws RemoteException
+	public void logOut() throws RemoteException
 	{
-		stub.logOut(idUtente);
-		mainView.setLoggedOut();
+		if(userId == null) return;
+		stub.logOut(userId);
+		userId = null;
 	}
 	
 	public boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException
@@ -146,7 +133,7 @@ public class MainModel
 	
 	public boolean controlloUserid(String UserID) throws RemoteException
 	{
-		return false;
+		return stub.controlloUserid(UserID);
 	}
 	
 	public DefaultListModel<Canzone> getCanzoneJlist()

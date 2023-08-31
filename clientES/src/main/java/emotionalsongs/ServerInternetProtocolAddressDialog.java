@@ -14,8 +14,6 @@ public class ServerInternetProtocolAddressDialog
 	private JButton connettiButton, annullaButton;
 	private JPanel buttonPanel, fieldPanel, mainPanel;
 	
-	private MainModel mainModel;
-	
 	public ServerInternetProtocolAddressDialog()
 	{
 		finestra = new JDialog();
@@ -29,14 +27,8 @@ public class ServerInternetProtocolAddressDialog
 		initializeButton();
 		
 		finestra.add(mainPanel);
-		finestra.setVisible(true);
 		finestra.setLocationRelativeTo(MainView.finestra);
-	}
-	
-	public ServerInternetProtocolAddressDialog(MainModel mainModel)
-	{
-		this();
-		this.mainModel = mainModel;
+		finestra.setVisible(true);
 	}
 	
 	private void initializeField()
@@ -59,19 +51,13 @@ public class ServerInternetProtocolAddressDialog
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				try
+				if (serverIPField.getText().equals(""))
 				{
-					if (serverIPField.getText().equals(""))
-					{
-						mainModel.setStub(null);
-					}
-					mainModel.setStub(serverIPField.getText());
-					finestra.dispose();
+					EmotionalSongs.IPAddress = null;
+					JOptionPane.showMessageDialog(mainPanel, "Connessione a localhost", "Connessione", JOptionPane.INFORMATION_MESSAGE);
 				}
-				catch(RemoteException exception)
-				{
-					JOptionPane.showMessageDialog(mainPanel, exception.getMessage(), "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
-				}
+				EmotionalSongs.IPAddress = serverIPField.getText();
+				finestra.dispose();
 			}
 		});
 		buttonPanel.add(connettiButton);
@@ -82,7 +68,8 @@ public class ServerInternetProtocolAddressDialog
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				serverIPField.setText("");
+				finestra.dispose();
+				MainView.finestra.dispose();
 			}
 		});
 		buttonPanel.add(annullaButton);

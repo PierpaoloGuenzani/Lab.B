@@ -47,9 +47,7 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         {
             e.printStackTrace();
         }
-
-        //TODO AGGIUNGERRE IL SERVER E RIMUOVERE AUTENTICAZIONE
-        //TODO usare ConcurrentHashMap anziche treemap
+        
         //TODO usare executeUpdate al posto di executeQuery quando non ritornano valori
     }
 

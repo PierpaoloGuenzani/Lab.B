@@ -1,9 +1,17 @@
 package emotionalsongs;
 
+import common.UtenteRegistrato;
+
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class NuovoUtenteDialog
 {
@@ -11,18 +19,21 @@ public class NuovoUtenteDialog
 	public static final int DEFAULT_PANEL_WIDTH = 300;
 	public static final int DEFAULT_PANEL_HEIGHT = 30;
 	private JDialog finestra;
-	private JTextField nomeField, cognomeField, codiceFiscaleField, indirizzoField, emailField, userIdField, passwordField, checkPasswordField;
-	private JLabel nomeLabel, cognomeLabel, codiceFiscaleLabel, indirizzoLabel, emailLabel, userIdLabel, passwordLabel, checkPasswordLabel;
+	private JTextField nomeField, cognomeField, codiceFiscaleField, indirizzoField, emailField, userIdField, passwordField;
+	private JLabel nomeLabel, cognomeLabel, codiceFiscaleLabel, indirizzoLabel, emailLabel, userIdLabel, passwordLabel;
 	private JLabel verifiedIcon, invalidatedIcon; //TODO metterne 2 per ogni field
 	private JButton confermaButton, annullaButton;
 	private JPanel mainPanel, buttonPanel, fieldPanel, labelPanel, iconPanel;
+	
+	private MainModel mainModel;
+	private boolean codiceFiscaleFlag, emailFlag, userIdFlag;
 	
 	public NuovoUtenteDialog()
 	{
 		finestra = new JDialog();
 		finestra.setModal(true);
 		finestra.setTitle("Nuovo utente");
-		finestra.setMinimumSize(new Dimension(500, 400));
+		//finestra.setMinimumSize(new Dimension(500, 400));
 		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		mainPanel = new JPanel(new BorderLayout());
@@ -31,8 +42,9 @@ public class NuovoUtenteDialog
 		initializeButton();
 		
 		finestra.add(mainPanel);
-		finestra.setVisible(true);
+		finestra.pack();
 		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setVisible(true);
 	}
 	
 	private void initializeField()
@@ -60,7 +72,7 @@ public class NuovoUtenteDialog
 		
 		codiceFiscaleLabel = new JLabel("Codice Fiscale:");
 		codiceFiscaleLabel.setLabelFor(codiceFiscaleField);
-		labelPanel.add(cognomeLabel);
+		labelPanel.add(codiceFiscaleLabel);
 		codiceFiscaleField = new JTextField(DEFAULT_FIELD_LENGTH);
 		fieldPanel.add(codiceFiscaleField);
 		//icon
@@ -97,14 +109,6 @@ public class NuovoUtenteDialog
 		fieldPanel.add(passwordField);
 		//icon
 		//icon
-
-		checkPasswordLabel = new JLabel("Conferma password:");
-		checkPasswordLabel.setLabelFor(checkPasswordField);
-		labelPanel.add(checkPasswordLabel);
-		checkPasswordField = new JTextField(DEFAULT_FIELD_LENGTH);
-		fieldPanel.add(checkPasswordField);
-		//icon
-		//icon
 		
 		mainPanel.add(labelPanel, BorderLayout.LINE_START);
 		mainPanel.add(fieldPanel, BorderLayout.CENTER);
@@ -119,7 +123,23 @@ public class NuovoUtenteDialog
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-			
+				if(mainModel == null) return;
+				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(
+						nomeField.getText(),
+						cognomeField.getText(),
+						codiceFiscaleField.getText(),
+						indirizzoField.getText(),
+						emailField.getText(),
+						passwordField.getText(),
+						userIdField.getText()
+						);
+				try
+				{
+					mainModel.Registrazione(utenteRegistrato);
+				} catch (IOException ex)
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Errore di connessione con il server!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		buttonPanel.add(confermaButton);
@@ -136,5 +156,138 @@ public class NuovoUtenteDialog
 		buttonPanel.add(annullaButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+	}
+	
+	public void setMainModel(MainModel mainModel)
+	{
+		this.mainModel = mainModel;
+		setVerifier();
+	}
+	
+	public void setVerifier()
+	{
+		confermaButton.setEnabled(false);
+		buttonPanel.validate();
+		buttonPanel.repaint();
+		
+		nomeField.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				super.focusLost(e);
+				if(nomeField.getText().isBlank())
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Il nome non può essere vuoto!", "Nome invalido", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		
+		cognomeField.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				super.focusLost(e);
+				if(nomeField.getText().isBlank())
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Il cognome non può essere vuoto!", "Cognome invalido", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		
+		codiceFiscaleField.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				super.focusLost(e);
+				if(codiceFiscaleField.getText().length()<15)
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Il codice fiscale non è corretto", "Codice Fiscale invalido", JOptionPane.WARNING_MESSAGE);
+					codiceFiscaleFlag = false;
+				}
+				else
+				{
+					codiceFiscaleFlag = true;
+				}
+			}
+		});
+		
+		indirizzoLabel.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				super.focusLost(e);
+				if(nomeField.getText().isBlank())
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Il cognome non può essere vuoto!", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		
+		emailField.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				super.focusLost(e);
+				final String regularSyntax = "[A-Za-z0-9]+[._-]?[A-Za-z0-9]+@[[A-Za-z0-9]+.[A-Za-z0-9]+]+";
+				if(emailField.getText().matches(regularSyntax))
+				{
+					emailFlag = true;
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(mainPanel, "L'e-mail non è valida", "E-Mail invalido", JOptionPane.WARNING_MESSAGE);
+					emailFlag = false;
+				}
+			}
+		});
+		
+		userIdField.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				super.focusLost(e);
+				try
+				{
+					if(mainModel.controlloUserid(userIdField.getText()))
+					{
+						userIdFlag = false;
+						JOptionPane.showMessageDialog(mainPanel, "Username già in uso, riprova", "Username invalido", JOptionPane.WARNING_MESSAGE);
+					}
+					else
+					{
+						userIdFlag = true;
+					}
+				} catch (RemoteException ex)
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Errore di connessione con il server!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		passwordField.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				super.focusLost(e);
+				if(passwordField.getText().length()<6)
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Password troppo corta!", "Password invalida", JOptionPane.WARNING_MESSAGE);
+				}
+				else
+				{
+					if(codiceFiscaleFlag && emailFlag && userIdFlag)
+					{
+						confermaButton.setEnabled(true);
+					}
+				}
+			}
+		});
 	}
 }

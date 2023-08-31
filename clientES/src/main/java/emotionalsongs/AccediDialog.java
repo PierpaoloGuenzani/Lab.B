@@ -17,12 +17,44 @@ public class AccediDialog
 	private JButton	annullaButton;
 	private JLabel userLabel, passwordLabel;
 	
-	private MainModel mainModel;
-	
-	public AccediDialog(MainModel mainModel)
+	public AccediDialog(MainView mainView,MainModel mainModel)
 	{
 		this();
-		this.mainModel = mainModel;
+		accediButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String user = userField.getText();
+				if(user.equals(""))
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Username vuoto", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				String password = String.valueOf(passwordField.getPassword());
+				if(password.equals(""))
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Password vuota", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				try
+				{
+					if(mainModel.accedi(user, password))
+					{
+						JOptionPane.showMessageDialog(mainPanel, "Login effettuato", "AUTENTICAZIONE ACCETTATA", JOptionPane.INFORMATION_MESSAGE);
+						mainView.setLoggedIn();
+						finestra.dispose();
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(mainPanel, "Password o username errati", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (RemoteException ex)
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Connessione con il server non disponibile", "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 	}
 	
 	public AccediDialog()
@@ -36,10 +68,6 @@ public class AccediDialog
 		mainPanel = new JPanel(new BorderLayout());
 		initializeField();
 		initializeButtons();
-		
-		finestra.add(mainPanel);
-		finestra.setVisible(true);
-		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeField()
@@ -68,41 +96,6 @@ public class AccediDialog
 		buttonPanel = new JPanel();
 		
 		accediButton = new JButton("Accedi");
-		accediButton.addActionListener(new MainController());
-		accediButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				String user = userField.getText();
-				if(user.equals(""))
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Username vuoto", "ERRORE", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				String password = String.valueOf(passwordField.getPassword());
-				if(password.equals(""))
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Password vuota", "ERRORE", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				try
-				{
-					if(mainModel.accedi(user, password))
-					{
-						JOptionPane.showMessageDialog(mainPanel, "Login effettuato", "AUTENTICAZIONE ACCETTATA", JOptionPane.INFORMATION_MESSAGE);
-						finestra.dispose();
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(mainPanel, "Password o username errati", "ERRORE", JOptionPane.ERROR_MESSAGE);
-					}
-				} catch (RemoteException ex)
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Connessione con il server non disponibile", "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 		buttonPanel.add(accediButton);
 		
 		annullaButton = new JButton("Annulla");
@@ -117,5 +110,12 @@ public class AccediDialog
 		buttonPanel.add(annullaButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+	}
+	
+	public void draw()
+	{
+		finestra.add(mainPanel);
+		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setVisible(true);
 	}
 }
