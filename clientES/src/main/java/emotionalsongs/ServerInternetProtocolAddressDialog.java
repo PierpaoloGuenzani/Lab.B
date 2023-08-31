@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-public class ServerInternetProtocolAddressDialog
+public class ServerInternetProtocolAddressDialog implements MyDialog
 {
 	private JDialog finestra;
 	private JLabel serverLabel;
@@ -27,8 +27,8 @@ public class ServerInternetProtocolAddressDialog
 		initializeButton();
 		
 		finestra.add(mainPanel);
-		finestra.setLocationRelativeTo(MainView.finestra);
-		finestra.setVisible(true);
+//		finestra.setLocationRelativeTo(MainView.finestra);
+//		finestra.setVisible(true);
 	}
 	
 	private void initializeField()
@@ -75,5 +75,12 @@ public class ServerInternetProtocolAddressDialog
 		buttonPanel.add(annullaButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+	}
+
+	@Override
+	public void draw()
+	{
+		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setVisible(true);
 	}
 }

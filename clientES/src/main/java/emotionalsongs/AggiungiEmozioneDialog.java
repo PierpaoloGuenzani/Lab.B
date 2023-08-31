@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class AggiungiEmozioneDialog
+public class AggiungiEmozioneDialog implements MyDialog
 {
 	private String songId;
 	private MainModel mainModel;
@@ -33,9 +33,9 @@ public class AggiungiEmozioneDialog
 		initializeButton();
 		
 		finestra.add(mainPanel);
-		finestra.pack();
-		finestra.setVisible(true);
-		finestra.setLocationRelativeTo(MainView.finestra);
+//		finestra.pack();
+//		finestra.setVisible(true);
+//		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	public AggiungiEmozioneDialog(MainModel mainModel, String songId)
@@ -120,5 +120,12 @@ public class AggiungiEmozioneDialog
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+
+	@Override
+	public void draw()
+	{
+		finestra.pack();
+		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setVisible(true);
+	}
 }

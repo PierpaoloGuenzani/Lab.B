@@ -68,6 +68,8 @@ public class AccediDialog
 		mainPanel = new JPanel(new BorderLayout());
 		initializeField();
 		initializeButtons();
+
+		finestra.add(mainPanel);
 	}
 	
 	private void initializeField()
@@ -114,7 +116,6 @@ public class AccediDialog
 	
 	public void draw()
 	{
-		finestra.add(mainPanel);
 		finestra.setLocationRelativeTo(MainView.finestra);
 		finestra.setVisible(true);
 	}

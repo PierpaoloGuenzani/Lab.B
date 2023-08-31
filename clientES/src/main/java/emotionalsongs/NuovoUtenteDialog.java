@@ -13,7 +13,7 @@ import java.awt.event.FocusEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-public class NuovoUtenteDialog
+public class NuovoUtenteDialog implements MyDialog
 {
 	public static final int DEFAULT_FIELD_LENGTH = 15;
 	public static final int DEFAULT_PANEL_WIDTH = 300;
@@ -42,9 +42,9 @@ public class NuovoUtenteDialog
 		initializeButton();
 		
 		finestra.add(mainPanel);
-		finestra.pack();
+		/*finestra.pack();
 		finestra.setLocationRelativeTo(MainView.finestra);
-		finestra.setVisible(true);
+		finestra.setVisible(true);*/
 	}
 	
 	private void initializeField()
@@ -289,5 +289,13 @@ public class NuovoUtenteDialog
 				}
 			}
 		});
+	}
+
+	@Override
+	public void draw()
+	{
+		finestra.pack();
+		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setVisible(true);
 	}
 }

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AggiungiCanzoneDialog
+public class AggiungiCanzoneDialog implements MyDialog
 {
 	private JDialog finestra;
 	private JPanel mainPanel, buttonPanel;
@@ -28,8 +28,8 @@ public class AggiungiCanzoneDialog
 		initializeButton();
 		
 		finestra.add(mainPanel);
-		finestra.setVisible(true);
-		finestra.setLocationRelativeTo(MainView.finestra);
+//		finestra.setVisible(true);
+//		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeMain()
@@ -69,5 +69,12 @@ public class AggiungiCanzoneDialog
 		buttonPanel.add(annullaButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+	}
+
+	@Override
+	public void draw()
+	{
+		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setVisible(true);
 	}
 }

@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NuovaPlaylistDialog
+public class NuovaPlaylistDialog implements MyDialog
 {
 	
 	private JDialog finestra;
@@ -27,9 +27,6 @@ public class NuovaPlaylistDialog
 		initializeField();
 		
 		finestra.add(mainPanel);
-		finestra.pack();
-		finestra.setVisible(true);
-		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeField()
@@ -70,5 +67,12 @@ public class NuovaPlaylistDialog
 		buttonPanel.add(annullaButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+	}
+
+	public void draw()
+	{
+		finestra.pack();
+		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setVisible(true);
 	}
 }
