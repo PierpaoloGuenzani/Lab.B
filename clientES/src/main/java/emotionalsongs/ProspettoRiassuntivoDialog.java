@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ProspettoRiassuntivoDialog
+public class ProspettoRiassuntivoDialog implements MyDialog
 {
 	private JDialog finestra;
 	private JPanel mainPanel, scrollPanel, tablePanel, buttonPanel;
@@ -52,8 +52,8 @@ public class ProspettoRiassuntivoDialog
 		initializeButtons();
 		
 		finestra.add(mainPanel);
-		finestra.setVisible(true);
-		finestra.setLocationRelativeTo(MainView.finestra);
+//		finestra.setVisible(true);
+//		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
 	private void initializeTable()
@@ -146,5 +146,12 @@ public class ProspettoRiassuntivoDialog
 		buttonPanel.add(esciButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+	}
+
+	@Override
+	public void draw()
+	{
+		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 }

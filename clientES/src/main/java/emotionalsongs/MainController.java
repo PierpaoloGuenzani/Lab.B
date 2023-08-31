@@ -28,19 +28,26 @@ public class MainController implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		if(mainView == null) return;
 		Object source = e.getSource();
 		try
 		{
-			if (source.equals(mainView.accediButton))
+			//MENU ITEM
+			if(source.equals(mainView.nuovoAccountItem))
 			{
-				if(mainModel == null || mainView == null) return;
-				new AccediDialog(mainView, mainModel).draw();
+				NuovoUtenteDialog nuovoUtenteDialog = new NuovoUtenteDialog();
+				if(mainModel != null) nuovoUtenteDialog.setMainModel(mainModel);
+				nuovoUtenteDialog.draw();
 			}
-			if (source.equals(mainView.logOutButton))
+			if(source.equals(mainView.nuovaPlaylistItem))
 			{
-				mainView.setLoggedOut();
-				if(mainModel == null) return;
-				mainModel.logOut();
+				NuovaPlaylistDialog nuovaPlaylistDialog = new NuovaPlaylistDialog();
+				//TODO creare logica
+				nuovaPlaylistDialog.draw();
+			}
+			if(source.equals(mainView.visualizzaPlaylistItem))
+			{
+				//TODO creare dialog
 			}
 			if (source.equals(mainView.autoreEAnnoRadioButton))
 			{
@@ -64,8 +71,7 @@ public class MainController implements ActionListener
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun titolo!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					if(mainModel == null) return;
-					mainModel.cercaBranoMusicale(mainView.searchField.getText());
+					if(mainModel != null) mainModel.cercaBranoMusicale(mainView.searchField.getText());
 				}
 				if (mainView.autoreRadioButton.isSelected())
 				{
@@ -74,8 +80,7 @@ public class MainController implements ActionListener
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun autore!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					if(mainModel == null) return;
-					mainModel.cercaBraniPerAutore(mainView.searchField.getText());
+					if(mainModel != null) mainModel.cercaBraniPerAutore(mainView.searchField.getText());
 				}
 				if (mainView.autoreEAnnoRadioButton.isSelected())
 				{
@@ -84,12 +89,25 @@ public class MainController implements ActionListener
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito l'autore e/o l'anno!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					if(mainModel == null) return;
-					mainModel.cercaBranoMusicale(mainView.searchField.getText(), Integer.parseInt(mainView.annoField.getText()));
+					if(mainModel != null) mainModel.cercaBranoMusicale(mainView.searchField.getText(), Integer.parseInt(mainView.annoField.getText()));
 				}
 				mainView.setJListModel(mainModel.getCanzoneJlist());
 			}
-			//VISUALIZZA EMOZIONE
+			//TASTI
+			//accedi
+			if (source.equals(mainView.accediButton))
+			{
+				AccediDialog accediDialog = new AccediDialog(mainView, mainModel);
+				//TODO mettere setter
+				accediDialog.draw();
+			}
+			//logout
+			if (source.equals(mainView.logOutButton))
+			{
+				mainView.setLoggedOut();
+				if(mainModel != null) mainModel.logOut();
+			}
+			//visualizza emozioni
 			if(source.equals(mainView.visualizzaEmozioniButton))
 			{
 				Canzone canzone = (Canzone) mainView.canzoneJList.getSelectedValue();
@@ -100,12 +118,7 @@ public class MainController implements ActionListener
 					new ProspettoRiassuntivoDialog();
 					return;
 				}
-				if(mainModel == null) return;
-				mainModel.visualizzaEmozioni(canzone.getId());
-			}
-			if(source.equals(mainView.nuovoAccountItem))
-			{
-				new NuovoUtenteDialog();
+				if(mainModel != null) mainModel.visualizzaEmozioni(canzone.getId());
 			}
 		}
 		catch (RemoteException remoteException)

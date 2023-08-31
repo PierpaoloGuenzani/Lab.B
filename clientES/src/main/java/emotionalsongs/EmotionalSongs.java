@@ -15,7 +15,7 @@ public class EmotionalSongs
 		mainController.setMainView(mainView);
 		mainView.setMainController(mainController);
 		
-		new ServerInternetProtocolAddressDialog();
+		new ServerInternetProtocolAddressDialog().draw();
 		try
 		{
 			MainModel mainModel = new MainModel();
