@@ -86,7 +86,7 @@ public class MainModel
 	
 	public boolean Registrazione(UtenteRegistrato newUtenteRegistrato) throws IOException, RemoteException
 	{
-		return false;
+		return stub.Registrazione(newUtenteRegistrato);
 	}
 	
 	public boolean accedi(String userId, String password) throws RemoteException

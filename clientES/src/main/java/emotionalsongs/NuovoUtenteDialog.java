@@ -118,30 +118,6 @@ public class NuovoUtenteDialog implements MyDialog
 	{
 		buttonPanel = new JPanel();
 		confermaButton = new JButton("Connettiti");
-		confermaButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(mainModel == null) return;
-				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(
-						nomeField.getText(),
-						cognomeField.getText(),
-						codiceFiscaleField.getText(),
-						indirizzoField.getText(),
-						emailField.getText(),
-						passwordField.getText(),
-						userIdField.getText()
-						);
-				try
-				{
-					mainModel.Registrazione(utenteRegistrato);
-				} catch (IOException ex)
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Errore di connessione con il server!", "ERRORE", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 		buttonPanel.add(confermaButton);
 		
 		annullaButton = new JButton("Annulla");
@@ -162,6 +138,34 @@ public class NuovoUtenteDialog implements MyDialog
 	{
 		this.mainModel = mainModel;
 		setVerifier();
+		confermaButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(mainModel == null) return;
+				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(
+						nomeField.getText(),
+						cognomeField.getText(),
+						codiceFiscaleField.getText(),
+						indirizzoField.getText(),
+						emailField.getText(),
+						passwordField.getText(),
+						userIdField.getText()
+				);
+				try
+				{
+					if(mainModel.Registrazione(utenteRegistrato))
+					{
+						JOptionPane.showMessageDialog(mainPanel, "Nuovo account creato", "CONFERMA", JOptionPane.INFORMATION_MESSAGE);
+						finestra.dispose();
+					}
+				} catch (IOException ex)
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Errore di connessione con il server!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 	}
 	
 	public void setVerifier()
@@ -202,9 +206,11 @@ public class NuovoUtenteDialog implements MyDialog
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
-				if(codiceFiscaleField.getText().length()<15)
+				if(codiceFiscaleField.getText().length() != 16)
 				{
-					JOptionPane.showMessageDialog(mainPanel, "Il codice fiscale non è corretto", "Codice Fiscale invalido", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(mainPanel,
+							"Il codice fiscale non è corretto (la lunghezza deve essere di 16 caratteri)",
+							"Codice Fiscale invalido", JOptionPane.WARNING_MESSAGE);
 					codiceFiscaleFlag = false;
 				}
 				else
@@ -276,16 +282,13 @@ public class NuovoUtenteDialog implements MyDialog
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
+				if(codiceFiscaleFlag && emailFlag && userIdFlag)
+				{
+					confermaButton.setEnabled(true);
+				}
 				if(passwordField.getText().length()<6)
 				{
 					JOptionPane.showMessageDialog(mainPanel, "Password troppo corta!", "Password invalida", JOptionPane.WARNING_MESSAGE);
-				}
-				else
-				{
-					if(codiceFiscaleFlag && emailFlag && userIdFlag)
-					{
-						confermaButton.setEnabled(true);
-					}
 				}
 			}
 		});
