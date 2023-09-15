@@ -119,7 +119,7 @@ public class MainModel
 	
 	public boolean inserisciEmozioni(Percezione newPercezione) throws IOException, RemoteException
 	{
-		return false;
+		return stub.inserisciEmozioni(newPercezione);
 	}
 	
 	public boolean aggiungiCompilation(List<Canzone> listaCanzoni, String idPlaylist) throws IOException, RemoteException
@@ -127,9 +127,9 @@ public class MainModel
 		return false;
 	}
 	
-	public List<Playlist> cercaPlaylistPerUtente(String idUtente) throws RemoteException
+	public List<Playlist> cercaPlaylistPerUtente() throws RemoteException
 	{
-		return null;
+		return stub.cercaPlaylistPerUtente(userId);
 	}
 	
 	public boolean controlloUserid(String UserID) throws RemoteException

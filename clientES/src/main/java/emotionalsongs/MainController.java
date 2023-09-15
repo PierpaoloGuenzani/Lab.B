@@ -114,11 +114,32 @@ public class MainController implements ActionListener
 				if(canzone == null)
 				{
 					JOptionPane.showMessageDialog(mainView.finestra, "Nessun canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
-					//TODO rimuove solo debug
-					new ProspettoRiassuntivoDialog();
 					return;
 				}
 				if(mainModel != null) mainModel.visualizzaEmozioni(canzone.getId());
+			}
+			//inserisci emozioni
+			if(source.equals(mainView.inserisciEmozioneButton))
+			{
+				Canzone canzone = (Canzone) mainView.canzoneJList.getSelectedValue();
+				if(canzone == null)
+				{
+					JOptionPane.showMessageDialog(mainView.finestra, "Nessun canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				if(mainModel.cercaPlaylistPerUtente().size() == 0)
+				{
+					JOptionPane.showMessageDialog(mainView.finestra, "Nessuna Playlist creata, creala e poi riprova!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if(false)
+				{
+					//TODO controllare controllare che canzone sia in una playlist, se no selezionare quale tra le playlist
+				}
+				AggiungiEmozioneDialog aggiungiEmozioneDialog = new AggiungiEmozioneDialog();
+				aggiungiEmozioneDialog.setSongId(canzone.getId());
+				aggiungiEmozioneDialog.setMainModel(mainModel);
+				aggiungiEmozioneDialog.draw();
 			}
 		}
 		catch (RemoteException remoteException)

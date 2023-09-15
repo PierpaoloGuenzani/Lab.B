@@ -12,7 +12,6 @@ import java.io.IOException;
 public class AggiungiEmozioneDialog implements MyDialog
 {
 	private String songId;
-	private MainModel mainModel;
 	
 	private JDialog finestra;
 	private JComboBox[] comboBoxes;
@@ -36,13 +35,6 @@ public class AggiungiEmozioneDialog implements MyDialog
 //		finestra.pack();
 //		finestra.setVisible(true);
 //		finestra.setLocationRelativeTo(MainView.finestra);
-	}
-	
-	public AggiungiEmozioneDialog(MainModel mainModel, String songId)
-	{
-		this();
-		this.mainModel = mainModel;
-		this.songId = songId;
 	}
 	
 	private void initializeScrollPanel()
@@ -80,31 +72,6 @@ public class AggiungiEmozioneDialog implements MyDialog
 		buttonPanel.setVisible(true);
 		
 		confermaButton = new JButton("Conferma");
-		confermaButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				Emozione[] emozioni = Emozione.values();
-				for(int i = 0; i < emozioni.length; i++)
-				{
-					int score = comboBoxes[i].getSelectedIndex();
-					if(score == 0) return;
-					Percezione nuovaPercezione = new Percezione(emozioni[i], score, songId, mainModel.getUserId());
-					String nota = textAreas[i].getText();
-					if(!nota.isBlank())
-						nuovaPercezione.aggiungiNote(nota);
-					try
-					{
-						mainModel.inserisciEmozioni(nuovaPercezione);
-						
-					} catch (IOException ex)
-					{
-						JOptionPane.showMessageDialog(mainPanel, ex.getMessage(), "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
 		buttonPanel.add(confermaButton);
 		
 		annullaButton = new JButton("Annulla");
@@ -120,7 +87,47 @@ public class AggiungiEmozioneDialog implements MyDialog
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
-
+	
+	public void setSongId(String songId)
+	{
+		this.songId = songId;
+	}
+	
+	public void setMainModel(MainModel mainModel)
+	{
+		confermaButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				boolean flag = false;
+				Emozione[] emozioni = Emozione.values();
+				for(int i = 0; i < emozioni.length; i++)
+				{
+					int score = comboBoxes[i].getSelectedIndex();
+					if(score == 0) continue;
+					Percezione nuovaPercezione = new Percezione(emozioni[i], score, songId, mainModel.getUserId());
+					String nota = textAreas[i].getText();
+					if(!nota.isBlank())
+						nuovaPercezione.aggiungiNote(nota);
+					try
+					{
+						if(mainModel.inserisciEmozioni(nuovaPercezione))
+							flag = true;
+					} catch (IOException ex)
+					{
+						JOptionPane.showMessageDialog(mainPanel, ex.getMessage(), "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				if(flag)
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Emozione inserita con successo", "SUCCESSO", JOptionPane.INFORMATION_MESSAGE);
+					finestra.dispose();
+				}
+			}
+		});
+	}
+	
 	@Override
 	public void draw()
 	{
