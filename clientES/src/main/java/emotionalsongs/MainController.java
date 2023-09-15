@@ -7,24 +7,47 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+/**
+ * La classe MainController è responsabile di gestire le interazioni dell'utente nell'applicazione "EmotionalSongs".
+ * Implementa l'interfaccia ActionListener per catturare gli eventi generati dagli elementi dell'interfaccia utente.
+ * Questo controller collega la Vista (MainView) al Modello (MainModel) e coordina le azioni tra di essi.
+ */
 public class MainController implements ActionListener
 {
 	private MainView mainView;
 	private MainModel mainModel;
-	
+
+	/**
+	 * Costruttore di MainController.
+	 */
 	public MainController()
 	{}
-	
+
+	/**
+	 * Imposta la Vista principale per il controller.
+	 *
+	 * @param mainView La Vista principale da associare a questo controller.
+	 */
 	public void setMainView(MainView mainView)
 	{
 		this.mainView = mainView;
 	}
-	
+
+	/**
+	 * Imposta il Modello principale per il controller.
+	 *
+	 * @param mainModel Il Modello principale da associare a questo controller.
+	 */
 	public void setMainModel(MainModel mainModel)
 	{
 		this.mainModel = mainModel;
 	}
-	
+
+	/**
+	 * Gestisce gli eventi generati dall'interfaccia utente.
+	 *
+	 * @param e L'evento generato.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -144,6 +167,7 @@ public class MainController implements ActionListener
 		}
 		catch (RemoteException remoteException)
 		{
+			// Gestione dell'eccezione in caso di errore di connessione
 			JOptionPane.showMessageDialog(mainView.finestra, "Connessione con il server non disponibile", "Connection Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}

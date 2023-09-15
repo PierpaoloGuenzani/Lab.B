@@ -5,10 +5,28 @@ import common.Canzone;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * La classe MainView rappresenta l'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
+ * Questa classe gestisce la creazione e l'aggiornamento degli elementi dell'interfaccia utente, inclusi pulsanti, campi di ricerca e liste di canzoni.
+ * Inoltre, gestisce la visibilità dei menu e dei pulsanti in base allo stato dell'utente (loggato o non loggato) e alla modalità di ricerca selezionata.
+ *
+ * La classe MainView è parte integrante del pattern Model-View-Controller (MVC), insieme a MainController e MainModel, per garantire una separazione chiara tra la presentazione (Vista),
+ * la gestione delle interazioni utente (Controller) e i dati dell'applicazione (Modello).
+ *
+ * Questa classe è connessa al Controller (MainController) per gestire gli eventi generati dall'utente, come clic sui pulsanti e selezione delle opzioni di ricerca.
+ * Inoltre, comunica con il Modello (MainModel) per visualizzare e aggiornare i dati relativi alle canzoni.
+ */
 public class MainView
 {
+	/**
+	 * La costante DEFAULT_WIDTH rappresenta la larghezza predefinita della finestra dell'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
+	 */
 	private final int DEFAULT_WIDTH = 600;
+	/**
+	 * La costante DEFAULT_HEIGHT rappresenta l'altezza predefinita della finestra dell'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
+	 */
 	private final int DEFAULT_HEIGHT = 400;
+
 	static JFrame finestra;
 	private JPanel mainPanel, searchPanel, buttonPanel, listPanel;
 	private JMenuBar menuBar;
@@ -19,12 +37,21 @@ public class MainView
 	JRadioButton titoloRadioButton, autoreRadioButton, autoreEAnnoRadioButton;
 	JList<Canzone> canzoneJList;
 	JButton accediButton, logOutButton, ricercaButton, visualizzaEmozioniButton, inserisciEmozioneButton;
-	
+
+	/**
+	 * Il costruttore della classe MainView inizializza l'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
+	 * Questo costruttore crea la finestra principale, imposta il menu, la barra degli strumenti di ricerca, la lista delle canzoni e i pulsanti principali.
+	 * Viene chiamato quando si crea un'istanza di MainView e avvia il processo di inizializzazione dell'interfaccia utente.
+	 */
 	public MainView()
 	{
 		initializeGUI();
 	}
-	
+
+	/**
+	 * Inizializza l'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs". Questo metodo crea la finestra principale, imposta il menu,
+	 * la barra degli strumenti di ricerca, la lista delle canzoni e i pulsanti principali.
+	 */
 	private void initializeGUI()
 	{
 		finestra = new JFrame("EMOTIONAL SONG");
@@ -44,7 +71,10 @@ public class MainView
 		finestra.setVisible(true);
 		System.out.println(searchField.getSize());
 	}
-	
+
+	/**
+	 * Inizializza il menu della finestra, inclusi i menu "Playlist", "Account" e "Help", con le relative voci di menu.
+	 */
 	private void initializeMenuBar()
 	{
 		menuBar = new JMenuBar();
@@ -82,7 +112,11 @@ public class MainView
 		menuBar.add(helpMenu);
 		finestra.setJMenuBar(menuBar);
 	}
-	
+
+	/**
+	 * Inizializza la barra di ricerca dell'interfaccia utente, che include campi di ricerca per titolo e autore, pulsanti radio per la modalità di ricerca
+	 * e un campo per l'anno (nella modalità "Autore e Anno").
+	 */
 	private void initializeSearchBar()
 	{
 		searchPanel = new JPanel();
@@ -121,7 +155,10 @@ public class MainView
 		
 		mainPanel.add(searchPanel, BorderLayout.NORTH);
 	}
-	
+
+	/**
+	 * Inizializza la lista delle canzoni nell'interfaccia utente, fornendo uno scroll pane per la visualizzazione delle canzoni.
+	 */
 	private void initializeList()
 	{
 		listPanel = new JPanel(new BorderLayout());
@@ -131,7 +168,10 @@ public class MainView
 		
 		mainPanel.add(listPanel, BorderLayout.CENTER);
 	}
-	
+
+	/**
+	 * Inizializza i pulsanti dell'interfaccia utente, inclusi i pulsanti "Accedi", "Logout", "Ricerca", "Visualizza Emozione" e "Inserisci Emozione".
+	 */
 	private void initializeButton()
 	{
 		buttonPanel = new JPanel();
@@ -160,7 +200,11 @@ public class MainView
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+
+	/**
+	 * Imposta l'interfaccia utente come "loggata", visualizzando il menu "Playlist" e i pulsanti "Inserisci Emozione" e "Logout".
+	 * Nasconde il pulsante "Accedi".
+	 */
 	public void setLoggedIn()
 	{
 		playlistMenu.setVisible(true);
@@ -170,7 +214,11 @@ public class MainView
 		logOutButton.setVisible(true);
 		update(buttonPanel);
 	}
-	
+
+	/**
+	 * Imposta l'interfaccia utente come "non loggata", nascondendo il menu "Playlist" e i pulsanti "Inserisci Emozione" e "Logout".
+	 * Visualizza il pulsante "Accedi".
+	 */
 	public void setLoggedOut()
 	{
 		playlistMenu.setVisible(false);
@@ -180,7 +228,10 @@ public class MainView
 		accediButton.setVisible(true);
 		update(buttonPanel);
 	}
-	
+
+	/**
+	 * Imposta la barra di ricerca in modalità "Ricerca per Autore e Anno" con campi di ricerca separati per autore e anno.
+	 */
 	public void setDoubleBar()
 	{
 		searchField.setColumns(15);
@@ -188,7 +239,10 @@ public class MainView
 		annoField.setVisible(true);
 		update(searchPanel);
 	}
-	
+
+	/**
+	 * Imposta la barra di ricerca in modalità "Ricerca per Titolo" con un campo di ricerca più ampio.
+	 */
 	public void setMonoBar()
 	{
 		searchField.setColumns(25);
@@ -196,19 +250,31 @@ public class MainView
 		annoField.setText("");
 		update(searchPanel);
 	}
-	
+
+	/**
+	 * Imposta il modello della lista delle canzoni con un nuovo modello fornito come argomento.
+	 * @param model Il modello da impostare sulla lista delle canzoni.
+	 */
 	public void setJListModel(ListModel model)
 	{
 		canzoneJList.setModel(model);
 		update(listPanel);
 	}
-	
+
+	/**
+	 * Aggiorna un pannello dell'interfaccia utente specificato, validandolo e ridisegnandolo.
+	 * @param panel Il pannello da aggiornare.
+	 */
 	private void update(JPanel panel)
 	{
 		panel.validate();
 		panel.repaint();
 	}
-	
+
+	/**
+	 * Imposta il controller principale (MainController) per gestire gli eventi generati dall'interfaccia utente.
+	 * @param mainController Il controller principale da associare agli elementi dell'interfaccia utente.
+	 */
 	public void setMainController(MainController mainController)
 	{
 		titoloRadioButton.addActionListener(mainController);
