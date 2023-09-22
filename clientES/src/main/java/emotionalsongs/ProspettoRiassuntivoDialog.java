@@ -8,6 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Questa classe rappresenta una finestra di dialogo per la visualizzazione di un prospetto riassuntivo
+ * delle emozioni associate a una canzone, comprese le medie delle emozioni e le eventuali note.
+ */
 public class ProspettoRiassuntivoDialog implements MyDialog
 {
 	private JDialog finestra;
@@ -16,7 +20,12 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 	private JLabel[] valoreEmozioniLabel;
 	private JTextArea note;
 	private JButton visualizzaNoteButton, nascondiNoteButton, esciButton;
-	
+
+	/**
+	 * Costruttore della classe che accetta un oggetto ProspettoRiassuntivo come parametro.
+	 * Inizializza la finestra di dialogo e visualizza le medie delle emozioni e le eventuali note associate al prospetto riassuntivo fornito.
+	 * @param prospettoRiassuntivo Il prospetto riassuntivo da visualizzare.
+	 */
 	public ProspettoRiassuntivoDialog(ProspettoRiassuntivo prospettoRiassuntivo)
 	{
 		this();
@@ -35,7 +44,10 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 		scrollPanel.validate();
 		scrollPanel.repaint();
 	}
-	
+
+	/**
+	 * Costruttore della classe. Crea una nuova istanza di ProspettoRiassuntivoDialog.
+	 */
 	public ProspettoRiassuntivoDialog()
 	{
 		finestra = new JDialog();
@@ -55,7 +67,11 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 //		finestra.setVisible(true);
 //		finestra.setLocationRelativeTo(MainView.finestra);
 	}
-	
+
+	/**
+	 * Inizializza il pannello della tabella che visualizza le emozioni e le loro medie.
+	 * Questo pannello contiene una tabella con le emozioni e le relative medie.
+	 */
 	private void initializeTable()
 	{
 		tablePanel = new JPanel(new GridLayout(0, (Emozione.values().length + 1)));
@@ -86,7 +102,11 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 		
 		mainPanel.add(tablePanel, BorderLayout.NORTH);
 	}
-	
+
+	/**
+	 * Inizializza il pannello scroll che contiene le eventuali note associate al prospetto riassuntivo.
+	 * Questo pannello contiene una JTextArea in cui vengono visualizzate le note, con la possibilità di scorrere il testo se necessario.
+	 */
 	private void initializeScroll()
 	{
 		scrollPanel = new JPanel(new BorderLayout());
@@ -98,7 +118,11 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 		
 		mainPanel.add(scrollPanel, BorderLayout.CENTER);
 	}
-	
+
+	/**
+	 * Inizializza i pulsanti per visualizzare, nascondere le note e uscire dalla finestra di dialogo.
+	 * Questo pannello contiene i pulsanti "Visualizza Note", "Nascondi Note" e "Esci".
+	 */
 	private void initializeButtons()
 	{
 		buttonPanel = new JPanel();
@@ -148,6 +172,9 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * Mostra la finestra di dialogo.
+	 */
 	@Override
 	public void draw()
 	{

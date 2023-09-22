@@ -13,6 +13,11 @@ import java.awt.event.FocusEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+/**
+ * Questa classe rappresenta una finestra di dialogo per la creazione di un nuovo utente.
+ * La finestra contiene campi per inserire i dettagli dell'utente, come nome, cognome, codice fiscale, indirizzo,
+ * e-mail, nome utente e password. L'utente può confermare o annullare l'operazione di registrazione.
+ */
 public class NuovoUtenteDialog implements MyDialog
 {
 	public static final int DEFAULT_FIELD_LENGTH = 15;
@@ -27,7 +32,10 @@ public class NuovoUtenteDialog implements MyDialog
 	
 	private MainModel mainModel;
 	private boolean codiceFiscaleFlag, emailFlag, userIdFlag;
-	
+
+	/**
+	 * Costruisce una nuova finestra di dialogo per la creazione di un nuovo utente.
+	 */
 	public NuovoUtenteDialog()
 	{
 		finestra = new JDialog();
@@ -46,7 +54,10 @@ public class NuovoUtenteDialog implements MyDialog
 		finestra.setLocationRelativeTo(MainView.finestra);
 		finestra.setVisible(true);*/
 	}
-	
+
+	/**
+	 * Inizializza i campi e le etichette per inserire i dettagli dell'utente.
+	 */
 	private void initializeField()
 	{
 		labelPanel = new JPanel(new GridLayout(0,1));
@@ -113,7 +124,10 @@ public class NuovoUtenteDialog implements MyDialog
 		mainPanel.add(labelPanel, BorderLayout.LINE_START);
 		mainPanel.add(fieldPanel, BorderLayout.CENTER);
 	}
-	
+
+	/**
+	 * Inizializza i pulsanti per confermare o annullare l'operazione di registrazione dell'utente.
+	 */
 	private void initializeButton()
 	{
 		buttonPanel = new JPanel();
@@ -133,7 +147,11 @@ public class NuovoUtenteDialog implements MyDialog
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+
+	/**
+	 * Imposta il modello principale per la finestra di dialogo e gestisce l'azione del pulsante di conferma.
+	 * @param mainModel Il modello principale dell'applicazione.
+	 */
 	public void setMainModel(MainModel mainModel)
 	{
 		this.mainModel = mainModel;
@@ -167,13 +185,19 @@ public class NuovoUtenteDialog implements MyDialog
 			}
 		});
 	}
-	
+
+	/**
+	 * Imposta i verificatori per i campi di input, abilita o disabilita il pulsante di conferma in base alla validità dei dati.
+	 */
 	public void setVerifier()
 	{
 		confermaButton.setEnabled(false);
 		buttonPanel.validate();
 		buttonPanel.repaint();
-		
+
+		// Per il campo Nome e il campo Cognome, ci sono listener associati all'evento focusLost, che viene attivato quando il campo perde il focus
+		// ovvero quando l'utente passa a un altro campo o clicca altrove nella finestra.
+		// Se uno dei campi Nome o Cognome è vuoto (blank), viene mostrato un messaggio di avviso tramite JOptionPane.
 		nomeField.addFocusListener(new FocusAdapter()
 		{
 			@Override
@@ -199,7 +223,9 @@ public class NuovoUtenteDialog implements MyDialog
 				}
 			}
 		});
-		
+
+		// Per il campo Codice Fiscale, c'è un listener associato all'evento focusLost che verifica la lunghezza del testo inserito.
+		// Se la lunghezza del Codice Fiscale non è esattamente di 16 caratteri, viene mostrato un messaggio di avviso tramite JOptionPane.
 		codiceFiscaleField.addFocusListener(new FocusAdapter()
 		{
 			@Override
@@ -226,13 +252,14 @@ public class NuovoUtenteDialog implements MyDialog
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
-				if(nomeField.getText().isBlank())
+				if(indirizzoField.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(mainPanel, "Il cognome non può essere vuoto!", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(mainPanel, "L'indirizzo non può essere vuoto!", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
-		
+
+		// Utilizza un'espressione regolare (regularSyntax) per verificare se il testo inserito corrisponde a un formato di indirizzo e-mail valido
 		emailField.addFocusListener(new FocusAdapter()
 		{
 			@Override
@@ -251,7 +278,8 @@ public class NuovoUtenteDialog implements MyDialog
 				}
 			}
 		});
-		
+
+		// Verifica se l'username è già in uso chiamando un metodo controlloUserid del mainModel
 		userIdField.addFocusListener(new FocusAdapter()
 		{
 			@Override
@@ -275,7 +303,8 @@ public class NuovoUtenteDialog implements MyDialog
 				}
 			}
 		});
-		
+
+		// Verifica la lunghezza della password
 		passwordField.addFocusListener(new FocusAdapter()
 		{
 			@Override
@@ -294,6 +323,9 @@ public class NuovoUtenteDialog implements MyDialog
 		});
 	}
 
+	/**
+	 * Mostra la finestra di dialogo per la registrazione di un nuovo utente.
+	 */
 	@Override
 	public void draw()
 	{
