@@ -99,7 +99,13 @@ public class NuovaPlaylistDialog implements MyDialog
 			public void actionPerformed(ActionEvent e) {
 				try
 				{
-					mainModel.RegistraPlaylist(nomeField.getText());
+					if(nomeField.getText().isBlank()) JOptionPane.showMessageDialog(MainView.finestra, "Il nome non può essere vuoto", "TITOLO INVALIDO", JOptionPane.ERROR_MESSAGE);
+					if(mainModel.RegistraPlaylist(nomeField.getText()))
+					{
+						JOptionPane.showMessageDialog(MainView.finestra, "Playlist creata con successo", "CONFERMA", JOptionPane.INFORMATION_MESSAGE);
+						finestra.dispose();
+					}
+					else JOptionPane.showMessageDialog(MainView.finestra, "Il nome non può essere usato", "TITOLO INVALIDO", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (IOException ex)
 				{

@@ -121,8 +121,7 @@ public class MainModel
 	
 	public boolean RegistraPlaylist(String nomePlaylist) throws IOException, RemoteException
 	{
-		//TODO
-		return true;
+		return stub.RegistraPlaylist(nomePlaylist);
 	}
 	
 	public boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException, RemoteException
