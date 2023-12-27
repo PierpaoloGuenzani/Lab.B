@@ -32,4 +32,6 @@ public interface EmotionalSongsInterface extends Remote
 	List<Playlist> cercaPlaylistPerUtente(String idUtente) throws RemoteException;
 	
 	boolean controlloUserid(String UserID) throws RemoteException;
+	
+	List<Canzone> canzoniDaIdPlaylist(String idPlaylist) throws RemoteException;
 }

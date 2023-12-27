@@ -31,7 +31,8 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 		this();
 		for (int i = 0; i < prospettoRiassuntivo.getMedieEmozioni().length; i++)
 		{
-			valoreEmozioniLabel[i].setText(prospettoRiassuntivo.getMedieEmozioni()[i].toString());
+			String s = String.valueOf(prospettoRiassuntivo.getMedieEmozioni()[i]);
+			valoreEmozioniLabel[i].setText(s);
 		}
 		if(prospettoRiassuntivo.getNote().size() != 0)
 		{

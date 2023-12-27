@@ -6,12 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class SelectPlaylistDialog implements MyDialog
 {
 	public static final int VISUALIZZA_PLAYLIST = 0;
 	public static final int SELEZIONA_PLAYLIST = 1;
-	//TODO altre selezioni?
+	//TODO altre selezioni? se no trasformare in boolean
 	
 	
 	private JDialog finestra;
@@ -20,13 +22,13 @@ public class SelectPlaylistDialog implements MyDialog
 	private JList<Playlist> lista;
 	private JButton confermaButton, annullaButton;
 	
-	public SelectPlaylistDialog()
-	{
-		this(0);
-	}
+	private String idCanzone;
+	private int state;
 	
 	public SelectPlaylistDialog(int selezione)
 	{
+		state = selezione;
+		
 		finestra = new JDialog();
 		finestra.setModal(true);
 		finestra.setTitle("SELEZIONA PLAYLIST");
@@ -78,5 +80,61 @@ public class SelectPlaylistDialog implements MyDialog
 		finestra.pack();
 		finestra.setLocationRelativeTo(MainView.finestra);
 		finestra.setVisible(true);
+	}
+	
+	public void setMainModel(MainModel mainModel)
+	{
+		try
+		{
+			lista.setModel(mainModel.cercaPlaylistUtente());
+		} catch (RemoteException e)
+		{
+			JOptionPane.showMessageDialog(MainView.finestra, "Errore di comunicazione col server", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+			//log
+		}
+		confermaButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(lista.isSelectionEmpty())
+				{
+					JOptionPane.showMessageDialog(MainView.finestra, "Nessun playlist selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else
+				{
+					if (state == 0)
+					{
+						//TODO: creare nuovo dialogo per visualizzare tutte le canzoni della playlis
+						VisualizzaPlaylistDialog visualizzaPlaylistDialog = new VisualizzaPlaylistDialog();
+						visualizzaPlaylistDialog.setIdPlaylist(lista.getSelectedValue().getIdPlaylist());
+						visualizzaPlaylistDialog.setMainModel(mainModel);
+						visualizzaPlaylistDialog.draw();
+					}
+					else
+					{
+					
+						try
+						{
+							mainModel.aggiungiCanzone(idCanzone, lista.getSelectedValue().getIdPlaylist());
+						}
+						catch (IOException ex)
+						{
+							JOptionPane.showMessageDialog(MainView.finestra,
+									"Errore di comunicazione col server/ nessuna canzone selezionata", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}
+						catch (Exception ex)
+						{
+							JOptionPane.showMessageDialog(MainView.finestra,"Errore di comunicazione col server", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}
+		});
+	}
+	
+	public void setIdCanzone(String idCanzone)
+	{
+		this.idCanzone = idCanzone;
 	}
 }

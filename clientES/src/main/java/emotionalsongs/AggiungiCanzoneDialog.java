@@ -6,9 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class AggiungiCanzoneDialog implements MyDialog
 {
+	private String idCanzone;
 	private JDialog finestra;
 	private JPanel mainPanel, buttonPanel;
 	private JButton confermaButton, annullaButton;
@@ -32,6 +34,12 @@ public class AggiungiCanzoneDialog implements MyDialog
 //		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 	
+	public AggiungiCanzoneDialog(String idCanzone)
+	{
+		this();
+		this.idCanzone = idCanzone;
+	}
+	
 	private void initializeMain()
 	{
 		JLabel label = new JLabel("Seleziona la playlist in cui inserire la canzone:", JLabel.CENTER);
@@ -50,14 +58,6 @@ public class AggiungiCanzoneDialog implements MyDialog
 		buttonPanel.setVisible(true);
 		
 		confermaButton = new JButton("Conferma");
-		confermaButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				//TODO
-			}
-		});
 		buttonPanel.add(confermaButton);
 		
 		annullaButton = new JButton("Annulla");
@@ -70,6 +70,25 @@ public class AggiungiCanzoneDialog implements MyDialog
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
+	
+	public void setMainModel(MainModel mainModel)
+	{
+		confermaButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				try
+				{
+					mainModel.aggiungiCanzone(idCanzone, playlistJList.getSelectedValue().getIdPlaylist());
+				} catch (IOException ex)
+				{
+					JOptionPane.showMessageDialog(MainView.finestra, "Impossibile salvare la canzone nella playlist", "Connection Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+	}
+	
 
 	@Override
 	public void draw()

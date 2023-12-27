@@ -6,10 +6,11 @@ import java.util.List;
 
 public class ProspettoRiassuntivo implements Serializable
 {
-	private Float[] medieEmozioni;
+	private float[] medieEmozioni;
+	//TODO: inviare più dati
 	private List<String> note;
 	
-	public ProspettoRiassuntivo(float[] medieEmozioni)
+	/*public ProspettoRiassuntivo(float[] medieEmozioni)
 	{
 		int n =medieEmozioni.length;
 		this.medieEmozioni = new Float[n];
@@ -17,7 +18,7 @@ public class ProspettoRiassuntivo implements Serializable
 		{
 			this.medieEmozioni[i] = medieEmozioni[i];
 		}
-	}
+	}*/
 	
 	public void addCommento(String newCommento)
 	{
@@ -26,7 +27,12 @@ public class ProspettoRiassuntivo implements Serializable
 		note.add(newCommento);
 	}
 	
-	public Float[] getMedieEmozioni()
+	public void setMedieEmozioni(float[] medieEmozioni)
+	{
+		this.medieEmozioni = medieEmozioni;
+	}
+	
+	public float[] getMedieEmozioni()
 	{
 		return medieEmozioni;
 	}

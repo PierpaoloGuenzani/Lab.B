@@ -70,7 +70,10 @@ public class MainController implements ActionListener
 			}
 			if(source.equals(mainView.visualizzaPlaylistItem))
 			{
-				//TODO creare dialog
+				//TODO: eliminare aggiungi canzone dialog
+				SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.VISUALIZZA_PLAYLIST);
+				if(mainModel != null) selectPlaylistDialog.setMainModel(mainModel);
+				selectPlaylistDialog.draw();
 			}
 			if (source.equals(mainView.autoreEAnnoRadioButton))
 			{
@@ -150,7 +153,7 @@ public class MainController implements ActionListener
 					JOptionPane.showMessageDialog(mainView.finestra, "Nessun canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
-				if(mainModel.cercaPlaylistPerUtente().size() == 0)
+				if(mainModel.cercaPlaylistUtente().size() == 0)
 				{
 					JOptionPane.showMessageDialog(mainView.finestra, "Nessuna Playlist creata, creala e poi riprova!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 					return;

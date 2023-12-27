@@ -119,7 +119,7 @@ public class Playlists
 	 * @param idPlaylist l'ID della playlist da cercare
 	 * @return la playlist corrispondente, null altrimenti
 	 */
-	public Playlist cercaPlaylistPerId(int idPlaylist) {
+	public Playlist cercaPlaylistPerId(String idPlaylist) {
 		return mappa.get(idPlaylist);
 	}
 

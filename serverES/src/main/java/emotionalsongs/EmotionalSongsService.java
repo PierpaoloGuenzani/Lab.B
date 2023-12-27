@@ -166,6 +166,11 @@ public class EmotionalSongsService implements EmotionalSongsInterface
     {
         userLoggedIn.remove(idUtente);
     }
+    
+    public List<Canzone> canzoniDaIdPlaylist(String idPlaylist)
+    {
+        return canzoni.getCanzoni(playlists.cercaPlaylistPerId(idPlaylist).getListaCanzoni());
+    }
 
     public boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException
     {

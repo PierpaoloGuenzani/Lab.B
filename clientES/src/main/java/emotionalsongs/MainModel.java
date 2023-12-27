@@ -21,6 +21,7 @@ public class MainModel
 {
 	
 	private EmotionalSongsInterface stub;
+	//cash dei risultati
 	private DefaultListModel<Canzone> canzoneJlist;
 	private String userId;
 	private boolean isLogged = false;
@@ -119,6 +120,7 @@ public class MainModel
 		userId = null;
 	}
 	
+	//TODO: aggiungere userid per login
 	public boolean RegistraPlaylist(String nomePlaylist) throws IOException, RemoteException
 	{
 		return stub.RegistraPlaylist(nomePlaylist);
@@ -126,7 +128,7 @@ public class MainModel
 	
 	public boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException, RemoteException
 	{
-		return false;
+		return stub.aggiungiCanzone(idCanzone,idPlaylist);
 	}
 	
 	public boolean inserisciEmozioni(Percezione newPercezione) throws IOException, RemoteException
@@ -139,9 +141,18 @@ public class MainModel
 		return false;
 	}
 	
-	public List<Playlist> cercaPlaylistPerUtente() throws RemoteException
+	public DefaultListModel<Canzone> canzoniDaIdPlaylist(String idPlaylist) throws RemoteException
 	{
-		return stub.cercaPlaylistPerUtente(userId);
+		DefaultListModel<Canzone> canzoniJList= new DefaultListModel<>();
+		stub.canzoniDaIdPlaylist(idPlaylist).forEach(canzone -> canzoniJList.addElement(canzone));
+		return canzoniJList;
+	}
+	
+	public DefaultListModel<Playlist> cercaPlaylistUtente() throws RemoteException
+	{
+		DefaultListModel<Playlist> playlistJList = new DefaultListModel<>();
+		stub.cercaPlaylistPerUtente(userId).forEach(playlist -> playlistJList.addElement(playlist));
+		return playlistJList;
 	}
 	
 	public boolean controlloUserid(String UserID) throws RemoteException
