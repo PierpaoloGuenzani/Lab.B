@@ -275,7 +275,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         float[] mediaEmozione = new float[n_enum];
         if (possibiliEmozioni.isEmpty())
         {
-            return new ProspettoRiassuntivo(mediaEmozione);
+            ProspettoRiassuntivo p = new ProspettoRiassuntivo();
+            p.setMedieEmozioni(mediaEmozione);
         }
         for (Percezione e : possibiliEmozioni) {
             int n = e.getEmozione().ordinal();
@@ -287,7 +288,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
                 mediaEmozione[i] = (float) totaleEmozione[i] / countEmozione[i];
             }
         }
-        ProspettoRiassuntivo prospetto = new ProspettoRiassuntivo(mediaEmozione);
+        ProspettoRiassuntivo prospetto = new ProspettoRiassuntivo();
+        prospetto.setMedieEmozioni(mediaEmozione);
         for (Percezione p : possibiliEmozioni)
         {
             String commento = p.getNote();
