@@ -101,8 +101,9 @@ public class MainModel
 	 */
 	public void visualizzaEmozioni(String idCanzone) throws RemoteException
 	{
+		//TODO: fare meglio
 		ProspettoRiassuntivo prospettoRiassuntivo = stub.visualizzaEmozioni(idCanzone);
-		new ProspettoRiassuntivoDialog(prospettoRiassuntivo);
+		new ProspettoRiassuntivoDialog(prospettoRiassuntivo).draw();
 	}
 
 	/**
@@ -259,5 +260,10 @@ public class MainModel
 	public String getUserId()
 	{
 		return userId;
+	}
+	
+	public boolean controllaCanzonePersona(String songId) throws RemoteException
+	{
+		return stub.controllaCanzoneUtente(userId, songId);
 	}
 }

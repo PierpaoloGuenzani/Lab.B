@@ -112,6 +112,11 @@ public class AggiungiEmozioneDialog implements MyDialog
 						nuovaPercezione.aggiungiNote(nota);
 					try
 					{
+						
+						if(!mainModel.controllaCanzonePersona(songId))
+						{
+							new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST).draw();
+						}
 						if(mainModel.inserisciEmozioni(nuovaPercezione))
 							flag = true;
 					} catch (IOException ex)

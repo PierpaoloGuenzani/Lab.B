@@ -10,6 +10,11 @@ public class ProspettoRiassuntivo implements Serializable
 	//TODO: inviare più dati
 	private List<String> note;
 	
+	public ProspettoRiassuntivo()
+	{
+		note = new LinkedList<>();
+	}
+	
 	/*public ProspettoRiassuntivo(float[] medieEmozioni)
 	{
 		int n =medieEmozioni.length;
@@ -22,8 +27,8 @@ public class ProspettoRiassuntivo implements Serializable
 	
 	public void addCommento(String newCommento)
 	{
-		if(note == null)
-			note = new LinkedList<>();
+		/*if(note == null)
+			note = new LinkedList<>();*/
 		note.add(newCommento);
 	}
 	

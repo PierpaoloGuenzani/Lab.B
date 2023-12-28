@@ -2,6 +2,7 @@ package emotionalsongs;
 
 import common.*;
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -319,6 +320,10 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      */
     public boolean controllaCanzoneUtente(String idCanzone) {
         return playlists.controllaCanzonePersona(Authentication.getLoggedAs().getUserId(),idCanzone);
+    }
+    
+    public boolean controllaCanzoneUtente(String idUtente, String idCanzone) {
+        return playlists.controllaCanzonePersona(idUtente, idCanzone);
     }
 
     /**
