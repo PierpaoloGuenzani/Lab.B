@@ -34,6 +34,7 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 			String s = String.valueOf(prospettoRiassuntivo.getMedieEmozioni()[i]);
 			valoreEmozioniLabel[i].setText(s);
 		}
+		note.setText("NESSUNA NOTA DISPONIBILE");
 		if(prospettoRiassuntivo.getNote().size() != 0)
 		{
 			note.setText("");

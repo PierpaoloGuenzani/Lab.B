@@ -91,5 +91,5 @@ values
 ('7', 'TENSION'),
 ('8', 'SADNESS');
 
-/* va modificato il file: prima sostituire ~ con -, poi <SEP> con ~ ed infine inserire il file nella cartella Documents del utente pubblico in windows*/
+/* va modificato il file: prima sostituire ~ con -, poi <SEP> con ~ ed infine inserire il file nella cartella Documents del utente Pubblica>Documenti Pubblici in windows*/
 COPY canzoni(anno, idcanzone, produttore, titolo) from 'C:\Users\Public\Documents\FiveHundredThousandSongs.txt' DELIMITER '~'

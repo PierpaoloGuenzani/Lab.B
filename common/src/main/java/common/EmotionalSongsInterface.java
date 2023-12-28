@@ -34,4 +34,6 @@ public interface EmotionalSongsInterface extends Remote
 	boolean controlloUserid(String UserID) throws RemoteException;
 	
 	List<Canzone> canzoniDaIdPlaylist(String idPlaylist) throws RemoteException;
+	
+	boolean controllaCanzoneUtente(String idUtente, String idCanzone) throws RemoteException;
 }
