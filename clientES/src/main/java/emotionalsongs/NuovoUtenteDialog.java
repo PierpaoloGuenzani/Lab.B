@@ -3,6 +3,7 @@ package emotionalsongs;
 import common.UtenteRegistrato;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -12,6 +13,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.regex.Pattern;
 
 /**
  * Questa classe rappresenta una finestra di dialogo per la creazione di un nuovo utente.
@@ -26,7 +28,7 @@ public class NuovoUtenteDialog implements MyDialog
 	private JDialog finestra;
 	private JTextField nomeField, cognomeField, codiceFiscaleField, indirizzoField, emailField, userIdField, passwordField;
 	private JLabel nomeLabel, cognomeLabel, codiceFiscaleLabel, indirizzoLabel, emailLabel, userIdLabel, passwordLabel;
-	private JLabel verifiedIcon, invalidatedIcon; //TODO metterne 2 per ogni field
+	//private JLabel verifiedIcon, invalidatedIcon; //TODO metterne 2 per ogni field o usa colori diversi nei bordi
 	private JButton confermaButton, annullaButton;
 	private JPanel mainPanel, buttonPanel, fieldPanel, labelPanel, iconPanel;
 	
@@ -43,7 +45,7 @@ public class NuovoUtenteDialog implements MyDialog
 		finestra.setTitle("Nuovo utente");
 		//finestra.setMinimumSize(new Dimension(500, 400));
 		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		
+
 		mainPanel = new JPanel(new BorderLayout());
 		
 		initializeField();
@@ -197,16 +199,16 @@ public class NuovoUtenteDialog implements MyDialog
 
 		// Per il campo Nome e il campo Cognome, ci sono listener associati all'evento focusLost, che viene attivato quando il campo perde il focus
 		// ovvero quando l'utente passa a un altro campo o clicca altrove nella finestra.
-		// Se uno dei campi Nome o Cognome è vuoto (blank), viene mostrato un messaggio di avviso tramite JOptionPane.
-		nomeField.addFocusListener(new FocusAdapter()
-		{
+		// Se uno dei campi Nome o Cognome è vuoto (blank) o non è in formato valido (almeno 3 caratteri alfabetici e nessun numero), viene mostrato un messaggio di avviso tramite JOptionPane.
+		nomeField.addFocusListener(new FocusAdapter() {
 			@Override
-			public void focusLost(FocusEvent e)
-			{
+			public void focusLost(FocusEvent e) {
 				super.focusLost(e);
-				if(nomeField.getText().isBlank())
-				{
+				String nome = nomeField.getText().trim();
+				if (nome.isBlank()) {
 					JOptionPane.showMessageDialog(mainPanel, "Il nome non può essere vuoto!", "Nome invalido", JOptionPane.WARNING_MESSAGE);
+				} else if (!nome.matches("^[a-zA-Z]{3,}$")) {
+					JOptionPane.showMessageDialog(mainPanel, "Il nome deve contenere almeno tre caratteri alfabetici e non deve includere numeri.", "Nome invalido", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -217,78 +219,129 @@ public class NuovoUtenteDialog implements MyDialog
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
-				if(nomeField.getText().isBlank())
-				{
+				String cognome = cognomeField.getText().trim();
+				if(cognome.isBlank()){
 					JOptionPane.showMessageDialog(mainPanel, "Il cognome non può essere vuoto!", "Cognome invalido", JOptionPane.WARNING_MESSAGE);
+				} else if (!cognome.matches("^[a-zA-Z]{3,}$")) {
+					JOptionPane.showMessageDialog(mainPanel, "Il cognome deve contenere almeno tre caratteri alfabetici e non deve includere numeri.", "Cognome invalido", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
 
 		// Per il campo Codice Fiscale, c'è un listener associato all'evento focusLost che verifica la lunghezza del testo inserito.
-		// Se la lunghezza del Codice Fiscale non è esattamente di 16 caratteri, viene mostrato un messaggio di avviso tramite JOptionPane.
+		// Se la lunghezza del Codice Fiscale non è esattamente di 16 caratteri, viene mostrato un messaggio di avviso tramite JOptionPanel
+		// Si controlla se rispetta l'espressione regolare
 		codiceFiscaleField.addFocusListener(new FocusAdapter()
 		{
 			@Override
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
-				if(codiceFiscaleField.getText().length() != 16)
+				String codiceFiscale = codiceFiscaleField.getText().toUpperCase(); // Converti tutto in maiuscolo
+				if(codiceFiscale.length() != 16)
 				{
 					JOptionPane.showMessageDialog(mainPanel,
-							"Il codice fiscale non è corretto (la lunghezza deve essere di 16 caratteri)",
+							"Il codice fiscale deve essere lungo 16 caratteri.",
+							"Lunghezza Codice Fiscale", JOptionPane.WARNING_MESSAGE);
+					codiceFiscaleFlag = false;
+					codiceFiscaleField.requestFocus(); // Imposta il focus sul campo per favorire il reinserimento
+					return; // Esci dal metodo se la lunghezza non è corretta
+				}
+				// Definisci l'espressione regolare per il codice fiscale
+				String regex = "^[A-Za-z]{6}\\d{2}[A-Za-z]\\d{2}[0-3][0-9][A-Za-z]\\d{3}[A-Za-z]$";
+				Pattern pattern = Pattern.compile(regex);
+				// Applica l'espressione regolare
+				if (!pattern.matcher(codiceFiscale).matches()) {
+					JOptionPane.showMessageDialog(mainPanel,
+							"Il codice fiscale non è corretto. Assicurati di seguire il formato specificato. Formato: ABCDEF12G34H567I",
 							"Codice Fiscale invalido", JOptionPane.WARNING_MESSAGE);
 					codiceFiscaleFlag = false;
-				}
-				else
-				{
+					codiceFiscaleField.requestFocus(); // Imposta il focus sul campo per favorire il reinserimento
+				} else {
 					codiceFiscaleFlag = true;
 				}
 			}
 		});
 		
-		indirizzoLabel.addFocusListener(new FocusAdapter()
+		indirizzoField.addFocusListener( new FocusAdapter()
 		{
 			@Override
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
-				if(indirizzoField.getText().isBlank())
+				String indirizzo = indirizzoField.getText().trim().toLowerCase();
+				if (indirizzo.isEmpty())
 				{
 					JOptionPane.showMessageDialog(mainPanel, "L'indirizzo non può essere vuoto!", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				} else if (!indirizzo.matches("^[a-zA-Z0-9\\s]+$")) {
+					//  l'indirizzo contiene solo caratteri alfabetici, numerici e spazi
+					JOptionPane.showMessageDialog(mainPanel, "L'indirizzo può contenere solo caratteri alfabetici, numerici e spazi.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				} else {
+					// l'inizio dell'indirizzo
+					String regex = "^(via|piazza|corso|viale)\\s.+";
+					if (indirizzo.matches(regex)) {
+						// L'indirizzo è valido
+					} else {
+						JOptionPane.showMessageDialog(mainPanel, "L'indirizzo deve iniziare con Via, Piazza, Corso o Viale seguito da qualche parola.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+					}
 				}
 			}
 		});
 
 		// Utilizza un'espressione regolare (regularSyntax) per verificare se il testo inserito corrisponde a un formato di indirizzo e-mail valido
-		emailField.addFocusListener(new FocusAdapter()
+		emailField.addFocusListener( new FocusAdapter()
 		{
 			@Override
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
-				final String regularSyntax = "[A-Za-z0-9]+[._-]?[A-Za-z0-9]+@[[A-Za-z0-9]+.[A-Za-z0-9]+]+";
-				if(emailField.getText().matches(regularSyntax))
+				String email = emailField.getText().trim();
+				// Utilizza un'espressione regolare per verificare se l'indirizzo email è valido
+				final String regularSyntax = "^[A-Za-z0-9._%+-]+@(studenti\\\\.)?uninsubria\\\\.it$|^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Z|a-z]{2,}$+";
+				if(email.matches(regularSyntax))
 				{
 					emailFlag = true;
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(mainPanel, "L'e-mail non è valida", "E-Mail invalido", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(mainPanel, "L'indirizzo email non è valido", "Email invalido", JOptionPane.WARNING_MESSAGE);
 					emailFlag = false;
 				}
 			}
 		});
 
-		// Verifica se l'username è già in uso chiamando un metodo controlloUserid del mainModel
+		// Verifica se l'username è valido (lungo almeno 5, solo caratteri alfanumerici) e se sia già in uso chiamando un metodo controlloUserid del mainModel
+		// Eseguo i controlli di lunghezza e caratteri prima del blocco try-catch perchè così facendo riesco a
+		// gestire gli errori locali senza dover necessariamente gestire un'eccezione remota.
 		userIdField.addFocusListener(new FocusAdapter()
 		{
 			@Override
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
+				String username = userIdField.getText().trim();
+				// Controlli locali
+				// Controlla la lunghezza dell'username
+				if (username.length() < 5 || !username.matches("^[a-zA-Z0-9]+$")) {
+					StringBuilder errorMessage = new StringBuilder("L'username non è valido. ");
+
+					// Aggiunge messaggio specifico in base ai criteri non rispettati
+					if (username.length() < 5) {
+						errorMessage.append("Deve essere lungo almeno 5 caratteri. ");
+					}
+
+					if (!username.matches("^[a-zA-Z0-9]+$")) {
+						errorMessage.append("Può contenere solo lettere e numeri. ");
+					}
+
+					JOptionPane.showMessageDialog(mainPanel, errorMessage.toString(), "Username invalido", JOptionPane.WARNING_MESSAGE);
+					userIdFlag = false;
+					return;
+				}
 				try
-				{
-					if(mainModel.controlloUserid(userIdField.getText()))
+				{	// Controlli remoti
+					// Verifica se l'username è già in uso
+					if(mainModel.controlloUserid(username))
 					{
 						userIdFlag = false;
 						JOptionPane.showMessageDialog(mainPanel, "Username già in uso, riprova", "Username invalido", JOptionPane.WARNING_MESSAGE);
@@ -304,20 +357,37 @@ public class NuovoUtenteDialog implements MyDialog
 			}
 		});
 
-		// Verifica la lunghezza della password
+		// Verifica la lunghezza della password (minimo 6), che contenga almeno un carattere maiuscolo, un minuscolo e un numero e nessuno spazio
+		// Se la password non supera uno qualsiasi dei controlli, il pulsante rimane disabilitato.
+		// Se la password supera tutti i controlli, il pulsante viene abilitato (infatti lo trovo nell'else dell'ultimo controllo)
 		passwordField.addFocusListener(new FocusAdapter()
 		{
 			@Override
 			public void focusLost(FocusEvent e)
 			{
 				super.focusLost(e);
-				if(codiceFiscaleFlag && emailFlag && userIdFlag)
-				{
-					confermaButton.setEnabled(true);
-				}
-				if(passwordField.getText().length()<6)
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Password troppo corta!", "Password invalida", JOptionPane.WARNING_MESSAGE);
+				String password = passwordField.getText();
+
+				if(codiceFiscaleFlag && emailFlag && userIdFlag) {
+					// Verifica la lunghezza della password
+					if (password.length() < 6) {
+						JOptionPane.showMessageDialog(mainPanel, "La password deve essere lunga almeno 6 caratteri", "Password invalida", JOptionPane.WARNING_MESSAGE);
+						confermaButton.setEnabled(false); // Disabilita il pulsante in caso di password troppo corta
+						return;
+					}
+					// Verifica che la password contenga almeno una lettera maiuscola, una lettera minuscola e un numero
+					if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
+						JOptionPane.showMessageDialog(mainPanel, "La password deve contenere almeno una lettera maiuscola, una lettera minuscola e un numero", "Password invalida", JOptionPane.WARNING_MESSAGE);
+						confermaButton.setEnabled(false); // Disabilita il pulsante se la password non soddisfa i criteri
+						return;
+					}
+					// Verifica che la password non contenga spazi
+					if (password.contains(" ")) {
+						JOptionPane.showMessageDialog(mainPanel, "La password non può contenere spazi", "Password invalida", JOptionPane.WARNING_MESSAGE);
+						confermaButton.setEnabled(false); // Disabilita il pulsante se la password contiene spazi non consentiti
+					} else {
+						confermaButton.setEnabled(true); // Abilita il pulsante se la password è valida
+					}
 				}
 			}
 		});
