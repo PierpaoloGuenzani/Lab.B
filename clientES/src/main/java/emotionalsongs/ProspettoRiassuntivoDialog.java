@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 /**
  * Questa classe rappresenta una finestra di dialogo per la visualizzazione di un prospetto riassuntivo
  * delle emozioni associate a una canzone, comprese le medie delle emozioni e le eventuali note.
+ *
+ * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
+ * @see MyDialog
  */
 public class ProspettoRiassuntivoDialog implements MyDialog
 {
@@ -71,7 +74,6 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 
 	/**
 	 * Inizializza il pannello della tabella che visualizza le emozioni e le loro medie.
-	 * Questo pannello contiene una tabella con le emozioni e le relative medie.
 	 */
 	private void initializeTable()
 	{
@@ -105,37 +107,44 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 	}
 
 	/**
-	 * Inizializza il pannello scroll che contiene le eventuali note associate al prospetto riassuntivo.
-	 * Questo pannello contiene una JTextArea in cui vengono visualizzate le note, con la possibilità di scorrere il testo se necessario.
+	 * Inizializza il pannello scroll che contiene una JTextArea in cui vengono visualizzate le eventuali note,
+	 * con la possibilità di scorrere il testo se necessario.
 	 */
 	private void initializeScroll()
 	{
 		scrollPanel = new JPanel(new BorderLayout());
-		note = new JTextArea("Nessuna nota disponibili per questa canzone");
+		// JTextArea viene inizializzata con un testo predefinito e viene resa non editabile
+		note = new JTextArea("Nessuna nota disponibile per questa canzone");
 		note.setEditable(false);
+		// visibilità impostata su false inizialmente
 		note.setVisible(false);
+		// viene creato un componente di scorrimento (JScrollPane) che avvolge la JTextArea (note)
 		scrollPane = new JScrollPane(note);
+		// viene aggiunto al JPanel (scrollPanel)
 		scrollPanel.add(scrollPane);
-		
+		// pannello scroll viene quindi aggiunto al pannello principale (mainPanel) della finestra
 		mainPanel.add(scrollPanel, BorderLayout.CENTER);
 	}
 
 	/**
-	 * Inizializza i pulsanti per visualizzare, nascondere le note e uscire dalla finestra di dialogo.
-	 * Questo pannello contiene i pulsanti "Visualizza Note", "Nascondi Note" e "Esci".
+	 * Inizializza e gestisce i pulsanti per la visualizzazione e l'occultamento delle note, nonché un pulsante per chiudere la finestra.
 	 */
 	private void initializeButtons()
 	{
+		// Viene creato un pannello per contenere i pulsanti
 		buttonPanel = new JPanel();
+
+		// Pulsante per visualizzare le note
 		visualizzaNoteButton = new JButton("Visualizza Note");
 		visualizzaNoteButton.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				note.setVisible(true);
-				scrollPane.validate();
-				scrollPane.repaint();
+				// Mostra la JTextArea delle note e aggiorna l'aspetto dei componenti
+				note.setVisible(true);   // imposta la visibilità di JTextArea
+				scrollPane.validate();   // ricalcola il layout per adattarsi a note
+				scrollPane.repaint();    // richiesta di ridisegnarsi per adattarsi a note
 				visualizzaNoteButton.setVisible(false);
 				nascondiNoteButton.setVisible(true);
 				buttonPanel.validate();
@@ -143,7 +152,8 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 			}
 		});
 		buttonPanel.add(visualizzaNoteButton);
-		
+
+		// Pulsante per nascondere le note
 		nascondiNoteButton = new JButton("Nascondi Note");
 		nascondiNoteButton.setVisible(false);
 		nascondiNoteButton.addActionListener(new ActionListener()
@@ -151,6 +161,7 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				// Nasconde la JTextArea delle note e aggiorna l'aspetto dei componenti
 				note.setVisible(false);
 				scrollPane.validate();
 				scrollPane.repaint();
@@ -161,7 +172,8 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 			}
 		});
 		buttonPanel.add(nascondiNoteButton);
-		
+
+		// Pulsante per chiudere la finestra
 		esciButton = new JButton("Esci");
 		esciButton.addActionListener(new ActionListener()
 		{
@@ -169,7 +181,8 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 			public void actionPerformed(ActionEvent e) { finestra.dispose(); }
 		});
 		buttonPanel.add(esciButton);
-		
+
+		// Aggiunge il pannello dei pulsanti al pannello principale nella parte inferiore
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
 

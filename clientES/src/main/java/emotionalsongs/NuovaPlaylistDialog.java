@@ -12,6 +12,9 @@ import java.io.IOException;
  * Questa classe rappresenta una finestra di dialogo per la creazione di una nuova playlist.
  * La finestra contiene un campo per inserire il nome della playlist desiderata e due pulsanti
  * per confermare o annullare l'operazione.
+ *
+ * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
+ * @see MyDialog
  */
 public class NuovaPlaylistDialog implements MyDialog
 {

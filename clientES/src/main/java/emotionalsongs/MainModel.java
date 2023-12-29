@@ -79,7 +79,8 @@ public class MainModel
 	}
 	
 	/**
-	 * Metodo che controlla la logica di ricerca lato client
+	 * Metodo che controlla la logica di ricerca lato client.
+	 * Ricerca brani musicali per autore sul server.
 	 * @param autore il nome dell'artista che ha creato il brano
 	 * @throws IllegalArgumentException se il titolo è nullo o vuoto
 	 * @throws RemoteException se non è possibile connettersi al server
@@ -91,18 +92,40 @@ public class MainModel
 		List<Canzone> lista = stub.cercaBraniPerAutore(autore);
 		lista.forEach(canzoneJlist::addElement);
 	}
-	
+
+	/**
+	 * Visualizza le emozioni associate a una canzone.
+	 *
+	 * @param idCanzone L'ID della canzone di cui visualizzare le emozioni.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public void visualizzaEmozioni(String idCanzone) throws RemoteException
 	{
 		ProspettoRiassuntivo prospettoRiassuntivo = stub.visualizzaEmozioni(idCanzone);
 		new ProspettoRiassuntivoDialog(prospettoRiassuntivo);
 	}
-	
+
+	/**
+	 * Registra un nuovo utente.
+	 *
+	 * @param newUtenteRegistrato Il nuovo utente da registrare.
+	 * @return true se la registrazione ha successo, false altrimenti.
+	 * @throws IOException se si verifica un errore di I/O.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public boolean Registrazione(UtenteRegistrato newUtenteRegistrato) throws IOException, RemoteException
 	{
 		return stub.Registrazione(newUtenteRegistrato);
 	}
-	
+
+	/**
+	 * Effettua l'accesso all'applicazione.
+	 *
+	 * @param userId   L'ID dell'utente.
+	 * @param password La password dell'utente.
+	 * @return true se l'accesso ha successo, false altrimenti.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public boolean accedi(String userId, String password) throws RemoteException
 	{
 		if(stub.accedi(userId,password))
@@ -112,7 +135,12 @@ public class MainModel
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Effettua il logout dall'applicazione.
+	 *
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public void logOut() throws RemoteException
 	{
 		if(userId == null) return;
@@ -121,40 +149,95 @@ public class MainModel
 	}
 	
 	//TODO: aggiungere userid per login
+	/**
+	 * Registra una nuova playlist per l'utente corrente.
+	 *
+	 * @param nomePlaylist Il nome della nuova playlist.
+	 * @return true se la registrazione ha successo, false altrimenti.
+	 * @throws IOException se si verifica un errore di I/O.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public boolean RegistraPlaylist(String nomePlaylist) throws IOException, RemoteException
 	{
 		return stub.RegistraPlaylist(nomePlaylist);
 	}
-	
+
+	/**
+	 * Aggiunge una canzone a una playlist.
+	 *
+	 * @param idCanzone  L'ID della canzone da aggiungere.
+	 * @param idPlaylist L'ID della playlist alla quale aggiungere la canzone.
+	 * @return true se l'aggiunta ha successo, false altrimenti.
+	 * @throws IOException se si verifica un errore di I/O.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException, RemoteException
 	{
 		return stub.aggiungiCanzone(idCanzone,idPlaylist);
 	}
-	
+
+	/**
+	 * Inserisce le emozioni associate a una canzone.
+	 *
+	 * @param newPercezione Le percezioni dell'utente sulla canzone.
+	 * @return true se l'inserimento ha successo, false altrimenti.
+	 * @throws IOException se si verifica un errore di I/O.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public boolean inserisciEmozioni(Percezione newPercezione) throws IOException, RemoteException
 	{
 		return stub.inserisciEmozioni(newPercezione);
 	}
-	
+
+	/**
+	 * Aggiunge una compilation di canzoni a una playlist.
+	 *
+	 * @param listaCanzoni La lista delle canzoni da aggiungere.
+	 * @param idPlaylist   L'ID della playlist alla quale aggiungere le canzoni.
+	 * @return true se l'aggiunta ha successo, false altrimenti.
+	 * @throws IOException se si verifica un errore di I/O.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public boolean aggiungiCompilation(List<Canzone> listaCanzoni, String idPlaylist) throws IOException, RemoteException
 	{
+		//TODO: implementazione
 		return false;
 	}
-	
+
+	/**
+	 * Ottiene la lista di canzoni associate a una playlist.
+	 *
+	 * @param idPlaylist L'ID della playlist.
+	 * @return Il modello di lista di default delle canzoni.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public DefaultListModel<Canzone> canzoniDaIdPlaylist(String idPlaylist) throws RemoteException
 	{
 		DefaultListModel<Canzone> canzoniJList= new DefaultListModel<>();
 		stub.canzoniDaIdPlaylist(idPlaylist).forEach(canzone -> canzoniJList.addElement(canzone));
 		return canzoniJList;
 	}
-	
+
+	/**
+	 * Cerca le playlist associate all'utente corrente.
+	 *
+	 * @return Il modello di lista di default delle playlist.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public DefaultListModel<Playlist> cercaPlaylistUtente() throws RemoteException
 	{
 		DefaultListModel<Playlist> playlistJList = new DefaultListModel<>();
 		stub.cercaPlaylistPerUtente(userId).forEach(playlist -> playlistJList.addElement(playlist));
 		return playlistJList;
 	}
-	
+
+	/**
+	 * Controlla l'esistenza di un determinato UserID.
+	 *
+	 * @param UserID L'ID dell'utente da controllare.
+	 * @return true se l'ID esiste, false altrimenti.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
 	public boolean controlloUserid(String UserID) throws RemoteException
 	{
 		return stub.controlloUserid(UserID);

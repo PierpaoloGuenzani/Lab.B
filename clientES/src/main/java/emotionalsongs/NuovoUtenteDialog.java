@@ -22,8 +22,17 @@ import java.util.regex.Pattern;
  */
 public class NuovoUtenteDialog implements MyDialog
 {
+	/**
+	 * Lunghezza predefinita dei campi di input.
+	 */
 	public static final int DEFAULT_FIELD_LENGTH = 15;
+	/**
+	 * Larghezza predefinita del pannello.
+	 */
 	public static final int DEFAULT_PANEL_WIDTH = 300;
+	/**
+	 * Altezza predefinita del pannello.
+	 */
 	public static final int DEFAULT_PANEL_HEIGHT = 30;
 	private JDialog finestra;
 	private JTextField nomeField, cognomeField, codiceFiscaleField, indirizzoField, emailField, userIdField, passwordField;
@@ -31,7 +40,7 @@ public class NuovoUtenteDialog implements MyDialog
 	//private JLabel verifiedIcon, invalidatedIcon; //TODO metterne 2 per ogni field o usa colori diversi nei bordi
 	private JButton confermaButton, annullaButton;
 	private JPanel mainPanel, buttonPanel, fieldPanel, labelPanel, iconPanel;
-	
+
 	private MainModel mainModel;
 	private boolean codiceFiscaleFlag, emailFlag, userIdFlag;
 
@@ -47,10 +56,10 @@ public class NuovoUtenteDialog implements MyDialog
 		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		mainPanel = new JPanel(new BorderLayout());
-		
+
 		initializeField();
 		initializeButton();
-		
+
 		finestra.add(mainPanel);
 		/*finestra.pack();
 		finestra.setLocationRelativeTo(MainView.finestra);
@@ -65,7 +74,7 @@ public class NuovoUtenteDialog implements MyDialog
 		labelPanel = new JPanel(new GridLayout(0,1));
 		fieldPanel = new JPanel(new GridLayout(0,1));
 		Dimension minDimension = new Dimension(DEFAULT_PANEL_WIDTH, DEFAULT_PANEL_HEIGHT);
-		
+
 		nomeLabel = new JLabel("Nome:");
 		nomeLabel.setLabelFor(nomeField);
 		labelPanel.add(nomeLabel);
@@ -74,7 +83,7 @@ public class NuovoUtenteDialog implements MyDialog
 		fieldPanel.add(nomeField);
 		//icon
 		//icon
-		
+
 		cognomeLabel = new JLabel("Cognome:");
 		cognomeLabel.setLabelFor(cognomeField);
 		labelPanel.add(cognomeLabel);
@@ -82,7 +91,7 @@ public class NuovoUtenteDialog implements MyDialog
 		fieldPanel.add(cognomeField);
 		//icon
 		//icon
-		
+
 		codiceFiscaleLabel = new JLabel("Codice Fiscale:");
 		codiceFiscaleLabel.setLabelFor(codiceFiscaleField);
 		labelPanel.add(codiceFiscaleLabel);
@@ -90,7 +99,7 @@ public class NuovoUtenteDialog implements MyDialog
 		fieldPanel.add(codiceFiscaleField);
 		//icon
 		//icon
-		
+
 		indirizzoLabel = new JLabel("Indirizzo:");
 		indirizzoLabel.setLabelFor(indirizzoField);
 		labelPanel.add(indirizzoLabel);
@@ -98,7 +107,7 @@ public class NuovoUtenteDialog implements MyDialog
 		fieldPanel.add(indirizzoField);
 		//icon
 		//icon
-		
+
 		emailLabel = new JLabel("E-mail:");
 		emailLabel.setLabelFor(emailField);
 		labelPanel.add(emailLabel);
@@ -114,7 +123,7 @@ public class NuovoUtenteDialog implements MyDialog
 		fieldPanel.add(userIdField);
 		//icon
 		//icon
-		
+
 		passwordLabel = new JLabel("Password:");
 		passwordLabel.setLabelFor(passwordField);
 		labelPanel.add(passwordLabel);
@@ -122,7 +131,7 @@ public class NuovoUtenteDialog implements MyDialog
 		fieldPanel.add(passwordField);
 		//icon
 		//icon
-		
+
 		mainPanel.add(labelPanel, BorderLayout.LINE_START);
 		mainPanel.add(fieldPanel, BorderLayout.CENTER);
 	}
@@ -135,7 +144,7 @@ public class NuovoUtenteDialog implements MyDialog
 		buttonPanel = new JPanel();
 		confermaButton = new JButton("Connettiti");
 		buttonPanel.add(confermaButton);
-		
+
 		annullaButton = new JButton("Annulla");
 		annullaButton.addActionListener(new ActionListener()
 		{
@@ -146,7 +155,7 @@ public class NuovoUtenteDialog implements MyDialog
 			}
 		});
 		buttonPanel.add(annullaButton);
-		
+
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
@@ -212,7 +221,7 @@ public class NuovoUtenteDialog implements MyDialog
 				}
 			}
 		});
-		
+
 		cognomeField.addFocusListener(new FocusAdapter()
 		{
 			@Override
@@ -262,7 +271,7 @@ public class NuovoUtenteDialog implements MyDialog
 				}
 			}
 		});
-		
+
 		indirizzoField.addFocusListener( new FocusAdapter()
 		{
 			@Override
