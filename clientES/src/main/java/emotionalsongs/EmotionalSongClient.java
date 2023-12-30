@@ -16,7 +16,7 @@ import java.rmi.RemoteException;
  *
  * Questa separazione delle responsabilità secondo il pattern MVC aiuta a mantenere il codice dell'applicazione ben strutturato, facilitando la manutenzione e lo sviluppo futuro.
  */
-public class EmotionalSongs
+public class EmotionalSongClient
 {
 	/**
 	 * Variabile statica per memorizzare l'indirizzo IP del server.
@@ -27,7 +27,7 @@ public class EmotionalSongs
 	 * Costruttore della classe EmotionalSongs. Inizializza gli oggetti principali
 	 * dell'applicazione e gestisce eventuali eccezioni legate alla connessione al server.
 	 */
-	public EmotionalSongs()
+	public EmotionalSongClient()
 	{
 		// Creazione della vista principale
 		MainView mainView = new MainView();
@@ -63,6 +63,6 @@ public class EmotionalSongs
 	 */
 	public static void main(String[] args)
 	{
-		new EmotionalSongs();
+		new EmotionalSongClient();
 	}
 }

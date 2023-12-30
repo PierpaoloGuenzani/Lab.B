@@ -125,6 +125,7 @@ public class SelectPlaylistDialog implements MyDialog
 		}
 		confermaButton.addActionListener(new ActionListener()
 		{
+			//TODO: convertire in 2 inner class ActionListener in modo da gestire i comportamenti del conferma in maniera differente
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -136,7 +137,6 @@ public class SelectPlaylistDialog implements MyDialog
 				{
 					if (state == 0)
 					{
-						//TODO: creare nuovo dialogo per visualizzare tutte le canzoni della playlist
 						VisualizzaPlaylistDialog visualizzaPlaylistDialog = new VisualizzaPlaylistDialog();
 						visualizzaPlaylistDialog.setIdPlaylist(lista.getSelectedValue().getIdPlaylist());
 						visualizzaPlaylistDialog.setMainModel(mainModel);
@@ -147,7 +147,9 @@ public class SelectPlaylistDialog implements MyDialog
 					
 						try
 						{
-							mainModel.aggiungiCanzone(idCanzone, lista.getSelectedValue().getIdPlaylist());
+							if(mainModel.aggiungiCanzone(idCanzone, lista.getSelectedValue().getIdPlaylist()))
+								JOptionPane.showMessageDialog(MainView.finestra, "Canzone inserita con successo", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+								
 						}
 						catch (IOException ex)
 						{
@@ -160,6 +162,7 @@ public class SelectPlaylistDialog implements MyDialog
 						}
 					}
 				}
+				finestra.dispose();
 			}
 		});
 	}

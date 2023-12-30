@@ -294,7 +294,7 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         for (Percezione p : possibiliEmozioni)
         {
             String commento = p.getNote();
-            if(!commento.equals("")) prospetto.addCommento(commento);
+            if(commento != null && !commento.isBlank()) prospetto.addCommento(commento);
         }
         return prospetto;
     }

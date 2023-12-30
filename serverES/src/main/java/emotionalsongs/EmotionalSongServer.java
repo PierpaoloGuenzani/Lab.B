@@ -24,7 +24,7 @@ import java.rmi.server.UnicastRemoteObject;
  * @throws AlreadyBoundException     Se il nome "EmotionalSong" è già registrato nel registro RMI.
  * @throws RemoteException          Se si verifica un errore durante la gestione delle chiamate remote.
  */
-public class EmotionalSong
+public class EmotionalSongServer
 {
 	public static void main(String[] args) throws IOException, AlreadyBoundException
 	{

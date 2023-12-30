@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
 /**
  * La classe ServerInternetProtocolAddressDialog rappresenta una finestra di dialogo per inserire l'indirizzo IP del server.
@@ -67,10 +66,10 @@ public class ServerInternetProtocolAddressDialog implements MyDialog
 			{
 				if (serverIPField.getText().equals(""))
 				{
-					EmotionalSongs.IPAddress = null;
+					EmotionalSongClient.IPAddress = null;
 					JOptionPane.showMessageDialog(mainPanel, "Connessione a localhost", "Connessione", JOptionPane.INFORMATION_MESSAGE);
 				}
-				EmotionalSongs.IPAddress = serverIPField.getText();
+				EmotionalSongClient.IPAddress = serverIPField.getText();
 				finestra.dispose();
 			}
 		});

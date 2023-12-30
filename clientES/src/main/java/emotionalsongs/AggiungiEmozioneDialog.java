@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class AggiungiEmozioneDialog implements MyDialog
 {
@@ -100,6 +101,21 @@ public class AggiungiEmozioneDialog implements MyDialog
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				try
+				{
+					if(!mainModel.controllaCanzonePersona(songId))
+					{
+						//TODO callback
+						SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST);
+						selectPlaylistDialog.setIdCanzone(songId);
+						selectPlaylistDialog.setMainModel(mainModel);
+						selectPlaylistDialog.draw();
+					}
+				} catch (RemoteException ex)
+				{
+					ex.printStackTrace();
+				}
+				
 				boolean flag = false;
 				Emozione[] emozioni = Emozione.values();
 				for(int i = 0; i < emozioni.length; i++)
@@ -112,11 +128,6 @@ public class AggiungiEmozioneDialog implements MyDialog
 						nuovaPercezione.aggiungiNote(nota);
 					try
 					{
-						
-						if(!mainModel.controllaCanzonePersona(songId))
-						{
-							new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST).draw();
-						}
 						if(mainModel.inserisciEmozioni(nuovaPercezione))
 							flag = true;
 					} catch (IOException ex)
