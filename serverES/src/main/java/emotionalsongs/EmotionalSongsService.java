@@ -19,17 +19,18 @@ import java.util.*;
 public class EmotionalSongsService implements EmotionalSongsInterface
 {
     
-    SortedSet<String> userLoggedIn;
-    Canzoni canzoni;
-    Persone persone;
-    Percezioni percezioni;
-    Playlists playlists;
+    private SortedSet<String> userLoggedIn;
+    private Canzoni canzoni;
+    private Persone persone;
+    private Percezioni percezioni;
+    private Playlists playlists;
+    private static EmotionalSongsService instance;
     
     /**
      * Crea un oggetto che gestisce tutti i dati dell'applicazione.
      * @throws IOException se si verifica un errore di Input/Output relativo al database
      */
-    public EmotionalSongsService() throws IOException {
+    private EmotionalSongsService() throws IOException {
         //new ServerGUI();
         userLoggedIn = Collections.synchronizedSortedSet(new TreeSet<String>());
         canzoni = Canzoni.getInstance();
@@ -50,6 +51,13 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         }
         
         //TODO usare executeUpdate al posto di executeQuery quando non ritornano valori
+    }
+    
+    public static EmotionalSongsService getInstance() throws IOException
+    {
+        if(instance == null)
+            instance = new EmotionalSongsService();
+        return instance;
     }
 
     /**
