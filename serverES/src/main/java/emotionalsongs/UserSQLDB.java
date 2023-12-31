@@ -94,7 +94,7 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 			insert.setString(5, utenteRegistrato.getNome());
 			insert.setString(6, utenteRegistrato.getCognome());
 			insert.setString(7, utenteRegistrato.getIndirizzoFisico());
-			ResultSet resultSet = insert.executeQuery();
+			insert.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -122,7 +122,7 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 			update.setString(5, utenteRegistrato.getCognome());
 			update.setString(6, utenteRegistrato.getIndirizzoFisico());
 			update.setString(7, utenteRegistrato.getUserId());
-			ResultSet resultSet = update.executeQuery();
+			update.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -139,7 +139,7 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 			PreparedStatement delete = serverSQL.prepareStatement(
 					"DELETE FROM utentiRegistrati WHERE userid = ?");
 			delete.setString(1, utenteRegistrato.getUserId());
-			ResultSet resultSet = delete.executeQuery();
+			delete.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?

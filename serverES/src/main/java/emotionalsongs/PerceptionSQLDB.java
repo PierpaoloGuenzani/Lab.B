@@ -104,7 +104,7 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 				insert.setNull(5, Types.VARCHAR);
 			else
 				insert.setString(5, note);
-			ResultSet resultSet = insert.executeQuery();
+			insert.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -134,7 +134,7 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 			update.setString(3, percezione.getSongId());
 			update.setString(4, percezione.getUserId());
 			update.setShort(5, (short)percezione.getEmozione().ordinal());
-			ResultSet resultSet = update.executeQuery();
+			update.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -154,7 +154,7 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 			delete.setString(1, percezione.getUserId());
 			delete.setString(2, percezione.getSongId());
 			delete.setShort(3, (short)percezione.getEmozione().ordinal());
-			ResultSet resultSet = delete.executeQuery();
+			delete.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?

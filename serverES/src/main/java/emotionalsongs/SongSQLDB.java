@@ -71,7 +71,7 @@ public class SongSQLDB implements Dao<Canzone>
 			insert.setString(2, canzone.getTitolo());
 			insert.setString(3, canzone.getArtista());
 			insert.setInt(4, canzone.getAnno());
-			ResultSet resultSet = insert.executeQuery();
+			insert.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -96,7 +96,7 @@ public class SongSQLDB implements Dao<Canzone>
 			update.setString(2, (String)params[3]);
 			update.setInt(3, (Integer)params[4]);
 			update.setString(4, canzone.getId());
-			ResultSet resultSet = update.executeQuery();
+			update.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -113,7 +113,7 @@ public class SongSQLDB implements Dao<Canzone>
 			PreparedStatement delete = serverSLQ.prepareStatement(
 					"DELETE FROM canzoni WHERE idCanzone = ?");
 			delete.setString(1, canzone.getId());
-			ResultSet resultSet = delete.executeQuery();
+			delete.executeUpdate();
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
