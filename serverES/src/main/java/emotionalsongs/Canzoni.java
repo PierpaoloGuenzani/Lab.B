@@ -17,13 +17,21 @@ public class Canzoni {
     private static final String dbFile = "data/Canzoni.dati.txt";
     private Dao<Canzone> db;
     private ConcurrentHashMap<String, Canzone> mappa;
+    private static Canzoni instance;
     
     /**
      * Crea un oggetto che raccoglie le canzoni presenti e ne permette la gestione.
      * @throws IOException se si verifica un errore di Input/Output relativo al database
      */
-    Canzoni() throws IOException
+    private Canzoni() throws IOException
     {}
+    
+    public static Canzoni getInstance() throws IOException
+    {
+        if(instance == null)
+            instance = new Canzoni();
+        return instance;
+    }
 
     /**
      * Restituisce il database che contiene tutte le canzoni.

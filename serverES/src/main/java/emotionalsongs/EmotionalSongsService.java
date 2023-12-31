@@ -32,10 +32,10 @@ public class EmotionalSongsService implements EmotionalSongsInterface
     public EmotionalSongsService() throws IOException {
         //new ServerGUI();
         userLoggedIn = Collections.synchronizedSortedSet(new TreeSet<String>());
-        canzoni = new Canzoni();
-        persone = new Persone();
-        percezioni = new Percezioni();
-        playlists = new Playlists();
+        canzoni = Canzoni.getInstance();
+        persone = Persone.getInstance();
+        percezioni = Percezioni.getInstance();
+        playlists = Playlists.getInstance();
     
         try
         {

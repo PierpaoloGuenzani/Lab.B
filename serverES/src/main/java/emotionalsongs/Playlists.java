@@ -19,13 +19,21 @@ public class Playlists
 	private static final String dbFile = "data/Playlist.dati.txt";
 	private PlaylistDAOInterface db;
 	private ConcurrentHashMap<String ,Playlist> mappa;
+	private static Playlists instance;
 
 	/**
 	 * Costruisce un oggetto che contiene le playlist presenti nel database.
 	 * @throws IOException nel caso di errori di lettura dal database
 	 */
-	public Playlists() throws IOException
+	private Playlists() throws IOException
 	{}
+	
+	public static Playlists getInstance() throws IOException
+	{
+		if(instance == null)
+			instance = new Playlists();
+		return instance;
+	}
 
 	/**
 	 * Restituisce il database che contiene tutte le playlist.

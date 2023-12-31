@@ -16,14 +16,22 @@ public class Persone
 	private static final String dbFile = "data/UtentiRegistrati.dati.txt";
 	private Dao<UtenteRegistrato> db;
 	private ConcurrentHashMap<String,UtenteRegistrato> mappa;
+	private static Persone instance;
 
 	//costruttore
 	/**
 	 * Crea un oggetto che raccoglie i dati degli utenti presenti nel database e ne permette la gestione.
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
-	public Persone() throws IOException
+	private Persone() throws IOException
 	{}
+	
+	public static Persone getInstance() throws IOException
+	{
+		if(instance == null)
+			instance = new Persone();
+		return instance;
+	}
 	
 	/**
 	 * Restituisce il database che contiene tutti gli utenti registrati.

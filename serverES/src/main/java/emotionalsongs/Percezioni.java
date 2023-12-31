@@ -17,12 +17,20 @@ public class Percezioni {
     private static final String dbFile = "data/Emozioni.dati.txt";
     private PerceptionDAOInterface db;
     private ConcurrentHashMap<String, List<Percezione>> mappa;
+    private static Percezioni instance;
 
     /**
      * Crea un oggetto che raccoglie in una lista le percezioni presenti nel database e ne permette la gestione.
      * @throws IOException se si verifica un errore di Input/Output relativo al database
      */
-    public Percezioni() throws IOException {}
+    private Percezioni() throws IOException {}
+    
+    public static Percezioni getInstance() throws IOException
+    {
+        if(instance == null)
+            instance = new Percezioni();
+        return instance;
+    }
 
     /**
      * Restituisce il database che contiene tutte le percezioni.
