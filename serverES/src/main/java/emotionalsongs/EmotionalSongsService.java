@@ -2,7 +2,6 @@ package emotionalsongs;
 
 import common.*;
 import java.io.IOException;
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -49,8 +48,6 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         {
             e.printStackTrace();
         }
-        
-        //TODO usare executeUpdate al posto di executeQuery quando non ritornano valori
     }
     
     public static EmotionalSongsService getInstance() throws IOException
@@ -180,10 +177,11 @@ public class EmotionalSongsService implements EmotionalSongsInterface
     {
         return canzoni.getCanzoni(playlists.cercaPlaylistPerId(idPlaylist).getListaCanzoni());
     }
-
-    public boolean RegistraPlaylist(Playlist newPlaylist) throws IOException, RemoteException
+    
+    public boolean RegistraPlaylist(String nomePlaylist, String userId) throws IOException
     {
-        return playlists.aggiungiPlaylist(newPlaylist);
+        if(!userLoggedIn.contains(userId)) return false;
+        return RegistraPlaylist(nomePlaylist);
     }
     
     private void logOut()
@@ -232,7 +230,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @see Playlists#aggiungiCanzone(String, String)
      */
     @Override
-    public boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException {
+    public boolean aggiungiCanzone(String idCanzone, String idPlaylist, String userId) throws IOException {
+        if(!userLoggedIn.contains(userId)) return false;
         return playlists.aggiungiCanzone(idCanzone, idPlaylist);
     }
 
@@ -243,8 +242,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @see Percezioni#add(Percezione)
      */
     @Override
-    public boolean inserisciEmozioni(Percezione newPercezione) throws IOException {
-        if(userLoggedIn.contains(newPercezione.getUserId()))
+    public boolean inserisciEmozioni(Percezione newPercezione, String userId) throws IOException {
+        if(userLoggedIn.contains(userId))
         {
             percezioni.add(newPercezione);
             return true;
@@ -369,7 +368,7 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * Funzione da cui inizia l'esecuzione dell'intera applicazione.
      * @param args l'elenco di argomenti forniti dalla riga di comando
      */
-    public static void main(String[] args){
+    /*public static void main(String[] args){
         try {
             
             int r;
@@ -695,7 +694,7 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         }catch(IOException e){
             System.err.println("Si è verificato un errore di Input/Output sui database. Il programma si arresterà a breve. ");
         }
-    }
+    }*/
     
     private static int convertitore(String s)
     {

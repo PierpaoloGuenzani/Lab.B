@@ -21,11 +21,11 @@ public interface EmotionalSongsInterface extends Remote
 	
 	void logOut(String idUtente) throws RemoteException;
 	
-	boolean RegistraPlaylist(String nomePlaylist) throws IOException, RemoteException;
+	boolean RegistraPlaylist(String nomePlaylist, String userId) throws IOException, RemoteException;
 	
-	boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException, RemoteException;
+	boolean aggiungiCanzone(String idCanzone, String idPlaylist, String userId) throws IOException, RemoteException;
 	
-	boolean inserisciEmozioni(Percezione newPercezione) throws IOException, RemoteException;
+	boolean inserisciEmozioni(Percezione newPercezione, String userId) throws IOException, RemoteException;
 	
 	boolean aggiungiCompilation(List<Canzone> listaCanzoni, String idPlaylist) throws IOException, RemoteException;
 	

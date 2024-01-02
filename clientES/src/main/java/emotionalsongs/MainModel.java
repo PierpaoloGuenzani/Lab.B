@@ -24,7 +24,7 @@ public class MainModel
 	//cash dei risultati
 	private DefaultListModel<Canzone> canzoneJlist;
 	private String userId;
-	private boolean isLogged = false;
+	private boolean isLogged;
 
 	/**
 	 * Costruttore di MainModel.
@@ -132,6 +132,7 @@ public class MainModel
 		if(stub.accedi(userId,password))
 		{
 			this.userId = userId;
+			isLogged = true;
 			return true;
 		}
 		return false;
@@ -149,7 +150,6 @@ public class MainModel
 		userId = null;
 	}
 	
-	//TODO: aggiungere userid per login
 	/**
 	 * Registra una nuova playlist per l'utente corrente.
 	 *
@@ -160,7 +160,8 @@ public class MainModel
 	 */
 	public boolean RegistraPlaylist(String nomePlaylist) throws IOException, RemoteException
 	{
-		return stub.RegistraPlaylist(nomePlaylist);
+		if(!isLogged) return false;
+		return stub.RegistraPlaylist(nomePlaylist, userId);
 	}
 
 	/**
@@ -174,7 +175,8 @@ public class MainModel
 	 */
 	public boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException, RemoteException
 	{
-		return stub.aggiungiCanzone(idCanzone,idPlaylist);
+		if(!isLogged) return false;
+		return stub.aggiungiCanzone(idCanzone, idPlaylist, userId);
 	}
 
 	/**
@@ -187,7 +189,8 @@ public class MainModel
 	 */
 	public boolean inserisciEmozioni(Percezione newPercezione) throws IOException, RemoteException
 	{
-		return stub.inserisciEmozioni(newPercezione);
+		if(!isLogged) return false;
+		return stub.inserisciEmozioni(newPercezione, userId);
 	}
 
 	/**
@@ -201,7 +204,7 @@ public class MainModel
 	 */
 	public boolean aggiungiCompilation(List<Canzone> listaCanzoni, String idPlaylist) throws IOException, RemoteException
 	{
-		//TODO: implementazione
+		//TODO: implementazione o rimuovere
 		return false;
 	}
 
