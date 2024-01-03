@@ -7,26 +7,27 @@ import java.awt.*;
 
 /**
  * La classe MainView rappresenta l'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
- * Questa classe gestisce la creazione e l'aggiornamento degli elementi dell'interfaccia utente, inclusi pulsanti, campi di ricerca e liste di canzoni.
- * Inoltre, gestisce la visibilità dei menu e dei pulsanti in base allo stato dell'utente (loggato o non loggato) e alla modalità di ricerca selezionata.
+ * Gestisce la creazione e l'aggiornamento degli elementi dell'interfaccia utente, inclusi pulsanti, campi di ricerca e liste di canzoni.
+ * Gestisce anche la visibilità dei menu e dei pulsanti in base allo stato dell'utente (loggato o non loggato) e alla modalità di ricerca selezionata.
  *
- * La classe MainView è parte integrante del pattern Model-View-Controller (MVC), insieme a MainController e MainModel, per garantire una separazione chiara tra la presentazione (Vista),
- * la gestione delle interazioni utente (Controller) e i dati dell'applicazione (Modello).
+ * La classe MainView è parte integrante del pattern Model-View-Controller (MVC), insieme a MainController e MainModel,
+ * per garantire una chiara separazione tra la presentazione (Vista), la gestione delle interazioni utente (Controller) e i dati dell'applicazione (Modello).
  *
  * Questa classe è connessa al Controller (MainController) per gestire gli eventi generati dall'utente, come clic sui pulsanti e selezione delle opzioni di ricerca.
- * Inoltre, comunica con il Modello (MainModel) per visualizzare e aggiornare i dati relativi alle canzoni.
+ * Comunica inoltre con il Modello (MainModel) per visualizzare e aggiornare i dati relativi alle canzoni.
  */
 public class MainView
 {
 	/**
-	 * La costante DEFAULT_WIDTH rappresenta la larghezza predefinita della finestra dell'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
+	 * La larghezza predefinita della finestra dell'interfaccia utente grafica (GUI)
 	 */
 	private final int DEFAULT_WIDTH = 600;
 	/**
-	 * La costante DEFAULT_HEIGHT rappresenta l'altezza predefinita della finestra dell'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
+	 * L'altezza predefinita della finestra dell'interfaccia utente grafica (GUI)
 	 */
 	private final int DEFAULT_HEIGHT = 400;
 
+	// Componenti per la GUI
 	static JFrame finestra;
 	private JPanel mainPanel, searchPanel, buttonPanel, listPanel;
 	private JMenuBar menuBar;
@@ -39,7 +40,8 @@ public class MainView
 	JButton accediButton, logOutButton, ricercaButton, visualizzaEmozioniButton, inserisciEmozioneButton;
 
 	/**
-	 * Il costruttore della classe MainView inizializza l'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
+	 * Costruttore della classe MainView.
+	 * Inizializza l'interfaccia utente grafica (GUI) dell'applicazione.
 	 * Questo costruttore crea la finestra principale, imposta il menu, la barra degli strumenti di ricerca, la lista delle canzoni e i pulsanti principali.
 	 * Viene chiamato quando si crea un'istanza di MainView e avvia il processo di inizializzazione dell'interfaccia utente.
 	 */
@@ -49,8 +51,8 @@ public class MainView
 	}
 
 	/**
-	 * Inizializza l'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs". Questo metodo crea la finestra principale, imposta il menu,
-	 * la barra degli strumenti di ricerca, la lista delle canzoni e i pulsanti principali.
+	 * Inizializza l'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
+	 * Questo metodo crea la finestra principale, imposta il menu, la barra degli strumenti di ricerca, la lista delle canzoni e i pulsanti principali.
 	 */
 	private void initializeGUI()
 	{
@@ -253,6 +255,7 @@ public class MainView
 
 	/**
 	 * Imposta il modello della lista delle canzoni con un nuovo modello fornito come argomento.
+	 *
 	 * @param model Il modello da impostare sulla lista delle canzoni.
 	 */
 	public void setJListModel(ListModel model)
@@ -263,6 +266,7 @@ public class MainView
 
 	/**
 	 * Aggiorna un pannello dell'interfaccia utente specificato, validandolo e ridisegnandolo.
+	 *
 	 * @param panel Il pannello da aggiornare.
 	 */
 	private void update(JPanel panel)
@@ -273,6 +277,7 @@ public class MainView
 
 	/**
 	 * Imposta il controller principale (MainController) per gestire gli eventi generati dall'interfaccia utente.
+	 *
 	 * @param mainController Il controller principale da associare agli elementi dell'interfaccia utente.
 	 */
 	public void setMainController(MainController mainController)

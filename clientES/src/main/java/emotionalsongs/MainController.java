@@ -9,8 +9,11 @@ import java.rmi.RemoteException;
 
 /**
  * La classe MainController è responsabile di gestire le interazioni dell'utente nell'applicazione "EmotionalSongs".
- * Implementa l'interfaccia ActionListener per catturare gli eventi generati dagli elementi dell'interfaccia utente.
  * Questo controller collega la Vista (MainView) al Modello (MainModel) e coordina le azioni tra di essi.
+ *
+ * Implementa l'interfaccia ActionListener per reagire agli eventi generati dagli elementi grafici dell'interfaccia utente.
+ * Le azioni gestite includono la creazione di nuovi account, la creazione di playlist, la visualizzazione delle playlist, la ricerca di brani musicali
+ * e altre interazioni chiave nell'applicazione.
  */
 public class MainController implements ActionListener
 {
@@ -58,12 +61,14 @@ public class MainController implements ActionListener
 			//MENU ITEM
 			if(source.equals(mainView.nuovoAccountItem))
 			{
+				// Apre una finestra di dialogo per la creazione di un nuovo account
 				NuovoUtenteDialog nuovoUtenteDialog = new NuovoUtenteDialog();
 				if(mainModel != null) nuovoUtenteDialog.setMainModel(mainModel);
 				nuovoUtenteDialog.draw();
 			}
 			if(source.equals(mainView.nuovaPlaylistItem))
 			{
+				// Apre una finestra di dialogo per la creazione di una nuova playlist
 				NuovaPlaylistDialog nuovaPlaylistDialog = new NuovaPlaylistDialog();
 				if(mainModel != null) nuovaPlaylistDialog.setMainModel(mainModel);
 				nuovaPlaylistDialog.draw();
@@ -77,21 +82,26 @@ public class MainController implements ActionListener
 			}
 			if (source.equals(mainView.autoreEAnnoRadioButton))
 			{
+				// Imposta la barra di ricerca in modalità "Ricerca per Autore e Anno"
 				mainView.setDoubleBar();
 			}
 			if (source.equals(mainView.autoreRadioButton))
 			{
+				// Imposta la barra di ricerca in modalità "Ricerca per Autore"
 				mainView.setMonoBar();
 			}
 			if (source.equals(mainView.titoloRadioButton))
 			{
+				// Imposta la barra di ricerca in modalità "Ricerca per Titolo"
 				mainView.setMonoBar();
 			}
 			//RICERCA
 			if (source.equals(mainView.ricercaButton))
 			{
+				// Gestisce l'azione del pulsante di ricerca
 				if (mainView.titoloRadioButton.isSelected())
 				{
+					// Ricerca per titolo
 					if(mainView.searchField.getText().equals(""))
 					{
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun titolo!", "ERRORE", JOptionPane.ERROR_MESSAGE);
@@ -101,6 +111,7 @@ public class MainController implements ActionListener
 				}
 				if (mainView.autoreRadioButton.isSelected())
 				{
+					// Ricerca per autore
 					if(mainView.searchField.getText().equals(""))
 					{
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito nessun autore!", "ERRORE", JOptionPane.ERROR_MESSAGE);
@@ -110,6 +121,7 @@ public class MainController implements ActionListener
 				}
 				if (mainView.autoreEAnnoRadioButton.isSelected())
 				{
+					// Ricerca per autore e anno
 					if(mainView.searchField.getText().equals("") || mainView.annoField.getText().equals(""))
 					{
 						JOptionPane.showMessageDialog(mainView.finestra, "Non hai inserito l'autore e/o l'anno!", "ERRORE", JOptionPane.ERROR_MESSAGE);
@@ -117,25 +129,29 @@ public class MainController implements ActionListener
 					}
 					if(mainModel != null) mainModel.cercaBranoMusicale(mainView.searchField.getText(), Integer.parseInt(mainView.annoField.getText()));
 				}
+				// Aggiorna la lista delle canzoni nella Vista
 				mainView.setJListModel(mainModel.getCanzoneJlist());
 			}
-			//TASTI
-			//accedi
+			// TASTI
+			// Accedi
 			if (source.equals(mainView.accediButton))
 			{
+				// Apre una finestra di dialogo per l'accesso
 				AccediDialog accediDialog = new AccediDialog(mainView, mainModel);
 				//TODO mettere setter
 				accediDialog.draw();
 			}
-			//logout
+			// Logout
 			if (source.equals(mainView.logOutButton))
 			{
+				// Gestisce l'azione del pulsante di logout
 				mainView.setLoggedOut();
 				if(mainModel != null) mainModel.logOut();
 			}
-			//visualizza emozioni
+			// Visualizza emozioni
 			if(source.equals(mainView.visualizzaEmozioniButton))
 			{
+				// Ottiene la canzone selezionata e visualizza le emozioni associate
 				Canzone canzone = (Canzone) mainView.canzoneJList.getSelectedValue();
 				if(canzone == null)
 				{
@@ -144,15 +160,17 @@ public class MainController implements ActionListener
 				}
 				if(mainModel != null) mainModel.visualizzaEmozioni(canzone.getId());
 			}
-			//inserisci emozioni
+			// Inserisci emozioni
 			if(source.equals(mainView.inserisciEmozioneButton))
 			{
+				// Ottiene la canzone selezionata e apre una finestra di dialogo per l'inserimento di emozioni
 				Canzone canzone = (Canzone) mainView.canzoneJList.getSelectedValue();
 				if(canzone == null)
 				{
 					JOptionPane.showMessageDialog(mainView.finestra, "Nessun canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
+				// Verifica se l'utente ha creato almeno una playlist
 				if(mainModel.cercaPlaylistUtente().size() == 0)
 				{
 					JOptionPane.showMessageDialog(mainView.finestra, "Nessuna Playlist creata, creala e poi riprova!", "ERRORE", JOptionPane.ERROR_MESSAGE);
@@ -160,7 +178,7 @@ public class MainController implements ActionListener
 				}
 				if(false)
 				{
-					//TODO controllare controllare che canzone sia in una playlist, se no selezionare quale tra le playlist
+					// TODO: Verificare che la canzone sia in una playlist, altrimenti selezionare quale tra le playlist
 				}
 				AggiungiEmozioneDialog aggiungiEmozioneDialog = new AggiungiEmozioneDialog();
 				aggiungiEmozioneDialog.setSongId(canzone.getId());

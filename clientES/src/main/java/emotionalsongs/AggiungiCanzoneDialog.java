@@ -8,14 +8,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * Questa classe rappresenta una finestra di dialogo per aggiungere una canzone a una playlist.
+ * L'utente può selezionare la playlist di destinazione e confermare o annullare l'operazione.
+ *
+ * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
+ * @see MyDialog
+ */
 public class AggiungiCanzoneDialog implements MyDialog
 {
-	private String idCanzone;
-	private JDialog finestra;
-	private JPanel mainPanel, buttonPanel;
-	private JButton confermaButton, annullaButton;
-	private JList<Playlist> playlistJList;
-	
+	private String idCanzone;						// ID della canzone da aggiungere
+	private JDialog finestra;						// La finestra di dialogo
+	private JPanel mainPanel, buttonPanel;			// Pannelli principale e dei pulsanti
+	private JButton confermaButton, annullaButton;	// Pulsanti di conferma e annulla
+	private JList<Playlist> playlistJList;			// Lista delle playlist disponibili
+
+	/**
+	 * Costruisce una nuova finestra di dialogo per aggiungere una canzone a una playlist.
+	 */
 	public AggiungiCanzoneDialog()
 	{
 		finestra = new JDialog();
@@ -26,20 +36,29 @@ public class AggiungiCanzoneDialog implements MyDialog
 		
 		mainPanel = new JPanel(new BorderLayout());
 		
-		initializeMain();
-		initializeButton();
+		initializeMain();		// Inizializza il pannello principale
+		initializeButton();		// Inizializza i pulsanti
 		
 		finestra.add(mainPanel);
 //		finestra.setVisible(true);
 //		finestra.setLocationRelativeTo(MainView.finestra);
 	}
-	
+
+	/**
+	 * Costruisce una nuova finestra di dialogo per aggiungere una canzone a una playlist,
+	 * specificando l'ID della canzone.
+	 *
+	 * @param idCanzone L'ID della canzone da aggiungere.
+	 */
 	public AggiungiCanzoneDialog(String idCanzone)
 	{
 		this();
 		this.idCanzone = idCanzone;
 	}
-	
+
+	/**
+	 * Inizializza l'etichetta e la lista delle playlist nel pannello principale.
+	 */
 	private void initializeMain()
 	{
 		JLabel label = new JLabel("Seleziona la playlist in cui inserire la canzone:", JLabel.CENTER);
@@ -51,7 +70,10 @@ public class AggiungiCanzoneDialog implements MyDialog
 		
 		mainPanel.add(new JScrollPane(playlistJList), BorderLayout.CENTER);
 	}
-	
+
+	/**
+	 * Inizializza e gestisce i pulsanti di conferma e annulla nel pannello dei pulsanti.
+	 */
 	private void initializeButton()
 	{
 		buttonPanel = new JPanel();
@@ -70,7 +92,12 @@ public class AggiungiCanzoneDialog implements MyDialog
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+
+	/**
+	 * Imposta il modello principale e gestisce l'azione del pulsante di conferma.
+	 *
+	 * @param mainModel Il modello principale dell'applicazione.
+	 */
 	public void setMainModel(MainModel mainModel)
 	{
 		confermaButton.addActionListener(new ActionListener()
@@ -88,8 +115,10 @@ public class AggiungiCanzoneDialog implements MyDialog
 			}
 		});
 	}
-	
 
+	/**
+	 * Mostra la finestra di dialogo al centro della finestra principale.
+	 */
 	@Override
 	public void draw()
 	{

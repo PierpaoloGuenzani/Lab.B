@@ -2,17 +2,16 @@ package emotionalsongs;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
-
 /**
- * La classe EmotionalSongs è il punto di ingresso dell'applicazione e segue il pattern Model-View-Controller (MVC) per gestire la sua struttura.
+ * La classe EmotionalSongs rappresenta il punto d'ingresso dell'applicazione "EmotionalSongs" e segue il pattern architetturale Model-View-Controller (MVC) per gestire la sua struttura.
  *
- * Il pattern MVC è un'architettura software che suddivide l'applicazione in tre componenti principali:
- * - Il Modello (Model): Rappresenta i dati e la logica dell'applicazione, compresi i dettagli sulle canzoni, le playlist e altre informazioni correlate alla musica.
- * - La Vista (View): Gestisce l'interfaccia utente grafica, compresi pulsanti, finestre e componenti per visualizzare e interagire con i dati musicali.
- * - Il Controller (Controller): Gestisce le interazioni dell'utente con l'interfaccia utente e coordina il flusso di dati tra il Modello e la Vista, gestendo azioni come la riproduzione, la pausa e l'aggiunta di canzoni alle playlist.
+ * Il pattern MVC suddivide l'applicazione in tre componenti principali:
+ * - **Il Modello (Model):** Rappresenta i dati e la logica dell'applicazione, compresi dettagli sulle canzoni, playlist e altre informazioni relative alla musica.
+ * - **La Vista (View):** Gestisce l'interfaccia utente grafica, compresi pulsanti, finestre e componenti per visualizzare e interagire con i dati musicali.
+ * - **Il Controller (Controller):** Gestisce le interazioni dell'utente con l'interfaccia utente e coordina il flusso di dati tra il Modello e la Vista, gestendo ad esempio l'apertura di finestre di dialogo.
  *
- * Nell'implementazione di questa classe, la Vista (MainView) è creata e collegata al Controller (MainController).
- * Il Controller, a sua volta, è collegato al Modello (MainModel) per coordinare le operazioni relative alla musica e alla gestione delle interazioni utente.
+ * Nell'implementazione di questa classe, la Vista (`MainView`) è creata e collegata al Controller (`MainController`).
+ * Il Controller, a sua volta, è collegato al Modello (`MainModel`) per coordinare le operazioni relative alla musica e alla gestione delle interazioni utente.
  *
  * Questa separazione delle responsabilità secondo il pattern MVC aiuta a mantenere il codice dell'applicazione ben strutturato, facilitando la manutenzione e lo sviluppo futuro.
  */

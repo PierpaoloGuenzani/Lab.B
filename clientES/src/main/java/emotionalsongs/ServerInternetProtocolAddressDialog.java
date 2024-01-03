@@ -7,8 +7,11 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 /**
- * La classe ServerInternetProtocolAddressDialog rappresenta una finestra di dialogo per inserire l'indirizzo IP del server.
- * Questa finestra viene utilizzata per stabilire una connessione al server dell'applicazione "EmotionalSongs".
+ * Questa classe rappresenta una finestra di dialogo con il campo per l'inserimento dell'indirizzo IP del server.
+ * L'utente può confermare o annullare l'operazione.
+ *
+ * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
+ * @see MyDialog
  */
 public class ServerInternetProtocolAddressDialog implements MyDialog
 {
@@ -19,8 +22,7 @@ public class ServerInternetProtocolAddressDialog implements MyDialog
 	private JPanel buttonPanel, fieldPanel, mainPanel;		// Pannelli contenenti i pulsanti o il campo di testo e il pannello principale della finestra di dialogo
 
 	/**
-	 * Il costruttore della classe ServerInternetProtocolAddressDialog inizializza la finestra di dialogo.
-	 * Imposta titolo, modalità modale, dimensioni minime, campi di testo e pulsanti.
+	 * Costruisce una nuova finestra di dialogo per l'inserimento dell'indirizzo IP del server.
 	 */
 	public ServerInternetProtocolAddressDialog()
 	{
@@ -40,7 +42,7 @@ public class ServerInternetProtocolAddressDialog implements MyDialog
 	}
 
 	/**
-	 * Inizializza il campo di testo per l'indirizzo IP e l'etichetta corrispondente.
+	 * Inizializza l'etichetta e il campo di testo per l'inserimento dell'indirizzo IP.
 	 */
 	private void initializeField()
 	{
@@ -54,7 +56,7 @@ public class ServerInternetProtocolAddressDialog implements MyDialog
 	}
 
 	/**
-	 * Inizializza i pulsanti "Connettiti" e "Annulla" e associa loro azioni.
+	 * Inizializza e gestisce i pulsanti per la connessione e l'annullamento dell'operazione.
 	 */
 	private void initializeButton()
 	{
@@ -92,7 +94,7 @@ public class ServerInternetProtocolAddressDialog implements MyDialog
 	}
 
 	/**
-	 * Il metodo "draw()" mostra la finestra di dialogo al centro della finestra principale dell'applicazione "EmotionalSongs".
+	 * Mostra la finestra di dialogo al centro della finestra principale.
 	 */
 	@Override
 	public void draw()
