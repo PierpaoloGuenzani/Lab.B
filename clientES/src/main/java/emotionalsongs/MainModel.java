@@ -31,12 +31,12 @@ public class MainModel
 	 */
 	public MainModel()
 	{}
-
 	/**
 	 * Imposta lo stub del server RMI utilizzando l'indirizzo IP specificato.
 	 *
 	 * @param serverIP L'indirizzo IP del server RMI.
 	 * @throws RemoteException se non è possibile connettersi al server.
+	 * @throws NotBoundException se il nome specificato non è associato a un oggetto in remoto.
 	 */
 	public void setStub(String serverIP) throws RemoteException
 	{
@@ -48,7 +48,7 @@ public class MainModel
 		catch (NotBoundException e)
 		{} //Non può essere il nome è HardCoded nelle classi
 	}
-	
+
 	/**
 	 * Metodo per cercare brani musicali per titolo sul server.
 	 *
@@ -270,9 +270,16 @@ public class MainModel
 	{
 		return userId;
 	}
-	
-	public boolean controllaCanzonePersona(String songId) throws RemoteException
-	{
+
+
+	/**
+	 * Controlla se una determinata canzone è associata all'utente corrente.
+	 *
+	 * @param songId L'ID della canzone da controllare.
+	 * @return true se la canzone è associata all'utente corrente, false altrimenti.
+	 * @throws RemoteException se non è possibile connettersi al server.
+	 */
+	public boolean controllaCanzonePersona(String songId) throws RemoteException {
 		return stub.controllaCanzoneUtente(userId, songId);
 	}
 }

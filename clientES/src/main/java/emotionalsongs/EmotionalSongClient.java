@@ -3,7 +3,7 @@ package emotionalsongs;
 import javax.swing.*;
 import java.rmi.RemoteException;
 /**
- * La classe EmotionalSongs rappresenta il punto d'ingresso dell'applicazione "EmotionalSongs" e segue il pattern architetturale Model-View-Controller (MVC) per gestire la sua struttura.
+ * La classe `EmotionalSongClient` rappresenta il punto d'ingresso dell'applicazione "EmotionalSongs" e segue il pattern architetturale Model-View-Controller (MVC) per gestire la sua struttura.
  *
  * Il pattern MVC suddivide l'applicazione in tre componenti principali:
  * - **Il Modello (Model):** Rappresenta i dati e la logica dell'applicazione, compresi dettagli sulle canzoni, playlist e altre informazioni relative alla musica.
@@ -23,8 +23,8 @@ public class EmotionalSongClient
 	static String IPAddress;
 
 	/**
-	 * Costruttore della classe EmotionalSongs. Inizializza gli oggetti principali
-	 * dell'applicazione e gestisce eventuali eccezioni legate alla connessione al server.
+	 * Costruttore.
+	 * Inizializza gli oggetti principali dell'applicazione e gestisce eventuali eccezioni legate alla connessione al server.
 	 */
 	public EmotionalSongClient()
 	{
@@ -56,7 +56,7 @@ public class EmotionalSongClient
 	}
 
 	/**
-	 * Metodo principale dell'applicazione. Crea un'istanza di EmotionalSongs per avviare il programma.
+	 * Metodo principale dell'applicazione. Crea un'istanza di `EmotionalSongClient` per avviare il programma.
 	 *
 	 * @param args Gli argomenti della riga di comando (non utilizzati in questo caso).
 	 */
