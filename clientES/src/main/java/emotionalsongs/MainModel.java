@@ -21,7 +21,7 @@ public class MainModel
 {
 	
 	private EmotionalSongsInterface stub;
-	//cash dei risultati
+	// Cache dei risultati
 	private DefaultListModel<Canzone> canzoneJlist;
 	private String userId;
 	private boolean isLogged;
@@ -34,6 +34,7 @@ public class MainModel
 
 	/**
 	 * Imposta lo stub del server RMI utilizzando l'indirizzo IP specificato.
+	 *
 	 * @param serverIP L'indirizzo IP del server RMI.
 	 * @throws RemoteException se non è possibile connettersi al server.
 	 */
@@ -50,6 +51,7 @@ public class MainModel
 	
 	/**
 	 * Metodo per cercare brani musicali per titolo sul server.
+	 *
 	 * @param titolo Il titolo del brano da cercare.
 	 * @throws IllegalArgumentException se il titolo è nullo o vuoto.
 	 * @throws RemoteException se non è possibile connettersi al server.
@@ -63,6 +65,7 @@ public class MainModel
 
 	/**
 	 * Metodo per cercare brani musicali per nome dell'artista e anno sul server.
+	 *
 	 * @param nomeArtista Il nome dell'artista.
 	 * @param anno L'anno in cui il brano è stato creato.
 	 * @throws IllegalArgumentException se il nome dell'artista o l'anno sono vuoti o nulli.
@@ -81,6 +84,7 @@ public class MainModel
 	/**
 	 * Metodo che controlla la logica di ricerca lato client.
 	 * Ricerca brani musicali per autore sul server.
+	 *
 	 * @param autore il nome dell'artista che ha creato il brano
 	 * @throws IllegalArgumentException se il titolo è nullo o vuoto
 	 * @throws RemoteException se non è possibile connettersi al server
@@ -249,6 +253,7 @@ public class MainModel
 
 	/**
 	 * Ottiene il modello di lista di default delle canzoni.
+	 *
 	 * @return Il modello di lista di default delle canzoni.
 	 */
 	public DefaultListModel<Canzone> getCanzoneJlist()
@@ -258,6 +263,7 @@ public class MainModel
 
 	/**
 	 * Ottiene l'ID dell'utente corrente.
+	 *
 	 * @return L'ID dell'utente corrente.
 	 */
 	public String getUserId()

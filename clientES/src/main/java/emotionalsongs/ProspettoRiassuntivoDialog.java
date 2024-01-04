@@ -27,6 +27,7 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 	/**
 	 * Costruttore della classe che accetta un oggetto ProspettoRiassuntivo come parametro.
 	 * Inizializza la finestra di dialogo e visualizza le medie delle emozioni e le eventuali note associate al prospetto riassuntivo fornito.
+	 *
 	 * @param prospettoRiassuntivo Il prospetto riassuntivo da visualizzare.
 	 */
 	public ProspettoRiassuntivoDialog(ProspettoRiassuntivo prospettoRiassuntivo)

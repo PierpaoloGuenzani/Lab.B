@@ -19,6 +19,9 @@ import java.util.regex.Pattern;
  * Questa classe rappresenta una finestra di dialogo per la creazione di un nuovo utente.
  * La finestra contiene campi per inserire i dettagli dell'utente, come nome, cognome, codice fiscale, indirizzo,
  * e-mail, nome utente e password. L'utente può confermare o annullare l'operazione di registrazione.
+ *
+ * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
+ * @see MyDialog
  */
 public class NuovoUtenteDialog implements MyDialog
 {
@@ -331,24 +334,18 @@ public class NuovoUtenteDialog implements MyDialog
 				String username = userIdField.getText().trim();
 				// Controlli locali
 				// Controlla la lunghezza dell'username
-				if (username.length() < 5 || !username.matches("^[a-zA-Z0-9]+$")) {
-					StringBuilder errorMessage = new StringBuilder("L'username non è valido. ");
-
-					// Aggiunge messaggio specifico in base ai criteri non rispettati
-					if (username.length() < 5) {
-						errorMessage.append("Deve essere lungo almeno 5 caratteri. ");
-					}
-
-					if (!username.matches("^[a-zA-Z0-9]+$")) {
-						errorMessage.append("Può contenere solo lettere e numeri. ");
-					}
-
-					JOptionPane.showMessageDialog(mainPanel, errorMessage.toString(), "Username invalido", JOptionPane.WARNING_MESSAGE);
+				if (username.length() < 5) {
 					userIdFlag = false;
+					JOptionPane.showMessageDialog(mainPanel, "L'username deve essere lungo almeno 5 caratteri.", "Username invalido", JOptionPane.WARNING_MESSAGE);
+					return;
+				} else if(!username.matches("^[a-zA-Z0-9]+$")) {
+					userIdFlag = false;
+					JOptionPane.showMessageDialog(mainPanel, "L'username può contenere solo lettere e numeri.", "Username invalido", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				try
-				{	// Controlli remoti
+
+				// Controlli remoti
+				try{
 					// Verifica se l'username è già in uso
 					if(mainModel.controlloUserid(username))
 					{

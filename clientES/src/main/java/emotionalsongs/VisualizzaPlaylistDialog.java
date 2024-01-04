@@ -10,6 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+/**
+ * Questa classe rappresenta una finestra di dialogo per la visualizzazione delle canzoni di una playlist
+ * e per la successiva visualizzazione delle emozioni associate a una canzone selezionata.
+ *
+ * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
+ * @see MyDialog
+ */
 public class VisualizzaPlaylistDialog implements MyDialog
 {
 	private JDialog finestra;
@@ -18,7 +25,10 @@ public class VisualizzaPlaylistDialog implements MyDialog
 	private JList<Canzone> lista;
 	private JButton confermaButton, annullaButton;
 	private String idPlaylist;
-	
+
+	/**
+	 * Costruisce una nuova finestra di dialogo per la visualizzazione delle canzoni di una playlist.
+	 */
 	public VisualizzaPlaylistDialog()
 	{
 		finestra = new JDialog();
@@ -35,7 +45,10 @@ public class VisualizzaPlaylistDialog implements MyDialog
 		
 		finestra.add(mainPanel);
 	}
-	
+
+	/**
+	 * Inizializza la lista delle canzoni.
+	 */
 	private void initializeList()
 	{
 		lista = new JList<>();
@@ -43,7 +56,10 @@ public class VisualizzaPlaylistDialog implements MyDialog
 		
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 	}
-	
+
+	/**
+	 * Inizializza e gestisce i pulsanti per la visualizzazione delle emozioni o l'annullamento dell'operazione.
+	 */
 	private void initializeButton()
 	{
 		buttonPanel = new JPanel();
@@ -61,12 +77,23 @@ public class VisualizzaPlaylistDialog implements MyDialog
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+
+	/**
+	 * Imposta l'identificatore della playlist.
+	 *
+	 * @param idPlaylist L'identificatore della playlist
+	 */
 	public void setIdPlaylist(String idPlaylist)
 	{
 		this.idPlaylist = idPlaylist;
 	}
-	
+
+	/**
+	 * Imposta il modello principale per la finestra di dialogo
+	 * e gestisce l'azione del pulsante di visualizzazione delle emozioni.
+	 *
+	 * @param mainModel Il modello principale dell'applicazione
+	 */
 	public void setMainModel(MainModel mainModel)
 	{
 		if(idPlaylist == null) return;
@@ -100,7 +127,10 @@ public class VisualizzaPlaylistDialog implements MyDialog
 			}
 		});
 	}
-	
+
+	/**
+	 * Mostra la finestra di dialogo al centro della finestra principale.
+	 */
 	@Override
 	public void draw()
 	{
