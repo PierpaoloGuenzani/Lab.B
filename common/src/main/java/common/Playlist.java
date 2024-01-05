@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * Classe per gestire i brani presenti nelle diverse playlist.
- * @author Guenzani Pierpaolo 738675 VA
+ * La classe {@code Playlist} gestisce i brani presenti nelle diverse playlist.
+ *
  * @author Tropeano Martina 749890 VA
- * @author Paradiso Fabiola 749727 VA
- * @author Cuvato Paolo 748691 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public class Playlist implements Serializable, Comparable<Playlist>
 {
@@ -21,9 +20,11 @@ public class Playlist implements Serializable, Comparable<Playlist>
 	private TreeSet<String> listaCanzoni;
 
 	/**
-	 * Costruisce un oggetto che contiene i dati della playlist.
-	 * @param titolo il titolo da assegnare alla playlist
-	 * @param idPersona l'ID della persona che ha creato la playlist
+	 * Costruisce un oggetto {@code Playlist} contenente i dati della playlist.
+	 *
+	 * @param titolo     il titolo da assegnare alla playlist
+	 * @param idPersona  l'ID della persona che ha creato la playlist
+	 * @throws NullPointerException se il nome della playlist o l'ID della persona sono null
 	 */
 	public Playlist(String titolo, String idPersona)
 	{
@@ -34,7 +35,15 @@ public class Playlist implements Serializable, Comparable<Playlist>
 		idPlaylist = String.format("%1$016x",COUNT); //Long.toHexString(COUNT++);
 		listaCanzoni = new TreeSet<>();
 	}
-	
+
+	/**
+	 * Costruisce un oggetto {@code Playlist} contenente i dati della playlist.
+	 *
+	 * @param titolo     il titolo della playlist
+	 * @param idPersona  l'ID della persona che ha creato la playlist
+	 * @param idPlaylist l'ID specifico della playlist
+	 * @throws NullPointerException se il nome della playlist, l'ID della persona o l'ID della playlist sono null
+	 */
 	public Playlist(String titolo, String idPersona, String idPlaylist)
 	{
 		if(titolo == null) throw new NullPointerException("Il nome della playlist non puo' essere null.");
@@ -44,11 +53,13 @@ public class Playlist implements Serializable, Comparable<Playlist>
 		this.idPlaylist = idPlaylist;
 		listaCanzoni = new TreeSet<>();
 	}
-	
+
 	/**
-	 * Costruisce un oggetto che contiene i dati della playlist.
+	 * Costruisce un oggetto {@code Playlist} contenente i dati della playlist.
+	 *
 	 * @param titolo il titolo della playlist
-	 * @param p la persona che vuole creare la playlist
+	 * @param p      la persona che vuole creare la playlist
+	 * @throws NullPointerException se il nome della playlist o l'oggetto UtenteRegistrato sono null
 	 */
 	public Playlist(String titolo, UtenteRegistrato p)
 	{
@@ -57,6 +68,7 @@ public class Playlist implements Serializable, Comparable<Playlist>
 
 	/**
 	 * Restituisce l'ID della playlist.
+	 *
 	 * @return l'ID della playlist
 	 */
 	public String getIdPlaylist() {
@@ -65,6 +77,7 @@ public class Playlist implements Serializable, Comparable<Playlist>
 
 	/**
 	 * Restituisce l'ID della persona che ha creato la playlist.
+	 *
 	 * @return l'ID della persona
 	 */
 	public String getIdPersona()
@@ -74,6 +87,7 @@ public class Playlist implements Serializable, Comparable<Playlist>
 
 	/**
 	 * Restituisce il titolo della playlist.
+	 *
 	 * @return il nome della playlist
 	 */
 	public String getTitolo()
@@ -83,17 +97,24 @@ public class Playlist implements Serializable, Comparable<Playlist>
 
 	/**
 	 * Restituisce la lista delle canzoni presenti nella playlist.
+	 *
 	 * @return la lista degli ID delle canzoni della playlist
 	 */
 	public List<String> getListaCanzoni()
 	{
 		return new LinkedList<>(listaCanzoni);
 	}
-	
+
+	/**
+	 * Restituiscel'albero ordinato contenente gli ID delle canzoni presenti nella playlist.
+	 *
+	 * @return un oggetto di tipo TreeSet contenente gli ID delle canzoni della playlist
+	 */
 	public TreeSet<String> getAlberoCanzoni() {return listaCanzoni;}
 
 	/**
 	 * Assegna la lista delle canzoni alla playlist.
+	 *
 	 * @param listaCanzoni la lista degli ID delle canzoni da assegnare alla playlist
 	 */
 	public void setListaCanzoni(List<String> listaCanzoni)
@@ -104,6 +125,7 @@ public class Playlist implements Serializable, Comparable<Playlist>
 	
 	/**
 	 * Assegna la lista delle canzoni alla playlist.
+	 *
 	 * @param alberoCanzoni un albero ordinato contenente tutti gli ID delle canzoni
 	 */
 	public void setListaCanzoni(TreeSet<String> alberoCanzoni)
@@ -113,8 +135,11 @@ public class Playlist implements Serializable, Comparable<Playlist>
 	}
 
 	/**
-	 * Aggiunge alla playlist la canzone il cui ID e' passato come argomento.
+	 * Aggiunge alla playlist la canzone il cui ID è passato come argomento.
+	 *
 	 * @param idCanzone la stringa che identifica la canzone da aggiungere
+	 * @return true se la canzone è stata aggiunta con successo, false altrimenti
+	 * @throws NullPointerException se l'ID della canzone è null
 	 */
 	public boolean aggiungiCanzone(String idCanzone)
 	{
@@ -128,7 +153,10 @@ public class Playlist implements Serializable, Comparable<Playlist>
 
 	/**
 	 * Aggiunge alla playlist la canzone passata come argomento.
+	 *
 	 * @param c l'oggetto della classe Canzone da aggiungere
+	 * @return true se la canzone è stata aggiunta con successo, false se la canzone era già presente nella playlist
+	 * @throws NullPointerException se l'oggetto della classe Canzone fornito come argomento è null
 	 */
 	public boolean aggiungiCanzone(Canzone c)
 	{
@@ -137,8 +165,10 @@ public class Playlist implements Serializable, Comparable<Playlist>
 	}
 
 	/**
-	 * Rimuove la canzone il cui ID e' passato come argomento dalla playlist che esegue il metodo.
-	 * @param idCanzone la stringa che identifica la canzone da rimuovere
+	 * Rimuove la canzone identificata dall'ID specificato dalla playlist.
+	 *
+	 * @param idCanzone l'ID della canzone da rimuovere
+	 * @throws NullPointerException se l'ID della canzone è null
 	 */
 	public void rimuoviCanzone(String idCanzone)
 	{
@@ -148,6 +178,7 @@ public class Playlist implements Serializable, Comparable<Playlist>
 
 	/**
 	 * Rimuove la canzone passata come argomento dalla playlist che esegue il metodo.
+	 *
 	 * @param c l'oggetto della classe Canzone da rimuovere
 	 */
 	public void rimuoviCanzone(Canzone c)
@@ -157,7 +188,8 @@ public class Playlist implements Serializable, Comparable<Playlist>
 	}
 
 	/**
-	 * Verifica che nella playlist sia presente la canzone il cui ID e' passato come argomento.
+	 * Verifica che nella playlist sia presente la canzone identificata dall'ID specificato.
+	 *
 	 * @param idCanzone la stringa che identifica la canzone
 	 * @return true se la canzone e' presente nella playlist, false altrimenti
 	 */
@@ -168,6 +200,7 @@ public class Playlist implements Serializable, Comparable<Playlist>
 
 	/**
 	 * Verifica che nella playlist sia presente la canzone passata come argomento.
+	 *
 	 * @param c l'oggetto della classe canzone
 	 * @return true se la canzone e' presente nella playlist, false altrimenti
 	 */
@@ -177,7 +210,8 @@ public class Playlist implements Serializable, Comparable<Playlist>
 	}
 
 	/**
-	 * Permette di visualizzare i dettagli della playlist che esegue il metodo.
+	 * Restituisce una rappresentazione testuale della playlist, mostrando l'ID, il nome e l'ID della persona.
+	 *
 	 * @return una stringa contenente i dettagli della playlist
 	 */
 	@Override
@@ -186,26 +220,43 @@ public class Playlist implements Serializable, Comparable<Playlist>
 	}
 
 	/**
-	 * Assegna l'intero passato come argomento al contatore della classe. Tiene traccia del numero di playlist create dall'ultimo avvio dell'applicazione.
-	 * @param id l'intero da assegnare
+	 * Imposta il contatore statico delle playlist creato dall'ultimo avvio dell'applicazione.
+	 *
+	 * @param id l'intero da assegnare al contatore
 	 */
 	public static void setCount(long id)
 	{
 		COUNT = id;
 	}
-	
-	public static void setCOUNT(String id) {
+
+	/**
+	 * Imposta il contatore statico delle playlist a partire da una rappresentazione stringa esadecimale.
+	 *
+	 * @param id la stringa esadecimale da convertire e assegnare al contatore
+	 */
+	public static void setCount(String id) {
 		COUNT = Long.decode("#"+id);
 	}
-	
+
+	/**
+	 * Confronta questa playlist con un'altra in base all'ID della playlist.
+	 *
+	 * @param playlist la playlist da confrontare
+	 * @return un intero negativo, positivo o pari a zero se questa playlist è rispettivamente minore, maggiore o uguale alla playlist fornita
+	 */
 	@Override
 	public int compareTo(Playlist playlist)
 	{
 		return this.idPlaylist.compareTo(playlist.getIdPlaylist());
 	}
-	
+
+	/**
+	 * Converte un ID numerico in una rappresentazione esadecimale a 16 cifre.
+	 *
+	 * @param id l'ID numerico da convertire
+	 * @return una stringa esadecimale a 16 cifre rappresentante l'ID
+	 */
 	public static String convertitoreIdString(long id) {
-		return String.format("%1$016x",COUNT);
+		return String.format("%1$016x", COUNT);
 	}
-	
 }

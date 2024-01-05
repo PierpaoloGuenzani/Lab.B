@@ -3,11 +3,11 @@ package common;
 import java.io.Serializable;
 
 /**
- * Ogni sua istanza rappresenta una canzone e raccoglie i suoi dettagli.
- * @author Cuvato Paolo 748691 VA
+ * Ogni istanza della classe {@code Canzone} rappresenta una canzone e raccoglie i suoi dettagli, come l'ID univoco,
+ * il titolo, l'artista e l'anno di pubblicazione.
+ *
  * @author Tropeano Martina 749890 VA
  * @author Guenzani Pierpaolo 738675 VA
- * @author Paradiso Fabiola 749727 VA
  */
 public class Canzone implements Serializable, Comparable<Canzone>
 {
@@ -17,11 +17,13 @@ public class Canzone implements Serializable, Comparable<Canzone>
 	private int anno;
 
 	/**
-	 * Permette di creare una nuova istanza della classe Canzone.
-	 * @param id la stringa che identifica univocamente un'istanza
+	 * Costruisce un oggetto {@code Canzone} con l'ID, il titolo, l'artista e l'anno di pubblicazione specificati.
+	 *
+	 * @param id     la stringa che identifica univocamente un'istanza
 	 * @param titolo il titolo dell'istanza
 	 * @param artista l'artista dell'istanza
-	 * @param anno l'anno di pubblicazione dell'istanza
+	 * @param anno   l'anno di pubblicazione dell'istanza
+	 * @throws NullPointerException se uno degli argomenti è nullo
 	 */
 	public Canzone(String id, String titolo, String artista, int anno)
 	{
@@ -38,6 +40,7 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Restituisce l'ID dell'istanza che esegue il metodo.
+	 *
 	 * @return la stringa contenente l'ID della canzone
 	 */
 	public String getId()
@@ -47,6 +50,7 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Restituisce il titolo dell'istanza che esegue il metodo.
+	 *
 	 * @return la stringa contenente il titolo della canzone
 	 */
 	public String getTitolo()
@@ -56,7 +60,9 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Associa il titolo passato come parametro al campo titolo.
+	 *
 	 * @param titolo il titolo della canzone
+	 * @throws NullPointerException se il titolo fornito è nullo
 	 */
 	public void setTitolo(String titolo)
 	{
@@ -66,6 +72,7 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Restituisce la stringa contenente il nome dell'artista.
+	 *
 	 * @return la stringa contenente l'artista della canzone
 	 */
 	public String getArtista()
@@ -75,7 +82,9 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Associa il nome dell'artista passato come parametro al campo artista.
+	 *
 	 * @param artista il nome dell'artista
+	 * @throws NullPointerException se il nome dell'artista fornito è nullo
 	 */
 	public void setArtista(String artista)
 	{
@@ -85,6 +94,7 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Restituisce il valore del campo anno.
+	 *
 	 * @return l'intero corrispondente all'anno di rilascio della canzone
 	 */
 	public int getAnno() {
@@ -93,7 +103,9 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Associa l'anno fornito come parametro al campo anno dell'istanza che esegue il metodo.
+	 *
 	 * @param anno l'anno di rilascio della canzone
+	 * @throws NullPointerException se l'anno fornito è 0
 	 */
 	public void setAnno(int anno) {
 		if (anno == 0) throw new NullPointerException("L'anno non può essere 0.");
@@ -102,11 +114,14 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Confronta la canzone fornita come argomento con quella che esegue il metodo.
-	 * @see String#compareTo(String)
+	 *
 	 * @param canzone la canzone da confrontare
-	 * @return ritorna un intero negativo, positivo o pari a zero se rispettivamente l'oggetto che esegue il metodo e' minore, maggiore o uguale all'oggetto fornito come argomento
-	 * @throws NullPointerException se l'oggetto fornito come argomento e' null
-	 * @throws ClassCastException se il tipo dell'oggetto fornito come argomento non gli permette di essere confrontato con quello che esegue il metodo
+	 * @return ritorna un intero negativo, positivo o pari a zero se rispettivamente l'oggetto che esegue il metodo è
+	 * minore, maggiore o uguale all'oggetto fornito come argomento
+	 * @throws NullPointerException   se l'oggetto fornito come argomento è nullo
+	 * @throws ClassCastException     se il tipo dell'oggetto fornito come argomento non permette di essere confrontato
+	 *                                con quello che esegue il metodo
+	 * @see String#compareTo(String)
 	 */
 	@Override
 	public int compareTo(Canzone canzone) {
@@ -116,6 +131,7 @@ public class Canzone implements Serializable, Comparable<Canzone>
 
 	/**
 	 * Ritorna una stringa contenente tutti i dettagli dell'istanza che esegue il metodo.
+	 *
 	 * @return una stringa contenente i dettagli della canzone
 	 */
 	@Override

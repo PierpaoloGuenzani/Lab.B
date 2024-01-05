@@ -3,11 +3,12 @@ package common;
 import java.io.Serializable;
 
 /**
- * Le sue istanze rappresentano tutto cio' che viene associato all'emozione selezionata.
- * @author Paradiso Fabiola 749727 VA
+ * Le istanze della classe {@code Percezione} rappresentano tutto ciò che è associato all'emozione selezionata.
+ * Ogni percezione contiene informazioni sull'emozione, il punteggio, l'ID della canzone associata e l'ID dell'utente che
+ * ha creato la percezione.
+ *
  * @author Tropeano Martina 749890 VA
  * @author Guenzani Pierpaolo 738675 VA
- * @author Cuvato Paolo 748691 VA
  */
 public class Percezione implements Serializable {
     
@@ -18,11 +19,13 @@ public class Percezione implements Serializable {
     private String note;
 
     /**
-     * Costruisce un oggetto che contiene i dati associati all'emozione.
+     * Costruisce un oggetto {@code Percezione} che contiene i dati associati all'emozione.
+     *
      * @param emozione l'emozione selezionata
-     * @param score il punteggio che rappresenta il grado d'intensita'
-     * @param songId l'ID della canzone associata all'emozione
-     * @param userId l'ID dell'utente a cui e' associata l'emozione
+     * @param score    il punteggio che rappresenta il grado d'intensità
+     * @param songId   l'ID della canzone associata all'emozione
+     * @param userId   l'ID dell'utente a cui è associata l'emozione
+     * @throws NullPointerException se uno degli argomenti è nullo
      */
     public Percezione(Emozione emozione, int score, String songId, String userId) {
         if (emozione == null) throw new NullPointerException("L'emozione non può essere un valore nullo.");
@@ -35,17 +38,19 @@ public class Percezione implements Serializable {
         this.songId = songId;
         this.userId = userId;
     }
-    
+
     /**
      * Restituisce l'ID della canzone associata alla Percezione.
+     *
      * @return l'ID della canzone
      */
     public String getSongId() {
         return songId;
     }
-    
+
     /**
      * Restituisce l'ID dell'utente che ha creato la Percezione.
+     *
      * @return l'ID dell'utente
      */
     public String getUserId() {
@@ -54,6 +59,7 @@ public class Percezione implements Serializable {
     
     /**
      * Restituisce l'emozione corrispondente alla Percezione.
+     *
      * @return l'emozione corrispondente
      * @see Emozione
      */
@@ -62,32 +68,36 @@ public class Percezione implements Serializable {
     }
 
     /**
-     * Restituisce l'intensita' dell'emozione corrispondente alla Percezione.
-     * @return l'intensita' dell'emozione
+     * Restituisce l'intensità dell'emozione corrispondente alla Percezione.
+     *
+     * @return l'intensità dell'emozione
      */
     public int getScore() {
         return score;
     }
-    
+
     /**
      * Aggiunge uno score alla Percezione.
+     *
      * @param score numero da 1 a 5 che definisce l'intensità dell'emozione
      */
     public void setScore(int score)
     {
         this.score = score;
     }
-    
+
     /**
      * Restituisce il commento inserito dall'utente nella Percezione.
+     *
      * @return il commento relativo
      */
     public String getNote() {
         return note;
     }
-    
+
     /**
      * Aggiunge un commento alla Percezione.
+     *
      * @param note il commento da aggiungere
      */
     public void aggiungiNote(String note){

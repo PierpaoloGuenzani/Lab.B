@@ -4,15 +4,12 @@ import java.io.Serializable;
 
 /**
  * Ogni sua istanza rappresenta una persona e raccoglie i dati personali inseriti dall'utente.
+ *
  * @author Tropeano Martina 749890 VA
  * @author Guenzani Pierpaolo 738675 VA
- * @author Paradiso Fabiola 749727 VA
- * @author Cuvato Paolo 748691 VA
  */
 public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistrato>
 {
-	
-	//campi
 	private String nome;
 	private String cognome;
 	private String codiceFiscale;
@@ -22,16 +19,17 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 	private final String userId;
 
 	/**
-	 * Costruisce un oggetto che contiene i dati personali e le credenziali di accesso dell'utente.
-	 * @param nome il nome della persona
-	 * @param cognome il cognome della persona
-	 * @param codiceFiscale il codice fiscale della persona
-	 * @param indirizzoFisico l'indirizzo fisico della persona
-	 * @param email l'indirizzo e-mail della persona
-	 * @param password la password di accesso all'applicazione
-	 * @param userId il nome utente di accesso all'applicazione
+	 * Costruisce un nuovo utente registrato con i dati personali e le credenziali di accesso fornite.
+	 *
+	 * @param nome            Il nome della persona (non può essere vuoto).
+	 * @param cognome         Il cognome della persona (non può essere vuoto).
+	 * @param codiceFiscale   Il codice fiscale della persona (non può essere vuoto).
+	 * @param indirizzoFisico L'indirizzo fisico della persona (non può essere vuoto).
+	 * @param email           L'indirizzo e-mail della persona (non può essere vuoto).
+	 * @param password        La password di accesso all'applicazione (non può essere vuota).
+	 * @param userId          Il nome utente di accesso all'applicazione (non può essere vuoto).
+	 * @throws NullPointerException Se uno dei parametri obbligatori è vuoto.
 	 */
-	//costruttore
 	public UtenteRegistrato(String nome, String cognome, String codiceFiscale, String indirizzoFisico, String email, String password, String userId)
 	{
 		if(nome.equals("")) throw new NullPointerException("Il campo Nome non può essere vuoto.");
@@ -51,9 +49,9 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 		this.userId = userId;
 	}
 
-	//getter
 	/**
 	 * Restituisce il nome della persona rappresentata dall'oggetto.
+	 *
 	 * @return il nome della persona
 	 */
 	public String getNome()
@@ -63,6 +61,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 
 	/**
 	 * Restituisce il cognome della persona rappresentata dall'oggetto.
+	 *
 	 * @return il cognome della persona
 	 */
 	public String getCognome()
@@ -72,6 +71,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 
 	/**
 	 * Restituisce il codice fiscale della persona rappresentata dall'oggetto.
+	 *
 	 * @return il codice fiscale della persona
 	 */
 	public String getCodiceFiscale()
@@ -81,6 +81,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 
 	/**
 	 * Restituisce l'indirizzo fisico della persona rappresentata dall'oggetto.
+	 *
 	 * @return l'indirizzo fisico della persona
 	 */
 	public String getIndirizzoFisico()
@@ -90,6 +91,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 
 	/**
 	 * Restituisce l'indirizzo email della persona rappresentata dall'oggetto.
+	 *
 	 * @return l'indirizzo email della persona
 	 */
 	public String getEmail()
@@ -99,6 +101,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 
 	/**
 	 * Restituisce la password di accesso all'account della persona rappresentata dall'oggetto.
+	 *
 	 * @return la password di accesso della persona
 	 */
 	public String getPassword()
@@ -108,16 +111,18 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 
 	/**
 	 * Restituisce il nome utente della persona rappresentata dall'oggetto.
+	 *
 	 * @return il nome utente della persona
 	 */
 	public String getUserId(){
 		return userId;
 	}
 	
-	//setter
+
 	/**
 	 * Assegna il nome fornito come argomento alla persona rappresentata dall'oggetto.
 	 * Nel caso in cui ne sia gia' dotata, il nuovo nome viene sovrascritto al precedente.
+	 *
 	 * @param nuovoNome il nome da assegnare alla persona
 	 */
 	public void setNome(String nuovoNome)
@@ -129,6 +134,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 	/**
 	 * Assegna il cognome fornito come argomento alla persona rappresentata dall'oggetto.
 	 * Nel caso in cui ne sia gia' dotata, il nuovo cognome viene sovrascritto al precedente.
+	 *
 	 * @param nuovoCognome il cognome da assegnare alla persona
 	 */
 	public void setCognome(String nuovoCognome)
@@ -140,6 +146,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 	/**
 	 * Assegna il codice fiscale fornito come argomento alla persona rappresentata dall'oggetto.
 	 * Nel caso in cui ne sia gia' dotata, il nuovo codice fiscale viene sovrascritto al precedente.
+	 *
 	 * @param nuovoCodiceFiscale il codice fiscale da assegnare alla persona
 	 */
 	public void setCodiceFiscale(String nuovoCodiceFiscale)
@@ -151,6 +158,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 	/**
 	 * Assegna l'indirizzo fornito come argomento alla persona rappresentata dall'oggetto.
 	 * Nel caso in cui ne sia gia' dotata, il nuovo indirizzo viene sovrascritto al precedente.
+	 *
 	 * @param nuovoIndirizzoFisico l'indirizzo da assegnare alla persona
 	 */
 	public void setIndirizzoFisico(String nuovoIndirizzoFisico)
@@ -162,6 +170,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 	/**
 	 * Assegna l'indirizzo email fornito come argomento alla persona rappresentata dall'oggetto.
 	 * Nel caso in cui ne sia gia' dotata, il nuovo indirizzo email viene sovrascritto al precedente.
+	 *
 	 * @param nuovaEmail l'indirizzo email da assegnare alla persona
 	 */
 	public void setEmail(String nuovaEmail)
@@ -173,6 +182,7 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 	/**
 	 * Assegna la password fornita come argomento alla persona rappresentata dall'oggetto.
 	 * Nel caso in cui ne sia gia' dotata, la nuova password viene sovrascritta alla precedente.
+	 *
 	 * @param nuovaPassword la password da assegnare alla persona
 	 */
 	public void setPassword(String nuovaPassword)
@@ -181,14 +191,14 @@ public class UtenteRegistrato implements Serializable, Comparable<UtenteRegistra
 		this.password = nuovaPassword;
 	}
 
-	
-	//metodi
 	/**
-	 * Confronta la persona fornita come argomento con quella che esegue il metodo.
-	 * @param utenteRegistrato la persona da confrontare
-	 * @return ritorna un intero negativo, zero o un intero positivo se rispettivamente l'oggetto che esegue il metodo e' minore, uguale o maggiore dell'oggetto fornito come argomento
-	 * @throws NullPointerException se l'oggetto fornito come argomento e' null
-	 * @throws ClassCastException se il tipo dell'oggetto fornito come argomento non gli permette di essere confrontato con quello che esegue il metodo
+	 * Confronta la persona fornita come argomento con quella rappresentata dall'oggetto in base al loro codice fiscale.
+	 *
+	 * @param utenteRegistrato L'oggetto UtenteRegistrato con cui effettuare il confronto.
+	 * @return Un valore negativo se l'oggetto corrente è "minore" dell'oggetto fornito,
+	 *         zero se sono "uguali" e un valore positivo se l'oggetto corrente è "maggiore".
+	 * @throws IllegalArgumentException Se l'oggetto fornito come argomento è null.
+	 * @throws ClassCastException Se il tipo dell'oggetto fornito come argomento non consente il confronto.
 	 * @see String#compareTo(String)
 	 */
 	@Override
