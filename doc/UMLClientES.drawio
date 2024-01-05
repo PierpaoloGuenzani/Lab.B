@@ -1,0 +1,238 @@
+<mxfile host="app.diagrams.net" modified="2024-01-04T14:10:29.498Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="XN-s8w6-GtBx_pOFhqIw" version="22.1.16" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="3091" dy="1733" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-2" value="NuovaPlaylistDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontFamily=Courier New;fontSize=15;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="130" y="690" width="290" height="230" as="geometry">
+            <mxRectangle x="20" y="220" width="180" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-3" value="- finestra: JDialog&#xa;- mainPanel, buttonPanel, fieldPanel: JPanel&#xa;- confermaButton, annullaButton: JButton&#xa;- nomeLabel: JLabel&#xa;- nomeField: JTextField" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-2" vertex="1">
+          <mxGeometry y="26" width="290" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-4" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-2" vertex="1">
+          <mxGeometry y="140" width="290" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-5" value="+ NuovaPlaylistDialog()&#xa;- inizializeField(): void&#xa;- inizializeButton(): void&#xa;+ setMainModel(MainModel): void&#xa;+ draw(): void&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-2" vertex="1">
+          <mxGeometry y="142" width="290" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-7" value="SelectPlaylistDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontFamily=Courier New;fontSize=15;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="150" y="390" width="280" height="270" as="geometry">
+            <mxRectangle x="320" y="290" width="180" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-8" value="+ VISUALIZZA_PLAYLIST: int = 0&#xa;+ SELEZIONA_PLAYLIST: int = 1&#xa;- finestra: JDialog&#xa;- mainPanel, buttonPanel: JPanel&#xa;- scrollPane: JScrollPane&#xa;- lista: JList&lt;Playlist&gt;&#xa;- confermaButton, annullaButton: JButton&#xa;- idCanzone: String&#xa;- state: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-7" vertex="1">
+          <mxGeometry y="30" width="280" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-9" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-7" vertex="1">
+          <mxGeometry y="164" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-10" value="+ SelectPlaylistDialog(int)&#xa;- inizializeList(): void&#xa;- inizializeButton(): void&#xa;+ setMainModel(MainModel): void&#xa;+ draw(): void&#xa;+ setIdCanzone(String): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-7" vertex="1">
+          <mxGeometry y="172" width="280" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-12" value="ProspettoRiassuntivoDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontFamily=Courier New;fontSize=15;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="550" y="1240" width="380" height="260" as="geometry">
+            <mxRectangle x="640" y="350" width="230" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-13" value="- finestra: JDialog&#xa;- mainPanel, scrollPnale, tablePanel, buttonPanel: JPanel&#xa;- scrollPane: JScrolPane&#xa;- valoreEmozioniLabel: JLabel [ ]&#xa;- note: JTextArea&#xa;- visualizzaNoteButton, nascondiNoteButton, esciButton: JButton&#xa;&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-12" vertex="1">
+          <mxGeometry y="26" width="380" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-14" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-12" vertex="1">
+          <mxGeometry y="150" width="380" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-15" value="+ ProspettoRiassuntivoDialog()&#xa;+ ProspettoRiassuntivoDialog(ProspettoRiassuntivo)&#xa;- inizializeTable(): void&#xa;- inizializeScroll():void&#xa;- inizializeButtons(): void&#xa;+ draw(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-12" vertex="1">
+          <mxGeometry y="158" width="380" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-18" value="NuovoUtenteDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontFamily=Courier New;fontSize=15;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="140" y="1210" width="390" height="300" as="geometry">
+            <mxRectangle x="760" y="20" width="160" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-19" value="+ DEFAULT_FIELD_LENGTH: int = 15&#xa;+ DEFAULT_PANEL_WIDTH: int = 300&#xa;+ DEFAULT_PANEL_HEIGHT: INT = 30 &#xa;- finestra: JDialog&#xa;- nomeLabel, cognomeLabel, codiceFiscaleLabel, indirizzoLabel, emailLabel, userIdLabel, passwordLabel: JLabel&#xa;- confermaButton, annullaButton: JButton&#xa;- mainPanel, buttonPanel, fieldPanel, labelPanel, iconPanel: JPanel&#xa;- mainModel: MainModel&#xa;- codiceFiscaleFlag, emailFlag, userIdFlag: boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-18" vertex="1">
+          <mxGeometry y="26" width="390" height="164" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-20" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-18" vertex="1">
+          <mxGeometry y="190" width="390" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-21" value="+ nuovoUtenteDialog()&#xa;- inizializeField(): void&#xa;- inizializeButton(): void&#xa;+ setMainModel(MainModel): oid&#xa;+ setVerifier(): void&#xa;+ draw(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-18" vertex="1">
+          <mxGeometry y="198" width="390" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-23" value="ServerInternetProtocolAddressDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontFamily=Courier New;fontSize=15;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="130" y="950" width="350" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-24" value="- finestra: JDialog&#xa;- serverLabel: JLabel&#xa;- serverIPField: JTextField&#xa;- connettiButton, annullaButton: JButton&#xa;- buttonPanel, fieldPanel, mainPanel: JPanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-23" vertex="1">
+          <mxGeometry y="26" width="350" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-25" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-23" vertex="1">
+          <mxGeometry y="110" width="350" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="2Nw5YUzq0xMajA2uPObF-26" value="+ ServerInternetProtocolAddressDialog()&#xa;- inizializeField(): void&#xa;- inizializeButton(): void&#xa;+ draw(): void&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="2Nw5YUzq0xMajA2uPObF-23" vertex="1">
+          <mxGeometry y="120" width="350" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-8" value="VisualizzaPlaylistDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontSize=15;fontFamily=Courier New;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="1410" y="750" width="330" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-2" value="- finestra: JDialog&#xa;- buttonPanel, mainPanel: JPanel&#xa;- scrollPane: JScrollPane&#xa;- lista: JList&lt;Canzone&gt;&#xa;- serverIPField: JTextField&#xa;- confermaButton, annullaButton: JButton&#xa;- idPlaylist: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-8" vertex="1">
+          <mxGeometry y="26" width="330" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-10" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontSize=12;fontFamily=Courier New;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-8" vertex="1">
+          <mxGeometry y="140" width="330" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-4" value="+ VisualizzaPlaylistDialog()&#xa;- inizializeList(): void&#xa;- inizializeButton(): void&#xa;+ setIdPlaylist(String): void&#xa;+ setMainModel(MainModel): void&#xa;+ draw(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-8" vertex="1">
+          <mxGeometry y="150" width="330" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-12" value="AggiungiCanzoneDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontSize=15;fontFamily=Courier New;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="1390" y="1010" width="330" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-13" value="- idCanzone: String&#xa;- finestra: JDialog&#xa;- buttonPanel, mainPanel: JPanel&#xa;- confermaButton, annullaButton: JButton&#xa;- playlistJList: JList&lt;Playlist&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-12" vertex="1">
+          <mxGeometry y="26" width="330" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-14" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontSize=12;fontFamily=Courier New;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-12" vertex="1">
+          <mxGeometry y="110" width="330" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-15" value="+ AggiungiCanzoneDialog()&#xa;+ AggiungiCanzoneDialog(String)&#xa;- inizializeMain(): void&#xa;- inizializeButton(): void&#xa;+ setMainModel(MainModel): void&#xa;+ draw(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-12" vertex="1">
+          <mxGeometry y="120" width="330" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-16" value="AggiungiEmozioneDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontSize=15;fontFamily=Courier New;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="1330" y="1260" width="340" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-17" value="- songId: String&#xa;- finestra: JDialog&#xa;- comboBoxes: JComboBoxes[]&#xa;- textAreas: JTextArea[]&#xa;- confermaButton, annullaButton: JButton&#xa;- mainPanel, insidePanel, buttonPanel: JPanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-16" vertex="1">
+          <mxGeometry y="26" width="340" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-18" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontSize=12;fontFamily=Courier New;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-16" vertex="1">
+          <mxGeometry y="120" width="340" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-19" value="+ AggiungiEmozioneDialog()&#xa;- initializeScrollPanel(): void&#xa;- inizializeButton(): void&#xa;+ setSongId(String): void&#xa;+ setMainModel(MainModel): void&#xa;+ draw(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-16" vertex="1">
+          <mxGeometry y="130" width="340" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-20" value="AccediDialog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;fontSize=15;fontFamily=Courier New;fontColor=#000000;labelBackgroundColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="959" y="1230" width="340" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-21" value="+ DEFAULT_FIELD_LENGTH: int = 15&#xa;- finestra: JDialog&#xa;- mainPanel, fieldPanel, buttonPanel, userPanel, passwordPanel: JPanel&#xa;~ userField: JTextField&#xa;~ passwordField: JPasswordField&#xa;~ accediButton: JButton&#xa;- annullaButton: JButton&#xa;- userLabel, passwordLabel: JLabel " style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-20" vertex="1">
+          <mxGeometry y="26" width="340" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-22" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontSize=12;fontFamily=Courier New;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-20" vertex="1">
+          <mxGeometry y="170" width="340" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="hHCaS2tHlldumXdxtXcU-23" value="+ AccediDialog()&#xa;+ AccediDialog(MainView mainView,MainModel mainModel)&#xa;- initializeField(): void&#xa;- inizializeButtons(): void&#xa;+ draw(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;fontFamily=Courier New;fontSize=12;fontColor=#000000;labelBackgroundColor=none;" parent="hHCaS2tHlldumXdxtXcU-20" vertex="1">
+          <mxGeometry y="180" width="340" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-5" value="«interface»&lt;br style=&quot;border-color: var(--border-color); font-size: 15px;&quot;&gt;&lt;b style=&quot;border-color: var(--border-color); font-size: 15px;&quot;&gt;MyDialog&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=43;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontSize=15;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="900" y="580" width="150" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-6" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;+ draw(): void&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;fontSize=15;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-5">
+          <mxGeometry y="43" width="150" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-10" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2Nw5YUzq0xMajA2uPObF-3" target="xtLmHWIPwRUN4mTOFkrs-5">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="980" as="sourcePoint" />
+            <mxPoint x="1120" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-11" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="xtLmHWIPwRUN4mTOFkrs-6">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="480" y="993" as="sourcePoint" />
+            <mxPoint x="830" y="920" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-12" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.937;exitY=-0.011;exitDx=0;exitDy=0;entryX=0.136;entryY=1.09;entryDx=0;entryDy=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2Nw5YUzq0xMajA2uPObF-18" target="xtLmHWIPwRUN4mTOFkrs-6">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="793" as="sourcePoint" />
+            <mxPoint x="790" y="720" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-13" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.367;entryY=1.054;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2Nw5YUzq0xMajA2uPObF-12" target="xtLmHWIPwRUN4mTOFkrs-6">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="450" y="803" as="sourcePoint" />
+            <mxPoint x="800" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-14" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.993;entryY=1.054;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hHCaS2tHlldumXdxtXcU-13" target="xtLmHWIPwRUN4mTOFkrs-6">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="460" y="813" as="sourcePoint" />
+            <mxPoint x="990" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-15" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2Nw5YUzq0xMajA2uPObF-10" target="xtLmHWIPwRUN4mTOFkrs-5">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="830" y="493" as="sourcePoint" />
+            <mxPoint x="850" y="830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-16" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.002;entryY=0.099;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hHCaS2tHlldumXdxtXcU-2" target="xtLmHWIPwRUN4mTOFkrs-6">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="480" y="833" as="sourcePoint" />
+            <mxPoint x="990" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-18" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.589;entryY=1.09;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hHCaS2tHlldumXdxtXcU-20" target="xtLmHWIPwRUN4mTOFkrs-6">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="500" y="853" as="sourcePoint" />
+            <mxPoint x="850" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-20" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.791;entryY=1.108;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="xtLmHWIPwRUN4mTOFkrs-6">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1370" y="1260" as="sourcePoint" />
+            <mxPoint x="1320" y="826" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-25" value="&lt;font style=&quot;font-size: 15px;&quot; face=&quot;Courier New&quot;&gt;MainModel&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="2640" y="550" width="420" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-26" value="&lt;div style=&quot;&quot;&gt;- stub: EmotionalSongsInterface&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- canzoneJlist: DefaultListModel&amp;lt;Canzone&amp;gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- userId: String&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- isLogged: boolean&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-25">
+          <mxGeometry y="26" width="420" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-27" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-25">
+          <mxGeometry y="90" width="420" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-28" value="+ MainModel()&lt;br&gt;+ setStub(String): void&lt;br&gt;+ cercaBranoMusicale(String): void&lt;br&gt;+ cercaBranoMusicale(String, int): void&lt;br&gt;+ cercaBraniPerAutore(String): void&lt;br&gt;+ visualizzaEmozioni(String): void&lt;br&gt;+ Registrazione(UtenteRegistrato): boolean&lt;br&gt;+ accedi(String, String): boolean&lt;br&gt;+ logOut(): void&lt;br&gt;+ RegistraPlaylist(String): boolean&lt;br&gt;+ aggiungiCanzone(String, String): boolean&lt;br&gt;+ inserisciEmozioni(Percezione): boolean&lt;br&gt;+ aggiungiCompilation(List&amp;lt;Canzone&amp;gt;, String):boolean&lt;br&gt;+ canzoniDaIdPlaylist(String): DefaultListModel&amp;lt;Canzone&amp;gt;&lt;br&gt;+ cercaPlaylistUtente(): DefaultListModel&amp;lt;Playlist&amp;gt;&lt;br&gt;+ controlloUserId(String): boolean&lt;br&gt;+ getCanzoneJList(): DefaultListModel&amp;lt;Canzone&amp;gt;&lt;br&gt;+ getUserId(): String&lt;br&gt;+ controllaCanzonePersona(String):boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-25">
+          <mxGeometry y="98" width="420" height="292" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-29" value="&lt;font style=&quot;font-size: 15px;&quot; face=&quot;Courier New&quot;&gt;MainView&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1980" y="1010" width="600" height="450" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-30" value="- DEFAULT_WIDTH: int = 600&#xa;- DEFAULT_HEIGHT: int = 400&#xa;- finestra: JFrame&#xa;- mainPanel, searchPanel, buttonPanel, listPanel: JPanel&#xa;- menuBar: JMenuBar&#xa;- playlistMenu, accountMenu, helpMenu: JMenu&#xa;- buttonGroup: ButtonGroup&#xa;~ finestra: JFrame&#xa;~ nuovaPlaylistItem, visualizzaPlaylistItem, nuovoAccountItem, helpItem: JMenuItem&#xa;~ searchField, annoField: JTextField&#xa;~ titoloRadioButton, autoreRadioButton, autoreEAnnoRadioButton: JRadioButton&#xa;~ canzoneJList: JList&lt;Canzone&gt;&#xa;~ accediButton, logOutButton, ricercaButton, visualizzaEmozioniButton, inserisciEmozioneButton: JButton&#xa;&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Courier New;whiteSpace=wrap;spacing=0;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-29">
+          <mxGeometry y="26" width="600" height="214" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-31" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-29">
+          <mxGeometry y="240" width="600" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-32" value="+ MainView()&lt;br&gt;- initializeGUI&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;/span&gt;&lt;br&gt;- initializeMenuBar&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;/span&gt;&lt;br&gt;-&amp;nbsp; initializeSearchBar&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;/span&gt;&lt;br&gt;- initializeList&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;/span&gt;&lt;br&gt;- initializeButton&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;br&gt;&lt;/span&gt;- update(JPanel): void&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;+&amp;nbsp;setLoggedIn&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;/span&gt;&lt;br&gt;+&amp;nbsp;setLoggedOut&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;/span&gt;&lt;br&gt;+&amp;nbsp;setDoubleBar&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;/span&gt;&lt;br&gt;+&amp;nbsp;setMonoBar&lt;span style=&quot;background-color: initial;&quot;&gt;(): void&lt;/span&gt;&lt;br&gt;+&amp;nbsp;setJListModel(ListModel&lt;span style=&quot;background-color: initial;&quot;&gt;): void&lt;/span&gt;&lt;br&gt;+&amp;nbsp;setMainController(MainController&lt;span style=&quot;background-color: initial;&quot;&gt;):void&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-29">
+          <mxGeometry y="248" width="600" height="202" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-36" value="&lt;font style=&quot;font-size: 15px;&quot; face=&quot;Courier New&quot;&gt;MainController&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="2560" y="250" width="280" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-37" value="- mainView: MainView&#xa;- mainModel: MainModel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Courier New;whiteSpace=wrap;spacing=0;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-36">
+          <mxGeometry y="26" width="280" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-38" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-36">
+          <mxGeometry y="60" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-39" value="+ MainController()&lt;br&gt;+ setMainView(MainView&lt;span style=&quot;background-color: initial;&quot;&gt;): void&lt;/span&gt;&lt;br&gt;+ setMainModel(MainModel&lt;span style=&quot;background-color: initial;&quot;&gt;): void&lt;br&gt;&lt;/span&gt;+&amp;nbsp;actionPerformed(ActionEvent): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-36">
+          <mxGeometry y="68" width="280" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-46" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;EmotionalSongClient&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1930" y="450" width="290" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-47" value="~ IPAddress: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-46">
+          <mxGeometry y="26" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-48" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-46">
+          <mxGeometry y="52" width="290" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-49" value="+ EmotionalSongClient()&lt;br&gt;+ main(String): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="xtLmHWIPwRUN4mTOFkrs-46">
+          <mxGeometry y="60" width="290" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xtLmHWIPwRUN4mTOFkrs-79" value="&lt;font style=&quot;font-size: 50px;&quot;&gt;ClientES&lt;/font&gt;" style="shape=folder;fontStyle=1;tabWidth=80;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1580" y="170" width="360" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
