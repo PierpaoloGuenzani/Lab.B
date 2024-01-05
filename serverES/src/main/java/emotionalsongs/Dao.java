@@ -4,9 +4,9 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Questa è un'interfaccia che definisce un set di operazioni di accesso ai dati generiche.
+ * Questa interfaccia definisce un set di operazioni generiche per l'accesso ai dati.
  * L'obiettivo di un'interfaccia Dao (Data Access Object) è fornire un'astrazione per l'accesso ai dati,
- * consentendo di separare la logica di accesso ai dati dalla logica di business dell'applicazione.
+ * permettendo la separazione della logica di accesso ai dati dalla logica di business dell'applicazione.
  *
  * @param <T> Il tipo generico che rappresenta l'entità dei dati trattati da questo Dao.
  */

@@ -2,22 +2,30 @@ package emotionalsongs;
 
 import common.UtenteRegistrato;
 /**
- * Classe che permette di controllare l'accesso all'applicazione.
- * @author Guenzani Pierpaolo 738675 VA
- * @author Tropeano Martina 749890 VA
- * @author Paradiso Fabiola 749727 VA
- * @author Cuvato Paolo 748691 VA
+ * Gestisce l'accesso degli utenti all'applicazione "EmotionalSong".
+ * La classe mantiene traccia dello stato di accesso degli utenti, garantendo che ci sia al massimo un utente autenticato
+ * alla volta. Utilizza un approccio singleton, permettendo l'accesso a un'istanza globale di tipo Authentication
+ * solo se un utente ha effettuato il login.
+ * Oltre a gestire l'accesso, fornisce metodi per ottenere informazioni sull'utente autenticato, effettuare il logout
+ * e verificare se c'è attualmente un utente autenticato.
  */
 public class Authentication {
 
     private static UtenteRegistrato loggedAs;
     private static Authentication authentication= new Authentication();
 
-    private Authentication() {}
-    
     /**
-     * Ritorna un oggetto globale di tipo Authentication se una UtenteRegistrato ha eseguito il login
-     * @return Authentication che riferisce a se stessi
+     * Costruisce un'istanza di Authentication.
+     * È dichiarato privato per garantire che l'istanza di Authentication possa essere creata solo all'interno
+     * della stessa classe. Questo contribuisce a mantenere un approccio singleton, dove esiste una sola istanza
+     * di Authentication nell'applicazione.
+     */
+    private Authentication() {}
+
+    /**
+     * Restituisce un'istanza globale di tipo Authentication se un UtenteRegistrato ha effettuato il login.
+     *
+     * @return un'istanza di Authentication che riferisce a se stessa o null se nessun utente è autenticato
      */
     public static Authentication getAuthentication()
     {
@@ -26,19 +34,21 @@ public class Authentication {
         else
             return authentication;
     }
-    
+
     /**
-     * Setta la UtenteRegistrato che ha effettuato l'accesso
-     * @param UtenteRegistrato che ha passato il test dell login
+     * Imposta l'UtenteRegistrato che ha effettuato l'accesso.
+     *
+     * @param UtenteRegistrato l'utente che ha superato l'autenticazione
      */
     public static void setAuthentication(UtenteRegistrato UtenteRegistrato)
     {
         loggedAs = UtenteRegistrato;
     }
-    
+
     /**
-     * Restituisce la UtenteRegistrato che ha effettuato l'accesso
-     * @return {@link UtenteRegistrato} se la UtenteRegistrato ha effettuato l'accesso, {@code null} altrimenti
+     * Restituisce l'UtenteRegistrato che ha effettuato l'accesso.
+     *
+     * @return l'UtenteRegistrato che ha effettuato l'accesso, null altrimenti
      */
     public static UtenteRegistrato getLoggedAs()
     {
@@ -49,7 +59,7 @@ public class Authentication {
     }
 
     /**
-     * Permette di effettuare il logout dall'applicazione.
+     * Effettua il logout dall'applicazione.
      */
     public static void logOut()
     {
@@ -57,8 +67,9 @@ public class Authentication {
     }
 
     /**
-     * Permette di controllare se qualcuno ha già effettuato l'accesso all'applicazione.
-     * @return True se qualcuno ha già effettuato l'accesso. False se nessuno è connesso.
+     * Verifica se un utente ha effettuato l'accesso all'applicazione.
+     *
+     * @return true se un utente ha effettuato l'accesso, false altrimenti
      */
     public static boolean isLogged()
     {

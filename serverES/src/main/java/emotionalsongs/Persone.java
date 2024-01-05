@@ -5,46 +5,49 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Permette di controllare la situazione degli utenti gia' registrati.
- * @author Tropeano Martina 749890 VA
- * @author Guenzani Pierpaolo 738675 VA
- * @author Paradiso Fabiola 749727 VA
- * @author Cuvato Paolo 748691 VA
+ * Gestisce la registrazione e l'accesso degli utenti all'applicazione.
  */
 public class Persone
 {
-	private static final String dbFile = "data/UtentiRegistrati.dati.txt";
+	//private static final String dbFile = "data/UtentiRegistrati.dati.txt";
 	private Dao<UtenteRegistrato> db;
 	private ConcurrentHashMap<String,UtenteRegistrato> mappa;
 	private static Persone instance;
 
-	//costruttore
 	/**
-	 * Crea un oggetto che raccoglie i dati degli utenti presenti nel database e ne permette la gestione.
+	 * Crea un oggetto per la gestione degli utenti registrati nel database.
+	 *
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
-	private Persone() throws IOException
-	{}
-	
+	private Persone() throws IOException {}
+
+	/**
+	 * Ottiene l'istanza singleton della classe `Persone`.
+	 *
+	 * @return un'istanza di `Persone`
+	 * @throws IOException se si verifica un errore di Input/Output relativo al database
+	 */
 	public static Persone getInstance() throws IOException
 	{
 		if(instance == null)
 			instance = new Persone();
 		return instance;
 	}
-	
+
 	/**
-	 * Restituisce il database che contiene tutti gli utenti registrati.
+	 * Restituisce il database contenente tutti gli utenti registrati.
+	 *
 	 * @return un'interfaccia del database
 	 */
 	public Dao<UtenteRegistrato> getDB()
 	{
 		return db;
 	}
-	
-	
+
+
 	/**
-	 * Assegna un database.
+	 * Imposta un database per la gestione degli utenti registrati.
+	 *
 	 * @param DB l'implementazione dell'interfaccia DB da assegnare
 	 */
 	public void setDB(Dao<UtenteRegistrato> DB)
@@ -52,12 +55,12 @@ public class Persone
 		this.db = DB;
 		update();
 	}
-	
-	//metodi
+
 	/**
 	 * Effettua la registrazione di un nuovo utente all'applicazione.
-	 * @param newUtenteRegistrato la UtenteRegistrato da registrare
-	 * @return true se la registrazione e' andata a buon fine, false altrimenti
+	 *
+	 * @param newUtenteRegistrato l'utente da registrare
+	 * @return true se la registrazione è andata a buon fine, false altrimenti
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
 	public boolean Registrazione(UtenteRegistrato newUtenteRegistrato) throws IOException
@@ -72,10 +75,11 @@ public class Persone
 	}
 
 	/**
-	 * Permette ad un utente di accedere all'applicazione con i dati inseriti in fase di registrazione.
-	 * @param userId l'userId scelto in fase di registrazione
+	 * Permette a un utente di accedere all'applicazione con le credenziali inserite in fase di registrazione.
+	 *
+	 * @param userId   l'userId scelto in fase di registrazione
 	 * @param password la password scelta in fase di registrazione
-	 * @return true se l'accesso e' andato a buon fine, false altrimenti
+	 * @return true se l'accesso è andato a buon fine, false altrimenti
 	 */
 	public boolean accedi(String userId, String password)
 	{
@@ -89,17 +93,23 @@ public class Persone
 		}
 		return false;  //accesso non riuscito
 	}
-	
+
 	/**
-	 * Controlla che un userId non sia già in uso.
+	 * Controlla se un userId è già in uso.
+	 *
 	 * @param userId l'ID dell'utente
-	 * @return true se e' gia' presente, false altrimenti
+	 * @return true se è già presente, false altrimenti
 	 */
 	public boolean contains(String userId)
 	{
 		return mappa.containsKey(userId);
 	}
-	
+
+	/**
+	 * Aggiorna la mappa degli utenti registrati con i dati dal database.
+	 *
+	 * @return true se l'aggiornamento è avvenuto con successo, false altrimenti
+	 */
 	public boolean update()
 	{
 		if(db == null)

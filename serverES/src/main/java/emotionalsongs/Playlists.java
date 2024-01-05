@@ -9,25 +9,31 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Classe per la gestione e il salvataggio delle playlist.
- * @author Guenzani Pierpaolo 738675 VA
- * @author Tropeano Martina 749890 VA
- * @author Paradiso Fabiola 749727 VA
- * @author Cuvato Paolo 748691 VA
+ * Questa classe offre funzionalità per manipolare le playlist, inclusa la ricerca, l'aggiunta e il controllo delle canzoni.
+ * @throws IOException nel caso di errori di lettura dal database.
  */
 public class Playlists
 {
-	private static final String dbFile = "data/Playlist.dati.txt";
+	//private static final String dbFile = "data/Playlist.dati.txt";
 	private PlaylistDAOInterface db;
 	private ConcurrentHashMap<String ,Playlist> mappa;
 	private static Playlists instance;
 
 	/**
-	 * Costruisce un oggetto che contiene le playlist presenti nel database.
-	 * @throws IOException nel caso di errori di lettura dal database
+	 * Costruttore privato per garantire un'unica istanza della classe Playlists (Singleton).
+	 * Il costruttore è vuoto poiché tutte le inizializzazioni sono gestite nel blocco statico o dai metodi della classe.
+	 * È chiamato solo una volta dal metodo getInstance().
+	 * @throws IOException nel caso di errori di lettura dal database.
 	 */
 	private Playlists() throws IOException
 	{}
-	
+
+	/**
+	 * Restituisce l'istanza singleton della classe Playlists.
+	 * Se l'istanza non è ancora creata, ne crea una nuova.
+	 * @return un'istanza di Playlists.
+	 * @throws IOException nel caso di errori di lettura dal database.
+	 */
 	public static Playlists getInstance() throws IOException
 	{
 		if(instance == null)
@@ -37,7 +43,7 @@ public class Playlists
 
 	/**
 	 * Restituisce il database che contiene tutte le playlist.
-	 * @return un'interfaccia del database
+	 * @return un'interfaccia del database.
 	 */
 	public PlaylistDAOInterface getDB()
 	{
@@ -45,7 +51,7 @@ public class Playlists
 	}
 
 	/**
-	 * Assegna un database.
+	 * Imposta il database delle playlist.
 	 * @param db l'implementazione dell'interfaccia DB da assegnare
 	 */
 	public void setDB(PlaylistDAOInterface db)
@@ -56,9 +62,9 @@ public class Playlists
 
 	/**
 	 * Verifica che tra le playlist create da un utente sia presente un determinato brano.
-	 * @param idPersona l'ID dell'utente che ha creato la playlist
-	 * @param idCanzone l'ID della canzone da cercare
-	 * @return true se la canzone e' presente in almeno una delle playlist dell'utente, false altrimenti
+	 * @param idPersona l'ID dell'utente che ha creato la playlist.
+	 * @param idCanzone l'ID della canzone da cercare.
+	 * @return true se la canzone è presente in almeno una delle playlist dell'utente, false altrimenti.
 	 */
 	public boolean controllaCanzonePersona(String idPersona, String idCanzone)
 	{
@@ -132,7 +138,7 @@ public class Playlists
 	}
 
 	/**
-	 * Permette di visualizzare l'elenco delle playlist associate ad una persona.
+	 * Permette di visualizzare l'elenco delle playlist associate a una persona.
 	 * @param IdPersona l'ID della persona che ha creato le playlist
 	 * @return la lista delle playlist corrispondenti o la lista vuota nel caso in cui non gli sia associata nessuna
 	 */
@@ -162,7 +168,11 @@ public class Playlists
 		db.save(playlist);
 		return true;
 	}
-	
+
+	/**
+	 * Aggiorna la mappa delle playlist con i dati dal database.
+	 * @return True se l'operazione di aggiornamento è riuscita, altrimenti False.
+	 */
 	public boolean update()
 	{
 		if(db == null)

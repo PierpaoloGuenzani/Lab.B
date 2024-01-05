@@ -8,23 +8,32 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Classe per la gestione delle percezioni.
- * @author Paradiso Fabiola 749727 VA
- * @author Tropeano Martina 749890 VA
- * @author Guenzani Pierpaolo 738675 VA
- * @author Cuvato Paolo 748691 VA
+ * Questa classe gestisce le operazioni relative alle percezioni musicali, fornendo funzionalità di ricerca,
+ * aggiornamento e accesso ai dati associati alle emozioni degli utenti.
+ * @throws IOException se si verifica un errore di Input/Output relativo al database.
  */
 public class Percezioni {
-    private static final String dbFile = "data/Emozioni.dati.txt";
+    //private static final String dbFile = "data/Emozioni.dati.txt";
     private PerceptionDAOInterface db;
     private ConcurrentHashMap<String, List<Percezione>> mappa;
     private static Percezioni instance;
 
     /**
-     * Crea un oggetto che raccoglie in una lista le percezioni presenti nel database e ne permette la gestione.
-     * @throws IOException se si verifica un errore di Input/Output relativo al database
+     * Costruttore privato per garantire un'unica istanza della classe.
+     * Il costruttore è vuoto poiché tutte le inizializzazioni sono gestite nel blocco statico o dai metodi della classe.
+     * È chiamato solo una volta dal metodo getInstance().
+     * @throws IOException se si verifica un errore di Input/Output relativo al database.
      */
     private Percezioni() throws IOException {}
-    
+
+    /**
+     * Restituisce l'istanza singleton della classe Percezioni.
+     * Se l'istanza non è ancora creata, ne crea una nuova.
+     * @return un'istanza di Percezioni.
+     * @throws IOException se si verifica un errore di Input/Output relativo al database.
+     */
+    // Il costruttore Percezioni() è coinvolto nell'inizializzazione dell'oggetto,
+    // ma la creazione effettiva dell'istanza è controllata e regolata dal metodo getInstance()
     public static Percezioni getInstance() throws IOException
     {
         if(instance == null)
@@ -34,15 +43,15 @@ public class Percezioni {
 
     /**
      * Restituisce il database che contiene tutte le percezioni.
-     * @return un'interfaccia del database
+     * @return un'interfaccia del database.
      */
     public PerceptionDAOInterface getDb() {
         return db;
     }
 
     /**
-     * Assegna un database.
-     * @param db l'implementazione dell'interfaccia DB da assegnare
+     * Imposta il database delle percezioni.
+     * @param db l'implementazione dell'interfaccia DB da assegnare.
      */
     public void setDb(PerceptionDAOInterface db) {
         this.db = db;
@@ -50,9 +59,9 @@ public class Percezioni {
     }
 
     /**
-     * Ricerca nel database le emozioni associate al brano.
-     * @param idCanzone la stringa che identifica la canzone
-     * @return la lista di emozioni associate alla canzone
+     * Ricerca nel database le percezioni associate a una canzone.
+     * @param idCanzone l'ID della canzone.
+     * @return la lista di percezioni associate alla canzone o una lista vuota se non sono presenti.
      */
     public List<Percezione> cercaEmozioni(String idCanzone) {
         if(mappa.containsKey(idCanzone))
@@ -61,9 +70,9 @@ public class Percezioni {
     }
 
     /**
-     * Aggiunge e salva una nuova percezione.
-     * @param newPercezione la Percezione da aggiungere
-     * @throws IOException se si verifica un errore di Input/Output relativo al database
+     * Aggiunge e salva una nuova percezione nel database.
+     * @param newPercezione la percezione da aggiungere.
+     * @throws IOException se si verifica un errore di Input/Output relativo al database.
      */
     public void add(Percezione newPercezione) throws IOException {
         if(mappa.containsKey(newPercezione.getSongId()))
@@ -81,10 +90,10 @@ public class Percezioni {
     }
 
     /**
-     * Controlla che un utente non abbia gia' inserito le proprie emozioni per una canzone.
-     * @param idPersona l'ID dell'utente
-     * @param idCanzone l'ID della canzone
-     * @return true se un utente ha gia' inserito emozioni, false altrimenti
+     * Controlla se un utente ha già inserito le proprie emozioni per una canzone.
+     * @param idPersona l'ID dell'utente.
+     * @param idCanzone l'ID della canzone.
+     * @return true se l'utente ha già inserito emozioni, false altrimenti.
      */
     public boolean controllaEmozioniPersona(String idPersona, String idCanzone){
         List<Percezione> listaPercezioni = mappa.get(idCanzone);
@@ -99,7 +108,11 @@ public class Percezioni {
         }
         return false;
     }
-    
+
+    /**
+     * Aggiorna la mappa delle percezioni con i dati dal database.
+     * @return True se l'operazione di aggiornamento è riuscita, altrimenti False.
+     */
     public boolean update()
     {
         if(db == null)
