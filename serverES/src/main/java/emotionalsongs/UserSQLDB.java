@@ -13,10 +13,28 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UserSQLDB implements Dao<UtenteRegistrato>
 {
 	private Connection serverSQL;
+	private PreparedStatement select;
+	private PreparedStatement selectAll;
+	private PreparedStatement insert;
+	private PreparedStatement update;
+	private PreparedStatement delete;
 	
-	public UserSQLDB(Connection serverSQL)
+	
+	public UserSQLDB(Connection serverSQL) throws SQLException
 	{
 		this.serverSQL = serverSQL;
+		synchronized (this.serverSQL)
+		{
+			select = serverSQL.prepareStatement("SELECT * FROM utentiRegistrati WHERE userid = ?");
+			selectAll = serverSQL.prepareStatement("SELECT * FROM utentiRegistrati");
+			insert = serverSQL.prepareStatement("INSERT INTO utentiRegistrati(" +
+					"userid, password, email, codiceFiscale, nome, cognome, indirizzo)" +
+					"VALUES (?, ?, ?, ?, ?, ?, ?)");
+			update = serverSQL.prepareStatement("UPDATE utentiRegistrati SET " +
+					"password = ?, email = ?, codiceFiscale = ?, nome = ?, cognome = ?, indirizzo = ?" +
+					"WHERE userid = ?");
+			delete = serverSQL.prepareStatement("DELETE FROM utentiRegistrati WHERE userid = ?");
+		}
 	}
 	
 	@Override
@@ -26,11 +44,12 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 			return Optional.empty();
 		try
 		{
-			PreparedStatement select = serverSQL.prepareStatement(
-					"SELECT * FROM utentiRegistrati" +
-						"WHERE userid = ?");
-			select.setString(1, id);
-			ResultSet resultSet = select.executeQuery();
+			ResultSet resultSet;
+			synchronized (serverSQL)
+			{
+				select.setString(1, id);
+				resultSet = select.executeQuery();
+			}
 			if (resultSet.next())
 			{
 				UtenteRegistrato u = new UtenteRegistrato(
@@ -56,9 +75,11 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 		ConcurrentHashMap<String , UtenteRegistrato> albero = new ConcurrentHashMap<String , UtenteRegistrato>();
 		try
 		{
-			PreparedStatement selectAll = serverSQL.prepareStatement(
-					"SELECT * FROM utentiRegistrati");
-			ResultSet resultSet = selectAll.executeQuery();
+			ResultSet resultSet;
+			synchronized (serverSQL)
+			{
+				resultSet = selectAll.executeQuery();
+			}
 			while(resultSet.next())
 			{
 				UtenteRegistrato u = new UtenteRegistrato(
@@ -83,18 +104,17 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 			return false;
 		try
 		{
-			PreparedStatement insert = serverSQL.prepareStatement(
-					"INSERT INTO utentiRegistrati(" +
-						"userid, password, email, codiceFiscale, nome, cognome, indirizzo)" +
-						"VALUES (?, ?, ?, ?, ?, ?, ?)");
-			insert.setString(1, utenteRegistrato.getUserId());
-			insert.setString(2, utenteRegistrato.getPassword());
-			insert.setString(3, utenteRegistrato.getEmail());
-			insert.setString(4, utenteRegistrato.getCodiceFiscale());
-			insert.setString(5, utenteRegistrato.getNome());
-			insert.setString(6, utenteRegistrato.getCognome());
-			insert.setString(7, utenteRegistrato.getIndirizzoFisico());
-			insert.executeUpdate();
+			synchronized (serverSQL)
+			{
+				insert.setString(1, utenteRegistrato.getUserId());
+				insert.setString(2, utenteRegistrato.getPassword());
+				insert.setString(3, utenteRegistrato.getEmail());
+				insert.setString(4, utenteRegistrato.getCodiceFiscale());
+				insert.setString(5, utenteRegistrato.getNome());
+				insert.setString(6, utenteRegistrato.getCognome());
+				insert.setString(7, utenteRegistrato.getIndirizzoFisico());
+				insert.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -112,17 +132,17 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 			return false;
 		try
 		{
-			PreparedStatement update = serverSQL.prepareStatement("UPDATE utentiRegistrati SET " +
-					"password = ?, email = ?, codiceFiscale = ?, nome = ?, cognome = ?, indirizzo = ?" +
-					"WHERE userid = ?");
-			update.setString(1, utenteRegistrato.getPassword());
-			update.setString(2, utenteRegistrato.getEmail());
-			update.setString(3, utenteRegistrato.getCodiceFiscale());
-			update.setString(4, utenteRegistrato.getNome());
-			update.setString(5, utenteRegistrato.getCognome());
-			update.setString(6, utenteRegistrato.getIndirizzoFisico());
-			update.setString(7, utenteRegistrato.getUserId());
-			update.executeUpdate();
+			synchronized (serverSQL)
+			{
+				update.setString(1, utenteRegistrato.getPassword());
+				update.setString(2, utenteRegistrato.getEmail());
+				update.setString(3, utenteRegistrato.getCodiceFiscale());
+				update.setString(4, utenteRegistrato.getNome());
+				update.setString(5, utenteRegistrato.getCognome());
+				update.setString(6, utenteRegistrato.getIndirizzoFisico());
+				update.setString(7, utenteRegistrato.getUserId());
+				update.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -136,10 +156,11 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 			return false;
 		try
 		{
-			PreparedStatement delete = serverSQL.prepareStatement(
-					"DELETE FROM utentiRegistrati WHERE userid = ?");
-			delete.setString(1, utenteRegistrato.getUserId());
-			delete.executeUpdate();
+			synchronized (serverSQL)
+			{
+				delete.setString(1, utenteRegistrato.getUserId());
+				delete.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?

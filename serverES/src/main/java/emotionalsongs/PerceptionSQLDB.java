@@ -12,10 +12,27 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 {
 	private final static String SEPARATORE = "<>";
 	private Connection serverSQL;
+	private PreparedStatement select;
+	private PreparedStatement selectAll;
+	private PreparedStatement insert;
+	private PreparedStatement update;
+	private PreparedStatement delete;
 	
-	public PerceptionSQLDB(Connection serverSQL)
+	public PerceptionSQLDB(Connection serverSQL) throws SQLException
 	{
 		this.serverSQL = serverSQL;
+		synchronized (serverSQL)
+		{
+			select = serverSQL.prepareStatement("SELECT * FROM emozioni" +
+					"WHERE idCanzone = ? AND idUtente = ?");
+			selectAll = serverSQL.prepareStatement("SELECT * FROM emozioni");
+			insert = serverSQL.prepareStatement("INSERT INTO emozioni(idCanzone, idUtente, idEmozione, score, note)" +
+					"VALUES (?, ?, ?, ?, ?)");
+			update = serverSQL.prepareStatement("UPDATE emozioni SET score = ?, note = ? " +
+					"WHERE idCanzone = ? AND idUtente = ? AND idEmozione = ?");
+			delete = serverSQL.prepareStatement("DELETE FROM utentiRegistrati WHERE idUtente = ?" +
+					"AND idCanzone = ? AND idEmozione = ?");
+		}
 	}
 
 	public List<Percezione> get(String idCanzone, String idUtente)
@@ -25,13 +42,13 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 			return lista;
 		try
 		{
-			PreparedStatement select = serverSQL.prepareStatement(
-					"SELECT * FROM emozioni" +
-							"WHERE idCanzone = ?" +
-							"AND idUtente = ?");
-			select.setString(1, idCanzone);
-			select.setString(2, idUtente);
-			ResultSet resultSet = select.executeQuery();
+			ResultSet resultSet;
+			synchronized (serverSQL)
+			{
+				select.setString(1, idCanzone);
+				select.setString(2, idUtente);
+				resultSet = select.executeQuery();
+			}
 			while(resultSet.next())
 			{
 				Percezione p = new Percezione(
@@ -51,9 +68,11 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 		ConcurrentHashMap<String, List<Percezione>> albero = new ConcurrentHashMap<>();
 		try
 		{
-			PreparedStatement selectAll = serverSQL.prepareStatement(
-					"SELECT * FROM emozioni");
-			ResultSet resultSet = selectAll.executeQuery();
+			ResultSet resultSet;
+			synchronized (serverSQL)
+			{
+				resultSet = selectAll.executeQuery();
+			}
 			while(resultSet.next())
 			{
 				short index = resultSet.getShort("idEmozione");
@@ -91,20 +110,17 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 			return false;
 		try
 		{
-			PreparedStatement insert = serverSQL.prepareStatement(
-					"INSERT INTO emozioni(" +
-						"idCanzone, idUtente, idEmozione, score, note)" +
-						"VALUES (?, ?, ?, ?, ?)");
-			insert.setString(1, percezione.getSongId());
-			insert.setString(2, percezione.getUserId());
-			insert.setShort(3, (short)percezione.getEmozione().ordinal());
-			insert.setInt(4, percezione.getScore());
-			String note = percezione.getNote();
-			if(note == null)
-				insert.setNull(5, Types.VARCHAR);
-			else
-				insert.setString(5, note);
-			insert.executeUpdate();
+			synchronized (serverSQL)
+			{
+				insert.setString(1, percezione.getSongId());
+				insert.setString(2, percezione.getUserId());
+				insert.setShort(3, (short) percezione.getEmozione().ordinal());
+				insert.setInt(4, percezione.getScore());
+				String note = percezione.getNote();
+				if (note == null) insert.setNull(5, Types.VARCHAR);
+				else insert.setString(5, note);
+				insert.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -122,19 +138,17 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 			return false;
 		try
 		{
-			PreparedStatement update = serverSQL.prepareStatement(
-					"UPDATE emozioni SET score = ?, note = ? " +
-						"WHERE idCanzone = ? AND idUtente = ? AND idEmozione = ?");
-			update.setInt(1, percezione.getScore());
-			String note = percezione.getNote();
-			if(note == null)
-				update.setNull(2, Types.VARCHAR);
-			else
-				update.setString(2, note);
-			update.setString(3, percezione.getSongId());
-			update.setString(4, percezione.getUserId());
-			update.setShort(5, (short)percezione.getEmozione().ordinal());
-			update.executeUpdate();
+			synchronized (serverSQL)
+			{
+				update.setInt(1, percezione.getScore());
+				String note = percezione.getNote();
+				if (note == null) update.setNull(2, Types.VARCHAR);
+				else update.setString(2, note);
+				update.setString(3, percezione.getSongId());
+				update.setString(4, percezione.getUserId());
+				update.setShort(5, (short) percezione.getEmozione().ordinal());
+				update.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -148,13 +162,13 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 			return false;
 		try
 		{
-			PreparedStatement delete = serverSQL.prepareStatement(
-					"DELETE FROM utentiRegistrati WHERE idUtente = ?" +
-						"AND idCanzone = ? AND idEmozione = ?");
-			delete.setString(1, percezione.getUserId());
-			delete.setString(2, percezione.getSongId());
-			delete.setShort(3, (short)percezione.getEmozione().ordinal());
-			delete.executeUpdate();
+			synchronized (serverSQL)
+			{
+				delete.setString(1, percezione.getUserId());
+				delete.setString(2, percezione.getSongId());
+				delete.setShort(3, (short) percezione.getEmozione().ordinal());
+				delete.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
