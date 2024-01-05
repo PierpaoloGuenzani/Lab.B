@@ -10,10 +10,26 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SongSQLDB implements Dao<Canzone>
 {
 	private Connection serverSLQ;
+	private PreparedStatement select;
+	private PreparedStatement selectAll;
+	private PreparedStatement insert;
+	private PreparedStatement update;
+	private PreparedStatement delete;
 	
-	public SongSQLDB(Connection serverSLQ)
+	public SongSQLDB(Connection serverSLQ) throws SQLException
 	{
 		this.serverSLQ = serverSLQ;
+		synchronized (serverSLQ)
+		{
+			select = serverSLQ.prepareStatement("SELECT * FROM canzoni WHERE idCanzone = ?");
+			selectAll = serverSLQ.prepareStatement("SELECT * FROM canzoni");
+			insert = serverSLQ.prepareStatement(
+					"INSERT INTO canzoni(idCanzone, titolo, produttore, anno)" +
+						"VALUES (?, ?, ?, ?)");
+			update = serverSLQ.prepareStatement("UPDATE canzoni SET titolo = ?, produttore = ?, anno = ?" +
+							"WHERE idCanzone = ?");
+			delete = serverSLQ.prepareStatement("DELETE FROM canzoni WHERE idCanzone = ?");
+		}
 	}
 	
 	@Override
@@ -23,13 +39,21 @@ public class SongSQLDB implements Dao<Canzone>
 			return Optional.empty();
 		try
 		{
-			PreparedStatement select = serverSLQ.prepareStatement(
-					"SELECT * FROM canzoni WHERE idCanzone = ?");
-			select.setString(1, id);
-			ResultSet resultSet = select.executeQuery();
+			ResultSet resultSet;
+			synchronized (serverSLQ)
+			{
+				select.setString(1, id);
+				resultSet = select.executeQuery();
+			}
 			if (resultSet.next())
 			{
-				//return Optional.of(); //Prova
+				Canzone c = new Canzone(
+						resultSet.getString("idCanzone"),
+						resultSet.getString("titolo"),
+						resultSet.getString("produttore"),
+						resultSet.getInt("anno")
+				);
+				return Optional.of(c);
 			}
 		} catch (SQLException e) {} //LOG?
 		return Optional.empty();
@@ -41,8 +65,11 @@ public class SongSQLDB implements Dao<Canzone>
 		ConcurrentHashMap<String , Canzone> albero = new ConcurrentHashMap<String , Canzone>(524288); //pari a 2^19 dato che log2(n.canzoni) = 19
 		try
 		{
-			PreparedStatement selectAll = serverSLQ.prepareStatement("SELECT * FROM canzoni");
-			ResultSet resultSet = selectAll.executeQuery();
+			ResultSet resultSet;
+			synchronized (serverSLQ)
+			{
+				resultSet = selectAll.executeQuery();
+			}
 			while(resultSet.next())
 			{
 				Canzone c = new Canzone(
@@ -64,14 +91,14 @@ public class SongSQLDB implements Dao<Canzone>
 			return false;
 		try
 		{
-			PreparedStatement insert = serverSLQ.prepareStatement(
-					"INSERT INTO canzoni(idCanzone, titolo, produttore, anno)" +
-						"VALUES (?, ?, ?, ?)");
-			insert.setString(1, canzone.getId());
-			insert.setString(2, canzone.getTitolo());
-			insert.setString(3, canzone.getArtista());
-			insert.setInt(4, canzone.getAnno());
-			insert.executeUpdate();
+			synchronized (serverSLQ)
+			{
+				insert.setString(1, canzone.getId());
+				insert.setString(2, canzone.getTitolo());
+				insert.setString(3, canzone.getArtista());
+				insert.setInt(4, canzone.getAnno());
+				insert.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -89,14 +116,14 @@ public class SongSQLDB implements Dao<Canzone>
 			return false;
 		try
 		{
-			PreparedStatement update = serverSLQ.prepareStatement(
-					"UPDATE canzoni SET titolo = ?, produttore = ?, anno = ?" +
-						"WHERE idCanzone = ?");
-			update.setString(1, (String)params[2]);
-			update.setString(2, (String)params[3]);
-			update.setInt(3, (Integer)params[4]);
-			update.setString(4, canzone.getId());
-			update.executeUpdate();
+			synchronized (serverSLQ)
+			{
+				update.setString(1, (String) params[2]);
+				update.setString(2, (String) params[3]);
+				update.setInt(3, (Integer) params[4]);
+				update.setString(4, canzone.getId());
+				update.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
@@ -110,10 +137,11 @@ public class SongSQLDB implements Dao<Canzone>
 			return false;
 		try
 		{
-			PreparedStatement delete = serverSLQ.prepareStatement(
-					"DELETE FROM canzoni WHERE idCanzone = ?");
-			delete.setString(1, canzone.getId());
-			delete.executeUpdate();
+			synchronized (serverSLQ)
+			{
+				delete.setString(1, canzone.getId());
+				delete.executeUpdate();
+			}
 		} catch (SQLException e) {
 			return false;
 		} //LOG?
