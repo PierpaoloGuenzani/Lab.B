@@ -3,6 +3,8 @@ package emotionalsongs;
 import common.Playlist;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,26 +46,16 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 			return Optional.empty();
 		try
 		{
-			ResultSet resultSet;
 			synchronized (serverSQL)
 			{
-				//TODO: controllare e pensare bene
 				select.setString(1, id);
-				resultSet = select.executeQuery();
-			}
-			if (resultSet.next())
-			{
-				Playlist p = new Playlist(
-						resultSet.getString("titolo"),
-						resultSet.getString("idUtente")
-				);
-				selectAllSongIdFromPlaylist.setString(1,p.getIdPlaylist());
-				ResultSet idCanzoni =  selectAllSongIdFromPlaylist.executeQuery();
-				while (idCanzoni.next())
+				ResultSet resultSet = select.executeQuery();
+				if (resultSet.next())
 				{
-					p.aggiungiCanzone(idCanzoni.getString("idCazone"));
+					Playlist p = new Playlist(resultSet.getString("titolo"), resultSet.getString("idUtente"), resultSet.getString("idPlaylist"));
+					getAllSongIdFromPlaylistQuery(p.getIdPlaylist()).forEach(p::aggiungiCanzone);
+					return Optional.of(p);
 				}
-				return Optional.of(p);
 			}
 		} catch (SQLException e) {
 			System.err.println(e.toString());
@@ -74,30 +66,38 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 	@Override
 	public ConcurrentHashMap<String, Playlist> getAll()
 	{
-		ConcurrentHashMap<String, Playlist> albero = new ConcurrentHashMap<>();
+		ConcurrentHashMap<String, Playlist> map = new ConcurrentHashMap<>();
+		ResultSet resultSet;
 		try
 		{
-			
-			ResultSet resultSet = selectAll.executeQuery();
-			while(resultSet.next())
+			synchronized (serverSQL)
 			{
-				Playlist p = new Playlist(
-						resultSet.getString("titolo"),
-						resultSet.getString("idUtente"),
-						resultSet.getString("idPlaylist")
-				);
-				albero.put(p.getIdPlaylist(), p);
-				selectAllSongIdFromPlaylist.setString(1,p.getIdPlaylist());
-				ResultSet canzoni =  selectAllSongIdFromPlaylist.executeQuery();
-				while (canzoni.next())
+				resultSet = selectAll.executeQuery();
+				while (resultSet.next())
 				{
-					p.aggiungiCanzone(canzoni.getString("idCanzone"));
+					Playlist p = new Playlist(resultSet.getString("titolo"), resultSet.getString("idUtente"), resultSet.getString("idPlaylist"));
+					map.put(p.getIdPlaylist(), p);
+					getAllSongIdFromPlaylistQuery(p.getIdPlaylist()).forEach(p::aggiungiCanzone);
 				}
 			}
-		} catch (SQLException e) {
-			System.err.println(e.toString());
-		} //LOG?
-		return albero;
+		} catch (SQLException e) {} //LOG?
+		return map;
+	}
+	
+	//ATTENZIONE DEVE ESSERE SEMPRE LANCIATO ALL' NTERNO DI UN BLOCCO SYNCHRONIZED
+	private List<String> getAllSongIdFromPlaylistQuery(String idPlaylist) throws SQLException
+	{
+		List<String> list = new LinkedList<>();
+		selectAllSongIdFromPlaylist.setString(1, idPlaylist);
+		ResultSet idCanzoni = selectAllSongIdFromPlaylist.executeQuery();
+		while (idCanzoni.next())
+		{
+			try
+			{
+				list.add(idCanzoni.getString("idCanzone"));
+			} catch (SQLException e) {} //non aggiungo l'id alla playlist
+		}
+		return list;
 	}
 	
 	@Override
