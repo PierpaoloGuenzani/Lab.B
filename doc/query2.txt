@@ -1,0 +1,28 @@
+* from PlaylistSQLDB *
+select = serverSQL.prepareStatement("SELECT * FROM playlist WHERE idPlaylist = ?");
+selectAllSongIdFromPlaylist = serverSQL.prepareStatement("SELECT idCanzone FROM Playlist_Canzoni WHERE idPlaylist = ?");
+selectAll = serverSQL.prepareStatement("SELECT * FROM playlists");
+insert = serverSQL.prepareStatement("INSERT INTO Playlists(idPlaylist, idUtente, titolo) VALUES (?, ?, ?)");
+insertSongInPlaylist = serverSQL.prepareStatement("INSERT INTO Playlist_Canzoni(idPlaylist, idCanzone) VALUES (?, ?)");
+delete = serverSQL.prepareStatement("DELETE FROM Playlists WHERE idPlaylist = ?");
+
+* from SongSQLDB *
+select = serverSLQ.prepareStatement("SELECT * FROM canzoni WHERE idCanzone = ?");
+selectAll = serverSLQ.prepareStatement("SELECT * FROM canzoni");
+insert = serverSLQ.prepareStatement("INSERT INTO canzoni(idCanzone, titolo, produttore, anno) VALUES (?, ?, ?, ?)");
+update = serverSLQ.prepareStatement("UPDATE canzoni SET titolo = ?, produttore = ?, anno = ? WHERE idCanzone = ?");
+delete = serverSLQ.prepareStatement("DELETE FROM canzoni WHERE idCanzone = ?");
+
+* from UserSQLDB *
+select = serverSQL.prepareStatement("SELECT * FROM utentiRegistrati WHERE userid = ?");
+selectAll = serverSQL.prepareStatement("SELECT * FROM utentiRegistrati");
+insert = serverSQL.prepareStatement("INSERT INTO utentiRegistrati("userid, password, email, codiceFiscale, nome, cognome, indirizzo) VALUES (?, ?, ?, ?, ?, ?, ?)");
+update = serverSQL.prepareStatement("UPDATE utentiRegistrati SET "password = ?, email = ?, codiceFiscale = ?, nome = ?, cognome = ?, indirizzo = ? WHERE userid = ?");
+delete = serverSQL.prepareStatement("DELETE FROM utentiRegistrati WHERE userid = ?");
+
+* from PerceptionSQLDB *
+select = serverSQL.prepareStatement("SELECT * FROM emozioni WHERE idCanzone = ? AND idUtente = ?");
+selectAll = serverSQL.prepareStatement("SELECT * FROM emozioni");
+insert = serverSQL.prepareStatement("INSERT INTO emozioni(idCanzone, idUtente, idEmozione, score, note) VALUES (?, ?, ?, ?, ?)");
+update = serverSQL.prepareStatement("UPDATE emozioni SET score = ?, note = ? WHERE idCanzone = ? AND idUtente = ? AND idEmozione = ?");
+delete = serverSQL.prepareStatement("DELETE FROM utentiRegistrati WHERE idUtente = ? AND idCanzone = ? AND idEmozione = ?");

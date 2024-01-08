@@ -9,17 +9,41 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
+/**
+ * Implementa l'interfaccia Dao<UtenteRegistrato>, utilizza un approccio di accesso ai dati tramite JDBC e si connette a un database SQL.
+ * Utilizza PreparedStatement per eseguire query parametriche in modo sicuro, garantendo la corretta separazione tra i comandi SQL e
+ * i dati di input degli utenti e contribuendo a prevenire attacchi SQL injection.
+ *
+ * Fornisce metodi per recuperare, salvare, aggiornare ed eliminare utenti registrati dal database.
+ * L'obiettivo è separare la logica di accesso ai dati dalla logica di business dell'applicazione,
+ * garantendo un'astrazione per l'accesso agli utenti registrati.
+ *
+ * Le eventuali eccezioni di tipo SQLException sono gestite internamente e registrate nei log. I log, o file di registro, costituiscono
+ * uno strumento per tracciare e analizzare le attività del programma. In presenza di eccezioni, la classe UserSQLDB attua procedure
+ * specifiche di gestione degli errori e annota informazioni insieme allo stack trace nei log.
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
+ *
+ */
 public class UserSQLDB implements Dao<UtenteRegistrato>
 {
+	private static final Logger LOGGER = Logger.getLogger(UserSQLDB.class.getName());
 	private Connection serverSQL;
 	private PreparedStatement select;
 	private PreparedStatement selectAll;
 	private PreparedStatement insert;
 	private PreparedStatement update;
 	private PreparedStatement delete;
-	
-	
+
+	/**
+	 * Costruisce un oggetto UserSQLDB utilizzando una connessione SQL fornita.
+	 *
+	 * @param serverSQL Connessione al database SQL.
+	 * @throws SQLException se si verifica un errore durante l'inizializzazione delle PreparedStatement.
+	 */
 	public UserSQLDB(Connection serverSQL) throws SQLException
 	{
 		this.serverSQL = serverSQL;
@@ -36,7 +60,13 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 			delete = serverSQL.prepareStatement("DELETE FROM utentiRegistrati WHERE userid = ?");
 		}
 	}
-	
+
+	/**
+	 * Recupera un singolo utente registrato dal database in base all'ID fornito.
+	 *
+	 * @param id ID dell'utente registrato da recuperare.
+	 * @return Un Optional contenente l'utente registrato se presente, altrimenti vuoto.
+	 */
 	@Override
 	public Optional<UtenteRegistrato> get(String id)
 	{
@@ -65,10 +95,17 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 				);
 				return Optional.of(u);
 			}
-		} catch (SQLException e) {} //LOG?
+		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di recupero di un utente.");
+		}
 		return Optional.empty();
 	}
-	
+
+	/**
+	 * Recupera tutti gli utenti registrati dal database.
+	 *
+	 * @return Una ConcurrentHashMap contenente gli utenti registrati, dove le chiavi sono gli ID degli utenti.
+	 */
 	@Override
 	public ConcurrentHashMap<String, UtenteRegistrato> getAll()
 	{
@@ -93,10 +130,18 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 				);
 				albero.put(u.getUserId(), u);
 			}
-		} catch (SQLException e) {} //LOG?
+		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di recupero di tutti gli utenti.");
+		}
 		return albero;
 	}
-	
+
+	/**
+	 * Salva un nuovo utente registrato nel database.
+	 *
+	 * @param utenteRegistrato Utente registrato da salvare.
+	 * @return True se l'operazione di salvataggio è riuscita, altrimenti false.
+	 */
 	@Override
 	public boolean save(UtenteRegistrato utenteRegistrato)
 	{
@@ -116,11 +161,19 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 				insert.executeUpdate();
 			}
 		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di salvataggio di un nuovo utente.");
 			return false;
-		} //LOG?
+		}
 		return true;
 	}
-	
+
+	/**
+	 * Aggiorna un utente registrato esistente nel database.
+	 *
+	 * @param utenteRegistrato Utente registrato da aggiornare.
+	 * @param params  Parametri per l'aggiornamento.
+	 * @return True se l'operazione di aggiornamento è riuscita, altrimenti false.
+	 */
 	@Override
 	public boolean update(UtenteRegistrato utenteRegistrato, Object[] params)
 	{
@@ -144,11 +197,18 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 				update.executeUpdate();
 			}
 		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di aggiornamento dati di un utente");
 			return false;
-		} //LOG?
+		}
 		return true;
 	}
-	
+
+	/**
+	 * Elimina un utente registrato dal database.
+	 *
+	 * @param utenteRegistrato Utente registrato da eliminare.
+	 * @return True se l'operazione di eliminazione è riuscita, altrimenti false.
+	 */
 	@Override
 	public boolean delete(UtenteRegistrato utenteRegistrato)
 	{
@@ -162,8 +222,9 @@ public class UserSQLDB implements Dao<UtenteRegistrato>
 				delete.executeUpdate();
 			}
 		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di eliminazione di un utente.");
 			return false;
-		} //LOG?
+		}
 		return true;
 	}
 }

@@ -7,17 +7,42 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
+/**
+ * Implementa l'interfaccia PerceptionDAOInterface, utilizza un approccio di accesso ai dati tramite JDBC e si connette a un database SQL.
+ * Utilizza PreparedStatement per eseguire query parametriche in modo sicuro, garantendo la corretta separazione tra i comandi SQL e
+ * i dati di input degli utenti e contribuendo a prevenire attacchi SQL injection.
+ *
+ * Fornisce metodi per recuperare, salvare, aggiornare ed eliminare le percezioni delle emozioni delle canzoni associate agli utenti dal database.
+ * L'obiettivo è separare la logica di accesso ai dati dalla logica di business dell'applicazione,
+ * garantendo un'astrazione per l'accesso alle percezioni.
+ *
+ * Le eventuali eccezioni di tipo SQLException sono gestite internamente e registrate nei log. I log, o file di registro, costituiscono
+ * uno strumento per tracciare e analizzare le attività del programma. In presenza di eccezioni, la classe PerceptionSQLDB attua procedure
+ * specifiche di gestione degli errori e annota informazioni insieme allo stack trace nei log.
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
+ *
+ */
 public class PerceptionSQLDB implements PerceptionDAOInterface
 {
 	private final static String SEPARATORE = "<>";
+	private static final Logger LOGGER = Logger.getLogger(PerceptionSQLDB.class.getName());
 	private Connection serverSQL;
 	private PreparedStatement select;
 	private PreparedStatement selectAll;
 	private PreparedStatement insert;
 	private PreparedStatement update;
 	private PreparedStatement delete;
-	
+
+	/**
+	 * Costruisce un oggetto PerceptionSQLDB utilizzando una connessione SQL fornita.
+	 *
+	 * @param serverSQL Connessione al database SQL.
+	 * @throws SQLException se si verifica un errore durante l'inizializzazione delle PreparedStatement.
+	 */
 	public PerceptionSQLDB(Connection serverSQL) throws SQLException
 	{
 		this.serverSQL = serverSQL;
@@ -35,6 +60,13 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 		}
 	}
 
+	/**
+	 * Recupera le percezioni delle emozioni associate a una canzone e un utente specifici dal database.
+	 *
+	 * @param idCanzone ID della canzone.
+	 * @param idUtente ID dell'utente.
+	 * @return Una lista di percezioni delle emozioni associate alla canzone e all'utente specificati.
+	 */
 	public List<Percezione> get(String idCanzone, String idUtente)
 	{
 		LinkedList<Percezione> lista = new LinkedList<>();
@@ -58,10 +90,17 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 						resultSet.getString("idUtente"));
 				lista.add(p);
 			}
-		} catch (SQLException e) {} //LOG?
+		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di recupero di una lista di percezioni.");
+		}
 		return lista;
 	}
 
+	/**
+	 * Recupera tutte le percezioni delle emozioni dal database.
+	 *
+	 * @return Una ConcurrentHashMap contenente le percezioni delle emozioni, dove le chiavi sono gli ID delle canzoni.
+	 */
 	@Override
 	public ConcurrentHashMap<String, List<Percezione>> getAll()
 	{
@@ -99,10 +138,18 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 				}
 				lista.add(p);
 			}
-		} catch (SQLException e) {} //LOG?
+		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di recupero di tutte le percezioni.");
+		}
 		return albero;
 	}
-	
+
+	/**
+	 * Salva una nuova percezione delle emozioni nel database.
+	 *
+	 * @param percezione Percezione delle emozioni da salvare.
+	 * @return True se l'operazione di salvataggio è riuscita, altrimenti false.
+	 */
 	@Override
 	public boolean save(Percezione percezione)
 	{
@@ -122,11 +169,19 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 				insert.executeUpdate();
 			}
 		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di salvataggio di una nuova percezione.");
 			return false;
-		} //LOG?
+		}
 		return true;
 	}
-	
+
+	/**
+	 * Aggiorna una percezione delle emozioni esistente nel database.
+	 *
+	 * @param percezione Percezione delle emozioni da aggiornare.
+	 * @param params  Parametri per l'aggiornamento.
+	 * @return True se l'operazione di aggiornamento è riuscita, altrimenti false.
+	 */
 	@Override
 	public boolean update(Percezione percezione, Object[] params)
 	{
@@ -150,11 +205,18 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 				update.executeUpdate();
 			}
 		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di aggiornamento di una percezione.");
 			return false;
-		} //LOG?
+		}
 		return true;
 	}
-	
+
+	/**
+	 * Elimina una percezione delle emozioni dal database.
+	 *
+	 * @param percezione Percezione delle emozioni da eliminare.
+	 * @return True se l'operazione di eliminazione è riuscita, altrimenti false.
+	 */
 	@Override
 	public boolean delete(Percezione percezione)
 	{
@@ -170,8 +232,9 @@ public class PerceptionSQLDB implements PerceptionDAOInterface
 				delete.executeUpdate();
 			}
 		} catch (SQLException e) {
+			LOGGER.warning("Errore nell'apertura del db in fase di eliminazione di una percezione.");
 			return false;
-		} //LOG?
+		}
 		return true;
 	}
 }
