@@ -52,7 +52,7 @@ public class PlaylistSQLDB implements PlaylistDAOInterface
 		synchronized (serverSQL)
 		{
 			select = serverSQL.prepareStatement("SELECT * FROM playlist WHERE idPlaylist = ?");
-			selectAllSongIdFromPlaylist = serverSQL.prepareStatement("SELECT idCanzone FROM Playlist_Canzoni" +
+			selectAllSongIdFromPlaylist = serverSQL.prepareStatement("SELECT idCanzone FROM Playlist_Canzoni " +
 					"WHERE idPlaylist = ?");
 			selectAll = serverSQL.prepareStatement("SELECT * FROM playlists");
 			
