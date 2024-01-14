@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/clientES_jar</output-path>
     <root id="archive" name="clientES.jar">
       <element id="module-output" name="clientES" />
+      <element id="module-output" name="common" />
     </root>
   </artifact>
 </component>
