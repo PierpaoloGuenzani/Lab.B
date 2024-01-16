@@ -106,16 +106,7 @@ public interface EmotionalSongsInterface extends Remote
 	 * @throws RemoteException se si verifica un errore durante la chiamata remota.
 	 */
 	boolean inserisciEmozioni(Percezione newPercezione, String userId) throws IOException, RemoteException;
-
-	/**
-	 * Aggiunge una compilation di canzoni a una playlist.
-	 * @param listaCanzoni La lista di canzoni da aggiungere alla playlist.
-	 * @param idPlaylist L'ID della playlist a cui aggiungere la compilation.
-	 * @return True se l'aggiunta della compilation è avvenuta con successo, False altrimenti.
-	 * @throws IOException se si verifica un errore di Input/Output durante l'aggiunta della compilation.
-	 * @throws RemoteException se si verifica un errore durante la chiamata remota.
-	 */
-	boolean aggiungiCompilation(List<Canzone> listaCanzoni, String idPlaylist) throws IOException, RemoteException;
+	
 
 	/**
 	 * Cerca le playlist associate a un utente.
