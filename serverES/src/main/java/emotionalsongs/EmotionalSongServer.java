@@ -1,6 +1,7 @@
 package emotionalsongs;
 
 import common.EmotionalSongsInterface;
+import emotionalsongs.logic.EmotionalSongsService;
 
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;

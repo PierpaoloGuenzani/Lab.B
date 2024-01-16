@@ -1,4 +1,4 @@
-package emotionalsongs;
+package emotionalsongs.logic;
 
 import common.Canzone;
 import common.Playlist;

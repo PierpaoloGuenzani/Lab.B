@@ -1,4 +1,4 @@
-package emotionalsongs;
+package emotionalsongs.logic;
 
 import common.*;
 import emotionalsongs.DAO.PerceptionSQLDB;

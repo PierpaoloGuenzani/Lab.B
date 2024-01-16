@@ -1,4 +1,4 @@
-package emotionalsongs;
+package emotionalsongs.logic;
 
 import common.UtenteRegistrato;
 import emotionalsongs.DAO.Dao;
