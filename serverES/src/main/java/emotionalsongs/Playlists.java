@@ -2,6 +2,8 @@ package emotionalsongs;
 
 import common.Canzone;
 import common.Playlist;
+import emotionalsongs.DAO.PlaylistDAOInterface;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;

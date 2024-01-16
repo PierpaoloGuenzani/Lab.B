@@ -1,4 +1,4 @@
-package emotionalsongs;
+package emotionalsongs.DAO;
 
 import common.Playlist;
 

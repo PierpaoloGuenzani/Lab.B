@@ -1,4 +1,4 @@
-package emotionalsongs;
+package emotionalsongs.DAO;
 
 import common.UtenteRegistrato;
 
@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 

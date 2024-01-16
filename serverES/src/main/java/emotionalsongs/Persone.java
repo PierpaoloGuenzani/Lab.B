@@ -1,6 +1,8 @@
 package emotionalsongs;
 
 import common.UtenteRegistrato;
+import emotionalsongs.DAO.Dao;
+
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 

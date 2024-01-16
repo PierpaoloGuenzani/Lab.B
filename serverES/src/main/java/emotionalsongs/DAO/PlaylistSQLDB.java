@@ -1,4 +1,4 @@
-package emotionalsongs;
+package emotionalsongs.DAO;
 
 import common.Playlist;
 
@@ -6,7 +6,6 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 

@@ -1,6 +1,11 @@
 package emotionalsongs;
 
 import common.*;
+import emotionalsongs.DAO.PerceptionSQLDB;
+import emotionalsongs.DAO.PlaylistSQLDB;
+import emotionalsongs.DAO.SongSQLDB;
+import emotionalsongs.DAO.UserSQLDB;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.Connection;
