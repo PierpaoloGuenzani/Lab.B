@@ -87,11 +87,7 @@ public class Persone
 	{
 		if(mappa.containsKey(userId))
 		{
-			if(mappa.get(userId).getPassword().equals(password))
-			{
-				Authentication.setAuthentication(mappa.get(userId));
-				return true;
-			}
+			return mappa.get(userId).getPassword().equals(password);
 		}
 		return false;  //accesso non riuscito
 	}

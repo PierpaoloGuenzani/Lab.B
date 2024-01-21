@@ -9,6 +9,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
+
 /**
  * Questa classe rappresenta il punto d'ingresso principale dell'applicazione "EmotionalSong".
  * L'applicazione utilizza la tecnologia RMI (Remote Method Invocation) per fornire un'interfaccia
@@ -33,10 +35,12 @@ public class EmotionalSongServer
 	 * @throws IOException Se si verifica un errore durante l'export dell'oggetto remoto.
 	 * @throws AlreadyBoundException Se il nome "EmotionalSong" è già registrato nel registro RMI.
 	 * @throws RemoteException Se si verifica un errore durante la gestione delle chiamate remote.
-	 */public static void main(String[] args) throws IOException, AlreadyBoundException
+	 */
+	public static void main(String[] args) throws IOException, AlreadyBoundException, SQLException
 	{
 		// Crea un oggetto EmotionalSongsService
 		EmotionalSongsService object = EmotionalSongsService.getInstance();
+		object.setDBs(null,null,null);
 		// Esporta l'oggetto come oggetto remoto
 		EmotionalSongsInterface stab = (EmotionalSongsInterface) UnicastRemoteObject.exportObject(object, 0);
 		// Crea un registro RMI sulla porta predefinita e registra il servizio con il nome "EmotionalSong"

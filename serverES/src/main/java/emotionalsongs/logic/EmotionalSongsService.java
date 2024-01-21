@@ -44,15 +44,12 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      *
      * Durante la creazione dell'istanza, vengono inizializzati i principali componenti dell'applicazione,
      * inclusi i set di utenti loggati, le istanze di gestione per canzoni, persone, percezioni e playlist.
-     * Viene inoltre stabilita la connessione al database PostgreSQL utilizzando le classi JDBC e viene
-     * configurato l'accesso alle tabelle del database per ciascun componente.
      *
-     * In caso di errore durante la connessione al database, viene stampata la traccia dell'eccezione.
      *
      * @throws IOException se si verifica un errore di Input/Output relativo al database
      */
-    private EmotionalSongsService() throws IOException {
-        //new ServerGUI();
+    private EmotionalSongsService() throws IOException
+    {
         // Inizializzazione del set di utenti loggati in modo sicuro per thread
         userLoggedIn = Collections.synchronizedSortedSet(new TreeSet<String>());
         // Inizializzazione delle istanze singleton per gestione dati
@@ -60,21 +57,27 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         persone = Persone.getInstance();
         percezioni = Percezioni.getInstance();
         playlists = Playlists.getInstance();
+    }
     
-        try
-        {
-            // Connessione al database PostgreSQL
-            Connection c = DriverManager.getConnection("jdbc:postgresql:dbES","postgres","admin");
-            // Configurazione delle connessioni dei componenti al database
-            canzoni.setDb(new SongSQLDB(c));
-            persone.setDB(new UserSQLDB(c));
-            percezioni.setDb(new PerceptionSQLDB(c));
-            playlists.setDB(new PlaylistSQLDB(c));
-        } catch (SQLException e)
-        {
-            // Stampa della traccia dell'eccezione in caso di errore di connessione al database
-            e.printStackTrace();
-        }
+    /**
+     * Metodo per stabilire la connessione al database PostgreSQL utilizzando le classi JDBC.
+     *
+     * @param url - l'url del database, se nulla utilizzo le impostazioni di default (jdbc:postgresql:dbES)
+     * @param user - l'user per stabilire la connessione al db, se nulla utilizzo le impostazioni di default (postgres)
+     * @param password - la password per connettersi al db, se nulla utilizzo le impostazioni di default (admin)
+     * @throws SQLException - in caso di errore col db
+     */
+    public void setDBs(String url, String user, String password) throws SQLException
+    {
+        Connection c;
+        if(url == null && user == null && password == null)
+            c = DriverManager.getConnection("jdbc:postgresql:dbES","postgres","admin");
+        else
+            c = DriverManager.getConnection(url, user, password);
+        canzoni.setDb(new SongSQLDB(c));
+        persone.setDB(new UserSQLDB(c));
+        percezioni.setDb(new PerceptionSQLDB(c));
+        playlists.setDB(new PlaylistSQLDB(c));
     }
 
     /**
@@ -88,9 +91,7 @@ public class EmotionalSongsService implements EmotionalSongsInterface
     public static EmotionalSongsService getInstance() throws IOException
     {
         if(instance == null)
-            // Se l'istanza non esiste, crea una nuova istanza
             instance = new EmotionalSongsService();
-        // Restituisce l'istanza esistente o appena creata
         return instance;
     }
 
@@ -103,7 +104,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @see Canzoni#cercaBranoMusicale(String)
      */
     @Override
-    public List<Canzone> cercaBranoMusicale(String titolo) {
+    public List<Canzone> cercaBranoMusicale(String titolo)
+    {
         return canzoni.cercaBranoMusicale(titolo);
     }
 
@@ -117,72 +119,9 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @see Canzoni#cercaBranoMusicale(String, int)
      */
     @Override
-    public List<Canzone> cercaBranoMusicale(String nomeArtista, int anno) {
+    public List<Canzone> cercaBranoMusicale(String nomeArtista, int anno)
+    {
         return canzoni.cercaBranoMusicale(nomeArtista, anno);
-    }
-
-    /**
-     * Visualizza le emozioni associate a un brano identificato dall'ID specificato.
-     *
-     * @param idCanzone L'ID del brano di cui visualizzare le emozioni.
-     * @throws RemoteException Se si verifica un errore durante la gestione delle chiamate remote.
-     * @see Percezioni#cercaEmozioni(String)
-     */
-    public void visualizzaEmozioniBrano(String idCanzone) {
-        // Creazione di uno scanner per l'input utente
-        Scanner sc = new Scanner(System.in);
-        // Ricerca delle percezioni associate alla canzone
-        List<Percezione>  possibiliEmozioni = percezioni.cercaEmozioni(idCanzone);
-        // Costanti per la formattazione del testo colorato sulla console
-        String R = "\u001B[31m", V = "\u001B[32m", B = "\u001B[0m";
-
-        // Se non ci sono percezioni, stampa un messaggio e termina il metodo
-        if (possibiliEmozioni.isEmpty()) {
-            System.out.println(R + "Il brano ricercato non contiene emozioni inserite dagli utenti. " + B);
-            return;
-        }
-        // Array di enum per le emozioni
-        Emozione[] emozione = Emozione.values();
-        int n_enum = emozione.length;
-        // Array per conteggio, somma totale e media delle emozioni
-        int[] countEmozione = new int[n_enum];
-        long[] totaleEmozione = new long[n_enum];
-        float[] mediaEmozione = new float[n_enum];
-        // Iterazione sulle percezioni per popolare gli array
-        for (Percezione e : possibiliEmozioni) {
-            int n = e.getEmozione().ordinal();
-            countEmozione[n]++;
-            totaleEmozione[n] += e.getScore();
-        }
-        // Stampa delle informazioni sulle emozioni
-        System.out.println("Per il brano selezionato sono state inserite le seguenti informazioni: ");
-        System.out.print("(il primo intero corrisponde al numero di utenti che hanno inserito tale emozione e il secondo alla media dei punteggi)");
-        for (int i = 0; i < n_enum; i++) {
-            System.out.printf("\n%-12s", emozione[i].toString());
-            System.out.printf("\t%-5s", countEmozione[i]);
-            // Calcolo e stampa della media solo se ci sono dati per quella emozione
-            if (countEmozione[i] != 0) {
-                mediaEmozione[i] = (float) totaleEmozione[i] / countEmozione[i];
-                System.out.printf("\t%-5s", mediaEmozione[i]);
-            }
-        }
-        // Richiesta all'utente di mostrare i commenti
-        System.out.print("\nMostrare i commenti? (S/N): ");
-        char checkNote = sc.nextLine().toUpperCase().charAt(0);
-        // Validazione dell'input utente
-        while (checkNote != 'S' && checkNote != 'N') {
-            System.out.print(R + "Il valore inserito non è valido. Prego reinserire S o N: " + B);
-            checkNote = sc.next().toUpperCase().charAt(0);
-        }
-        // Se l'utente vuole mostrare i commenti, vengono stampati
-        if (checkNote == 'S') {
-            System.out.println("I commenti inseriti sono: ");
-            for (Percezione p : possibiliEmozioni) {
-                String note = p.getNote();
-                if (!note.equals(""))
-                    System.out.println(note);
-            }
-        }
     }
 
     /**
@@ -194,7 +133,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @see Persone#Registrazione(UtenteRegistrato)
      */
     @Override
-    public boolean Registrazione(UtenteRegistrato newUtenteRegistrato) throws IOException {
+    public boolean Registrazione(UtenteRegistrato newUtenteRegistrato) throws IOException
+    {
         return persone.Registrazione(newUtenteRegistrato);
     }
 
@@ -209,16 +149,14 @@ public class EmotionalSongsService implements EmotionalSongsInterface
     @Override
     public boolean accedi(String userId, String password)
     {
-        // Chiamata al metodo di accesso nella classe Persone
         boolean accessoRiuscito = persone.accedi(userId, password);
-        if(accessoRiuscito )
+        if(accessoRiuscito)
         {
-            // Verifica se l'utente è già loggato
+            // Verifica se l'utente è già loggato se si restituisco false
             if(userLoggedIn.contains(userId))
             {
-                return true;
+                return false;
             }
-            // Aggiunge l'utente alla lista degli utenti loggati
             userLoggedIn.add(userId);
         }
         return accessoRiuscito;
@@ -231,7 +169,6 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      */
     public void logOut(String idUtente)
     {
-        // Rimuove l'utente dalla lista degli utenti loggati
         userLoggedIn.remove(idUtente);
     }
 
@@ -240,12 +177,12 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      *
      * @param idPlaylist l'ID della playlist da cui ottenere le canzoni
      * @return una lista di canzoni associate alla playlist o una lista vuota se la playlist non contiene canzoni
-     */public List<Canzone> canzoniDaIdPlaylist(String idPlaylist)
+     */
+    public List<Canzone> canzoniDaIdPlaylist(String idPlaylist)
     {
-        // Ottiene la playlist corrispondente all'ID specificato
         Playlist playlist = playlists.cercaPlaylistPerId(idPlaylist);
-        // Restituisce la lista delle canzoni associate alla playlist
-        return canzoni.getCanzoni(playlist.getListaCanzoni());    }
+        return canzoni.getCanzoni(playlist.getListaCanzoni());
+    }
 
     /**
      * Registra una nuova playlist per l'utente corrente.
@@ -254,7 +191,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @param userId l'ID dell'utente che registra la playlist
      * @return true se la registrazione della playlist è avvenuta con successo, false altrimenti
      * @throws IOException se si verifica un errore di Input/Output relativo al database
-     */public boolean RegistraPlaylist(String nomePlaylist, String userId) throws IOException
+     */
+    public boolean RegistraPlaylist(String nomePlaylist, String userId) throws IOException
     {
         // Verifica se l'utente è autenticato
         if(nomePlaylist == null || nomePlaylist.isBlank()) return false;
@@ -276,7 +214,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @see Playlists#aggiungiCanzone(String, String)
      */
     @Override
-    public boolean aggiungiCanzone(String idCanzone, String idPlaylist, String userId) throws IOException {
+    public boolean aggiungiCanzone(String idCanzone, String idPlaylist, String userId) throws IOException
+    {
         // Verifica se l'utente è autenticato
         if(!userLoggedIn.contains(userId)) return false;
         return playlists.aggiungiCanzone(idCanzone, idPlaylist);
@@ -292,7 +231,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @see Percezioni#add(Percezione)
      */
     @Override
-    public boolean inserisciEmozioni(Percezione newPercezione, String userId) throws IOException {
+    public boolean inserisciEmozioni(Percezione newPercezione, String userId) throws IOException
+    {
         // Verifica se l'utente è autenticato
         if(userLoggedIn.contains(userId))
         {
@@ -310,7 +250,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @return la Canzone corrispondente all'ID, o null se non trovata
      * @see Canzoni#getCanzone(String)
      */
-    public Canzone cercaCanzone(String idCanzone) {
+    public Canzone cercaCanzone(String idCanzone)
+    {
         return canzoni.getCanzone(idCanzone);
     }
 
@@ -321,7 +262,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @see Canzoni#cercaBraniPerAutore(String) 
      */
     @Override
-    public List<Canzone> cercaBraniPerAutore(String autore) {
+    public List<Canzone> cercaBraniPerAutore(String autore)
+    {
         return canzoni.cercaBraniPerAutore(autore);
     }
 
@@ -387,7 +329,9 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      * @param idCanzone l'ID della canzone da cercare
      * @return true se la canzone è presente in almeno una delle playlist dell'utente, false altrimenti
      * @see Playlists#controllaCanzonePersona(String, String)
-     */public boolean controllaCanzoneUtente(String idUtente, String idCanzone) {
+     */
+    public boolean controllaCanzoneUtente(String idUtente, String idCanzone)
+    {
         return playlists.controllaCanzonePersona(idUtente, idCanzone);
     }
 
