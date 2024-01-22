@@ -237,8 +237,7 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         if(userLoggedIn.contains(userId))
         {
             // Se l'utente è autenticato, aggiunge la percezione chiamando il metodo della classe Percezioni
-            percezioni.add(newPercezione);
-            return true;
+            return percezioni.add(newPercezione);
         }
         return false;
     }
@@ -315,6 +314,13 @@ public class EmotionalSongsService implements EmotionalSongsInterface
         return prospetto;
     }
     
+    /**
+     * Restituisce la lista delle playlist create da un utente
+     *
+     * @param idUtente L'ID dell'utente di cui cercare le playlist.
+     * @return List<Playlist> - la lista delle playlist
+     * @throws RemoteException se si verifica un errore durante l'esecuzione remota
+     */
     @Override
     public List<Playlist> cercaPlaylistPerUtente(String idUtente) throws RemoteException
     {
@@ -351,7 +357,8 @@ public class EmotionalSongsService implements EmotionalSongsInterface
      *
      * @param s la stringa da convertire
      * @return l'intero convertito, o Integer.MAX_VALUE in caso di errore di conversione
-     */private static int convertitore(String s)
+     */
+    private static int convertitore(String s)
     {
         int n;
         try

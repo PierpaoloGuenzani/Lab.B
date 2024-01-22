@@ -41,7 +41,7 @@ public class Persone
 	 *
 	 * @return un'interfaccia del database
 	 */
-	public Dao<UtenteRegistrato> getDB()
+	public synchronized Dao<UtenteRegistrato> getDB()
 	{
 		return db;
 	}
@@ -52,7 +52,7 @@ public class Persone
 	 *
 	 * @param DB l'implementazione dell'interfaccia DB da assegnare
 	 */
-	public void setDB(Dao<UtenteRegistrato> DB)
+	public synchronized void setDB(Dao<UtenteRegistrato> DB)
 	{
 		this.db = DB;
 		update();
@@ -65,7 +65,7 @@ public class Persone
 	 * @return true se la registrazione è andata a buon fine, false altrimenti
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
-	public boolean Registrazione(UtenteRegistrato newUtenteRegistrato) throws IOException
+	public synchronized boolean Registrazione(UtenteRegistrato newUtenteRegistrato) throws IOException
 	{
 		if(mappa.containsKey(newUtenteRegistrato.getUserId()))
 		{
@@ -83,7 +83,7 @@ public class Persone
 	 * @param password la password scelta in fase di registrazione
 	 * @return true se l'accesso è andato a buon fine, false altrimenti
 	 */
-	public boolean accedi(String userId, String password)
+	public synchronized boolean accedi(String userId, String password)
 	{
 		if(mappa.containsKey(userId))
 		{
@@ -98,7 +98,7 @@ public class Persone
 	 * @param userId l'ID dell'utente
 	 * @return true se è già presente, false altrimenti
 	 */
-	public boolean contains(String userId)
+	public synchronized boolean contains(String userId)
 	{
 		return mappa.containsKey(userId);
 	}

@@ -47,7 +47,7 @@ public class Percezioni {
      * Restituisce il database che contiene tutte le percezioni.
      * @return un'interfaccia del database.
      */
-    public PerceptionDAOInterface getDb() {
+    public synchronized PerceptionDAOInterface getDb() {
         return db;
     }
 
@@ -55,7 +55,7 @@ public class Percezioni {
      * Imposta il database delle percezioni.
      * @param db l'implementazione dell'interfaccia DB da assegnare.
      */
-    public void setDb(PerceptionDAOInterface db) {
+    public synchronized void setDb(PerceptionDAOInterface db) {
         this.db = db;
         update();
     }
@@ -65,7 +65,7 @@ public class Percezioni {
      * @param idCanzone l'ID della canzone.
      * @return la lista di percezioni associate alla canzone o una lista vuota se non sono presenti.
      */
-    public List<Percezione> cercaEmozioni(String idCanzone) {
+    public synchronized List<Percezione> cercaEmozioni(String idCanzone) {
         if(mappa.containsKey(idCanzone))
             return mappa.get(idCanzone);
         return new LinkedList<Percezione>();
@@ -76,10 +76,16 @@ public class Percezioni {
      * @param newPercezione la percezione da aggiungere.
      * @throws IOException se si verifica un errore di Input/Output relativo al database.
      */
-    public void add(Percezione newPercezione) throws IOException {
+    public synchronized boolean add(Percezione newPercezione) throws IOException {
         if(mappa.containsKey(newPercezione.getSongId()))
         {
             List<Percezione> l = mappa.get(newPercezione.getSongId());
+            for (Percezione percezione : l)
+            {
+                if(percezione.getUserId().equals(newPercezione.getUserId())
+                        && percezione.getEmozione().equals(newPercezione.getEmozione()))
+                    return false;
+            }
             l.add(newPercezione);
         }
         else
@@ -89,6 +95,7 @@ public class Percezioni {
             mappa.put(newPercezione.getSongId(),l);
         }
         db.save(newPercezione);
+        return true;
     }
 
     /**
@@ -97,7 +104,7 @@ public class Percezioni {
      * @param idCanzone l'ID della canzone.
      * @return true se l'utente ha già inserito emozioni, false altrimenti.
      */
-    public boolean controllaEmozioniPersona(String idPersona, String idCanzone){
+    public synchronized boolean controllaEmozioniPersona(String idPersona, String idCanzone){
         List<Percezione> listaPercezioni = mappa.get(idCanzone);
         if(listaPercezioni == null)
             return false;

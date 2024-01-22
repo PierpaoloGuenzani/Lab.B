@@ -47,7 +47,7 @@ public class Playlists
 	 * Restituisce il database che contiene tutte le playlist.
 	 * @return un'interfaccia del database.
 	 */
-	public PlaylistDAOInterface getDB()
+	public synchronized PlaylistDAOInterface getDB()
 	{
 		return db;
 	}
@@ -56,7 +56,7 @@ public class Playlists
 	 * Imposta il database delle playlist.
 	 * @param db l'implementazione dell'interfaccia DB da assegnare
 	 */
-	public void setDB(PlaylistDAOInterface db)
+	public synchronized void setDB(PlaylistDAOInterface db)
 	{
 		this.db = db;
 		update();
@@ -68,7 +68,7 @@ public class Playlists
 	 * @param idCanzone l'ID della canzone da cercare.
 	 * @return true se la canzone è presente in almeno una delle playlist dell'utente, false altrimenti.
 	 */
-	public boolean controllaCanzonePersona(String idPersona, String idCanzone)
+	public synchronized boolean controllaCanzonePersona(String idPersona, String idCanzone)
 	{
 		for (Playlist collezione : mappa.values())
 		{
@@ -88,7 +88,7 @@ public class Playlists
 	 * @return true se la canzone e' stata aggiunta alla playlist, false altrimenti
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
-	public boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException
+	public synchronized boolean aggiungiCanzone(String idCanzone, String idPlaylist) throws IOException
 	{
 		if(mappa.containsKey(idPlaylist)) {
 			if (mappa.get(idPlaylist).aggiungiCanzone(idCanzone)) {
@@ -106,7 +106,7 @@ public class Playlists
 	 * @return true se le canzoni sono state aggiunte alla playlist, false altrimenti
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
-	public boolean aggiungiCompilation(List<Canzone> elenco, String idPlaylist) throws IOException
+	public synchronized boolean aggiungiCompilation(List<Canzone> elenco, String idPlaylist) throws IOException
 	{
 		for (Canzone c : elenco)
 		{
@@ -121,7 +121,7 @@ public class Playlists
 	 * @param nomePlaylist il nome della playlist
 	 * @return una lista di playlist i cui nomi contengono la stringa passata come argomento o una lista vuota nel caso in cui nessuna playlist corrisponda a quella cercata
 	 */
-	public List<Playlist> cercaPlaylistPerNome(String nomePlaylist) {
+	public synchronized List<Playlist> cercaPlaylistPerNome(String nomePlaylist) {
 		LinkedList<Playlist> listaPlaylist= new LinkedList<Playlist>();
 		for (Playlist c: mappa.values()) {
 			if (nomePlaylist.contains(c.getTitolo() ))
@@ -135,7 +135,7 @@ public class Playlists
 	 * @param idPlaylist l'ID della playlist da cercare
 	 * @return la playlist corrispondente, null altrimenti
 	 */
-	public Playlist cercaPlaylistPerId(String idPlaylist) {
+	public synchronized Playlist cercaPlaylistPerId(String idPlaylist) {
 		return mappa.get(idPlaylist);
 	}
 
@@ -158,7 +158,7 @@ public class Playlists
 	 * @param playlist la playlist da aggiungere
 	 * @throws IOException se si verifica un errore di Input/Output relativo al database
 	 */
-	public boolean aggiungiPlaylist(Playlist playlist) throws IOException{
+	public synchronized boolean aggiungiPlaylist(Playlist playlist) throws IOException{
 		if(mappa.containsKey(playlist.getIdPlaylist()))
 		{
 			Playlist.setCount(mappa.size());
