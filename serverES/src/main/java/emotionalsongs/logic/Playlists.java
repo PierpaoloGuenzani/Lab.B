@@ -175,7 +175,7 @@ public class Playlists
 	 * Aggiorna la mappa delle playlist con i dati dal database.
 	 * @return True se l'operazione di aggiornamento è riuscita, altrimenti False.
 	 */
-	public boolean update()
+	public synchronized boolean update()
 	{
 		if(db == null)
 			return false;

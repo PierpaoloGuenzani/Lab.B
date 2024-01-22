@@ -133,7 +133,7 @@ public class Canzoni {
      * Aggiorna la mappa delle canzoni con i dati dal database.
      * @return True se l'operazione di aggiornamento è riuscita, altrimenti False.
      */
-    public boolean update()
+    public synchronized boolean update()
     {
         if(db == null)
             return false;

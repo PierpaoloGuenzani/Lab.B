@@ -108,7 +108,7 @@ public class Persone
 	 *
 	 * @return true se l'aggiornamento è avvenuto con successo, false altrimenti
 	 */
-	public boolean update()
+	public synchronized boolean update()
 	{
 		if(db == null)
 			return false;
