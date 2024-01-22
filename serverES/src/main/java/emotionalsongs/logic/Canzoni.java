@@ -46,7 +46,7 @@ public class Canzoni {
      * Restituisce il database contenente tutte le canzoni.
      * @return un'interfaccia del database.
      */
-    public Dao<Canzone> getDb() {
+    public synchronized Dao<Canzone> getDb() {
         return db;
     }
 
@@ -54,7 +54,7 @@ public class Canzoni {
      * Imposta il database delle canzoni.
      * @param db l'implementazione dell'interfaccia DB da assegnare.
      */
-    public void setDb(Dao<Canzone> db) {
+    public synchronized void setDb(Dao<Canzone> db) {
         if (db == null) throw new NullPointerException("File db non può essere un valore nullo");
         this.db = db;
         update();
@@ -65,7 +65,7 @@ public class Canzoni {
      * @param parola la stringa da cercare.
      * @return una lista di brani il cui titolo contiene la stringa passata come argomento o una lista vuota se nessun brano corrisponde.
      */
-    public List<Canzone> cercaBranoMusicale(String parola) {
+    public synchronized List<Canzone> cercaBranoMusicale(String parola) {
         LinkedList<Canzone> listaBrani= new LinkedList<Canzone>();
         String nomeBranoMaius = parola.toUpperCase();
         for (Canzone c: mappa.values()) {
@@ -81,7 +81,7 @@ public class Canzoni {
      * @param anno l'anno di rilascio della canzone.
      * @return la lista dei brani rilasciati da tale artista nell'anno specificato o una lista vuota se non è presente nel database.
      */
-    public List<Canzone> cercaBranoMusicale(String artista, int anno) {
+    public synchronized List<Canzone> cercaBranoMusicale(String artista, int anno) {
         LinkedList<Canzone> listaBrani= new LinkedList<Canzone>();
         String nomeArtistaMaius = artista.toUpperCase();
         for (Canzone c : mappa.values()) {
@@ -97,7 +97,7 @@ public class Canzoni {
      * @param artista il nome dell'artista.
      * @return la lista dei brani dell'artista specificato o una lista vuota se non è presente nel database.
      */
-    public List<Canzone> cercaBraniPerAutore(String artista) {
+    public synchronized List<Canzone> cercaBraniPerAutore(String artista) {
         LinkedList<Canzone> listaBrani= new LinkedList<Canzone>();
         String nomeArtistaMaius = artista.toUpperCase();
         for (Canzone c : mappa.values()) {
@@ -113,7 +113,7 @@ public class Canzoni {
      * @param idCanzone l'ID della canzone da restituire.
      * @return la canzone associata all'ID o null se non esiste.
      */
-    public Canzone getCanzone(String idCanzone) {
+    public synchronized Canzone getCanzone(String idCanzone) {
         return mappa.get(idCanzone);
     }
 
@@ -122,7 +122,7 @@ public class Canzoni {
      * @param listIdCanzoni lista contenente tutti gli ID delle canzoni.
      * @return lista di canzoni.
      */
-    public List<Canzone> getCanzoni(List<String> listIdCanzoni)
+    public synchronized List<Canzone> getCanzoni(List<String> listIdCanzoni)
     {
         LinkedList<Canzone> l = new LinkedList<>();
         listIdCanzoni.forEach(id -> l.add(mappa.get(id)));
@@ -133,7 +133,7 @@ public class Canzoni {
      * Aggiorna la mappa delle canzoni con i dati dal database.
      * @return True se l'operazione di aggiornamento è riuscita, altrimenti False.
      */
-    public boolean update()
+    public synchronized boolean update()
     {
         if(db == null)
             return false;
