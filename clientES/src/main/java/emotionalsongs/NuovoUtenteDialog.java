@@ -45,7 +45,6 @@ public class NuovoUtenteDialog implements MyDialog
 	private JPanel mainPanel, buttonPanel, fieldPanel, labelPanel, iconPanel;
 
 	private MainModel mainModel;
-	private boolean codiceFiscaleFlag, emailFlag, userIdFlag;
 
 	/**
 	 * Costruisce una nuova finestra di dialogo per la creazione di un nuovo utente.
@@ -169,8 +168,8 @@ public class NuovoUtenteDialog implements MyDialog
 	public void setMainModel(MainModel mainModel)
 	{
 		this.mainModel = mainModel;
-		setVerifier();
-		confermaButton.addActionListener(new ActionListener()
+		//setVerifier();
+		confermaButton.addActionListener(/*new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
@@ -197,12 +196,14 @@ public class NuovoUtenteDialog implements MyDialog
 					JOptionPane.showMessageDialog(mainPanel, "Errore di connessione con il server!", "ERRORE", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-		});
+		}*/
+		new NuovoUtenteActionListener());
 	}
 
 	/**
 	 * Imposta i verificatori per i campi di input, abilita o disabilita il pulsante di conferma in base alla validità dei dati.
 	 */
+	/*
 	public void setVerifier()
 	{
 		confermaButton.setEnabled(false);
@@ -397,6 +398,157 @@ public class NuovoUtenteDialog implements MyDialog
 				}
 			}
 		});
+	}
+	 */
+	
+	private class NuovoUtenteActionListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if(mainModel == null)
+				return;
+			
+			String nome = nomeField.getText().trim();
+			if (nome.isBlank())
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Il nome non può essere vuoto!", "Nome invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			if (!nome.matches("^[a-zA-Z]{3,}$"))
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Il nome deve contenere almeno tre caratteri alfabetici e non deve includere numeri.", "Nome invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			
+			String cognome = cognomeField.getText().trim();
+			if(cognome.isBlank())
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Il cognome non può essere vuoto!", "Cognome invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			if (!cognome.matches("^[a-zA-Z]{3,}$"))
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Il cognome deve contenere almeno tre caratteri alfabetici e non deve includere numeri.", "Cognome invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			
+			String codiceFiscale = codiceFiscaleField.getText().toUpperCase(); // Converti tutto in maiuscolo
+			if(codiceFiscale.length() != 16)
+			{
+				JOptionPane.showMessageDialog(mainPanel,
+						"Il codice fiscale deve essere lungo 16 caratteri.",
+						"Lunghezza Codice Fiscale", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			// Definisci l'espressione regolare per il codice fiscale
+			String regex = "^[A-Za-z]{6}\\d{2}[A-Za-z]\\d{2}[0-3][0-9][A-Za-z]\\d{3}[A-Za-z]$";
+			// Applica l'espressione regolare
+			if (!codiceFiscale.matches(regex))
+			{
+				JOptionPane.showMessageDialog(mainPanel,
+						"Il codice fiscale non è corretto. Assicurati di seguire il formato specificato. Formato: ABCDEF12G34H567I",
+						"Codice Fiscale invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			
+			String indirizzo = indirizzoField.getText().trim().toLowerCase();
+			if (indirizzo.isEmpty())
+			{
+				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo non può essere vuoto!", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			if(!indirizzo.matches("^[a-zA-Z0-9\\s]+$"))
+			{
+				//  l'indirizzo contiene solo caratteri alfabetici, numerici e spazi
+				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo può contenere solo caratteri alfabetici, numerici e spazi.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			// l'inizio dell'indirizzo
+			regex = "^(via|piazza|corso|viale)\\s.+";
+			if (!indirizzo.matches(regex))
+			{
+				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo deve iniziare con Via, Piazza, Corso o Viale seguito da qualche parola.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			
+			String email = emailField.getText().trim();
+			// Utilizza un'espressione regolare per verificare se l'indirizzo email è valido
+			final String regularSyntax = "^[A-Za-z0-9._%+-]+@(studenti\\\\.)?uninsubria\\\\.it$|^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Z|a-z]{2,}$+";
+			if(!email.matches(regularSyntax))
+			{
+				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo email non è valido", "Email invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			
+			String username = userIdField.getText().trim();
+			// Controlli locali
+			// Controlla la lunghezza dell'username
+			if (username.length() < 5)
+			{
+				JOptionPane.showMessageDialog(mainPanel, "L'username deve essere lungo almeno 5 caratteri.", "Username invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			if(!username.matches("^[a-zA-Z0-9]+$"))
+			{
+				JOptionPane.showMessageDialog(mainPanel, "L'username può contenere solo lettere e numeri.", "Username invalido", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			// Controlli remoti
+			try{
+				// Verifica se l'username è già in uso
+				if(mainModel.controlloUserid(username))
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Username già in uso, riprova", "Username invalido", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+			} catch (RemoteException ex)
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Errore di connessione con il server!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			String password = passwordField.getText();
+			// Verifica la lunghezza della password
+			if (password.length() < 6)
+			{
+				JOptionPane.showMessageDialog(mainPanel, "La password deve essere lunga almeno 6 caratteri", "Password invalida", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			// Verifica che la password contenga almeno una lettera maiuscola, una lettera minuscola e un numero
+			if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*"))
+			{
+				JOptionPane.showMessageDialog(mainPanel, "La password deve contenere almeno una lettera maiuscola, una lettera minuscola e un numero", "Password invalida", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			if (password.contains(" "))
+			{
+				JOptionPane.showMessageDialog(mainPanel, "La password non può contenere spazi", "Password invalida", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+
+			
+			UtenteRegistrato utenteRegistrato = new UtenteRegistrato(
+					nomeField.getText(),
+					cognomeField.getText(),
+					codiceFiscaleField.getText(),
+					indirizzoField.getText(),
+					emailField.getText(),
+					passwordField.getText(),
+					userIdField.getText()
+			);
+			try
+			{
+				if(mainModel.Registrazione(utenteRegistrato))
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Nuovo account creato", "CONFERMA", JOptionPane.INFORMATION_MESSAGE);
+					finestra.dispose();
+				}
+			} catch (IOException ex)
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Errore di connessione con il server!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 
 	/**
