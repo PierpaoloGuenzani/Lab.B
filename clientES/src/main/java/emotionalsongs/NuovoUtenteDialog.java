@@ -442,7 +442,7 @@ public class NuovoUtenteDialog implements MyDialog
 				return;
 			}
 			// Definisci l'espressione regolare per il codice fiscale
-			String regex = "^[A-Za-z]{6}\\d{2}[A-Za-z]\\d{2}[0-3][0-9][A-Za-z]\\d{3}[A-Za-z]$";
+			String regex = "^[A-Za-z]{6}\\d{2}[A-Za-z]\\d{2}[A-Za-z]\\d{3}[A-Za-z]$";
 			// Applica l'espressione regolare
 			if (!codiceFiscale.matches(regex))
 			{
@@ -458,23 +458,18 @@ public class NuovoUtenteDialog implements MyDialog
 				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo non può essere vuoto!", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			if(!indirizzo.matches("^[a-zA-Z0-9\\s]+$"))
+			if(!indirizzo.matches("^(via|piazza|corso|viale|traversa)\\s+[a-zA-Z]+(?:\\s+[a-zA-Z]+){0,4}(?:\\s+\\d{1,5})?$"))
 			{
 				//  l'indirizzo contiene solo caratteri alfabetici, numerici e spazi
-				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo può contenere solo caratteri alfabetici, numerici e spazi.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				//JOptionPane.showMessageDialog(mainPanel, "L'indirizzo può contenere solo caratteri alfabetici, numerici e spazi.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo deve iniziare con Via, Piazza, Corso o Viale, seguono qualche parola e opzionalmente il numero civico.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			// l'inizio dell'indirizzo
-			regex = "^(via|piazza|corso|viale)\\s.+";
-			if (!indirizzo.matches(regex))
-			{
-				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo deve iniziare con Via, Piazza, Corso o Viale seguito da qualche parola.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-			
+
 			String email = emailField.getText().trim();
 			// Utilizza un'espressione regolare per verificare se l'indirizzo email è valido
-			final String regularSyntax = "^[A-Za-z0-9._%+-]+@(studenti\\\\.)?uninsubria\\\\.it$|^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Z|a-z]{2,}$+";
+			//final String regularSyntax = "^(?i)[A-Za-z0-9._-]+@(studenti\\\\.)?uninsubria\\\\.it$|^[A-Za-z0-9._-]+@[A-Za-z0-9-]+\\\\.(it|us|biz|org|info|com|net|eu)$";
+			final String regularSyntax = "^(?i)[A-Za-z0-9._-]+@(studenti\\.)?[A-Za-z0-9-]+\\.(it|us|biz|org|info|com|net|eu)$";
 			if(!email.matches(regularSyntax))
 			{
 				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo email non è valido", "Email invalido", JOptionPane.WARNING_MESSAGE);
