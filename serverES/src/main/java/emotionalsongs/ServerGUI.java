@@ -3,27 +3,22 @@ package emotionalsongs;
 import emotionalsongs.logic.EmotionalSongsService;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Rappresenta l'interfaccia grafica per la configurazione dell'accesso al server del database.
- * Include campi di testo per l'inserimento delle informazioni richieste (URL, nome utente e password) e pulsanti per confermare l'accesso o annullare l'operazione.
- * In caso di credenziali non valide, l'utente ha la possibilità di riprovare o chiudere l'applicazione.
- * Gestisce eventuali errori di connessione.
+ *
+ * La classe fornisce una finestra grafica che consente all'utente di inserire le informazioni necessarie per la connessione al server del database.
+ * Include campi di testo per l'URL del database, il nome utente e la password. L'utente può confermare la connessione o annullare l'operazione tramite appositi pulsanti.
+ * In caso di errori di connessione o di credenziali non valide, viene visualizzato un messaggio di errore e l'applicazione viene chiusa.
  *
  * @author Tropeano Martina 749890 VA
  * @author Guenzani Pierpaolo 738675 VA
  *
+ * @see EmotionalSongsService
  */
-public class ServerGUIs
+public class ServerGUI
 {
     private JFrame frame;
     private JPanel fieldPanel, buttonPanel, urlPanel, userPanel, passwordPanel;
@@ -31,10 +26,15 @@ public class ServerGUIs
     private JTextField urlField, userField, passwordField;
     private JLabel urlLabel, userLabel, passwordLabel;
 
-    public ServerGUIs()
+    /**
+     * Costruisce una nuova istanza di ServerGUI.
+     * Inizializza la finestra e i componenti grafici necessari per la configurazione dell'accesso al server del database.
+     * La finestra viene visualizzata al centro dello schermo.
+     */
+    public ServerGUI()
     {
         frame = new JFrame();
-        frame.setTitle("ServerGUI");
+        frame.setTitle("CONNESSIONE AL SERVER");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -42,9 +42,14 @@ public class ServerGUIs
         initializeButtonPanel();
         
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
+
+    /**
+     * Inizializza il pannello dei campi (URL, nome utente, password) della finestra.
+     * Utilizza un layout di tipo BoxLayout per organizzare i campi in verticale.
+     */
     private void initializeFieldPanel()
     {
         fieldPanel = new JPanel(new GridBagLayout());
@@ -77,7 +82,11 @@ public class ServerGUIs
         fieldPanel.setLayout(new BoxLayout(fieldPanel, BoxLayout.Y_AXIS));
         frame.add(fieldPanel);
     }
-    
+
+    /**
+     * Inizializza il pannello dei pulsanti (Connetti, Annulla) della finestra.
+     * Aggiunge i listener ai pulsanti per gestire le azioni dell'utente.
+     */
     private void initializeButtonPanel()
     {
         buttonPanel = new JPanel();

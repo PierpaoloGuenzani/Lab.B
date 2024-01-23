@@ -38,7 +38,7 @@ public class EmotionalSongServer
 	 */
 	public static void main(String[] args) throws IOException, AlreadyBoundException, SQLException
 	{
-		new ServerGUIs();
+		new ServerGUI();
 		// Crea un oggetto EmotionalSongsService
 		EmotionalSongsService object = EmotionalSongsService.getInstance();
 		// Esporta l'oggetto come oggetto remoto
