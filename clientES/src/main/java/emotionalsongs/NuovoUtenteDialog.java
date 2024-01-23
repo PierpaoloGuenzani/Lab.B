@@ -144,7 +144,7 @@ public class NuovoUtenteDialog implements MyDialog
 	private void initializeButton()
 	{
 		buttonPanel = new JPanel();
-		confermaButton = new JButton("Connettiti");
+		confermaButton = new JButton("Conferma");
 		buttonPanel.add(confermaButton);
 
 		annullaButton = new JButton("Annulla");
@@ -458,11 +458,11 @@ public class NuovoUtenteDialog implements MyDialog
 				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo non può essere vuoto!", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			if(!indirizzo.matches("^(via|piazza|corso|viale|traversa)\\s+[a-zA-Z]+(?:\\s+[a-zA-Z]+){0,4}(?:\\s+\\d{1,5})?$"))
+			if(!indirizzo.matches("^(via|piazza|corso|viale)\\s+[a-zA-Z]+(?:\\s+[a-zA-Z]+){0,4}+\\s+\\d{1,5}$"))
 			{
 				//  l'indirizzo contiene solo caratteri alfabetici, numerici e spazi
 				//JOptionPane.showMessageDialog(mainPanel, "L'indirizzo può contenere solo caratteri alfabetici, numerici e spazi.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
-				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo deve iniziare con Via, Piazza, Corso o Viale, seguono qualche parola e opzionalmente il numero civico.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(mainPanel, "L'indirizzo deve iniziare con Via, Piazza, Corso o Viale e terminare con il numero civico.", "Indirizzo invalido", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 

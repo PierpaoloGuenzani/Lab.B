@@ -134,6 +134,27 @@ public class MainView
 	private void initializeSearchBar()
 	{
 		searchPanel = new JPanel();
+
+		JLabel label = new JLabel("Ricerca per:");
+		searchPanel.add(label);
+
+		buttonGroup = new ButtonGroup();
+
+		titoloRadioButton = new JRadioButton("Titolo");
+		titoloRadioButton.setMnemonic('t');
+		titoloRadioButton.setSelected(true);
+		buttonGroup.add(titoloRadioButton);
+		searchPanel.add(titoloRadioButton);
+
+		autoreRadioButton = new JRadioButton("Autore");
+		autoreRadioButton.setMnemonic('u');
+		buttonGroup.add(autoreRadioButton);
+		searchPanel.add(autoreRadioButton);
+
+		autoreEAnnoRadioButton = new JRadioButton("Autore e Anno");
+		autoreEAnnoRadioButton.setMnemonic('n');
+		buttonGroup.add(autoreEAnnoRadioButton);
+		searchPanel.add(autoreEAnnoRadioButton);
 		
 		searchField = new JTextField();
 		searchField.setMinimumSize(new Dimension(100, 30));
@@ -145,28 +166,7 @@ public class MainView
 		annoField.setColumns(5);
 		annoField.setVisible(false);
 		searchPanel.add(annoField);
-		
-		JLabel label = new JLabel("Ricerca per:");
-		searchPanel.add(label);
-		
-		buttonGroup = new ButtonGroup();
-		
-		titoloRadioButton = new JRadioButton("Titolo");
-		titoloRadioButton.setMnemonic('t');
-		titoloRadioButton.setSelected(true);
-		buttonGroup.add(titoloRadioButton);
-		searchPanel.add(titoloRadioButton);
-		
-		autoreRadioButton = new JRadioButton("Autore");
-		autoreRadioButton.setMnemonic('u');
-		buttonGroup.add(autoreRadioButton);
-		searchPanel.add(autoreRadioButton);
-		
-		autoreEAnnoRadioButton = new JRadioButton("Autore e Anno");
-		autoreEAnnoRadioButton.setMnemonic('n');
-		buttonGroup.add(autoreEAnnoRadioButton);
-		searchPanel.add(autoreEAnnoRadioButton);
-		
+
 		mainPanel.add(searchPanel, BorderLayout.NORTH);
 	}
 

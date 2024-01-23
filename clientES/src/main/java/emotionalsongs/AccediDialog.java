@@ -11,8 +11,8 @@ import java.rmi.RemoteException;
  * Gli utenti devono inserire un nome utente e una password per accedere.
  * La finestra gestisce l'interfaccia grafica e le azioni associate ai pulsanti.
  *
- *  * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
- *  * @see MyDialog
+ * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
+ * @see MyDialog
  */
 public class AccediDialog
 {
@@ -69,7 +69,7 @@ public class AccediDialog
 				if(user.equals(""))
 				{
 					// Mostra un messaggio di errore se l'username è vuoto.
-					JOptionPane.showMessageDialog(mainPanel, "Username vuoto", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(mainPanel, "Username non può essere vuoto", "ERRORE", JOptionPane.ERROR_MESSAGE);
 					return;  // Termina la funzione in caso di errore.
 				}
 				// Ottieni la password inserita dall'utente.
@@ -77,7 +77,7 @@ public class AccediDialog
 				if(password.equals(""))
 				{
 					// Mostra un messaggio di errore se la password è vuota.
-					JOptionPane.showMessageDialog(mainPanel, "Password vuota", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(mainPanel, "Password non può essere vuota", "ERRORE", JOptionPane.ERROR_MESSAGE);
 					return;  // Termina la funzione in caso di errore.
 				}
 				try
@@ -94,7 +94,7 @@ public class AccediDialog
 					else
 					{
 						// Se le credenziali sono errate, mostra un messaggio di errore.
-						JOptionPane.showMessageDialog(mainPanel, "Password o username errati", "ERRORE", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(mainPanel, "Username o password errati", "ERRORE", JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (RemoteException ex)
 				{
