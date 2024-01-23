@@ -21,7 +21,7 @@ public class MainView
 	/**
 	 * La larghezza predefinita della finestra dell'interfaccia utente grafica (GUI)
 	 */
-	private final int DEFAULT_WIDTH = 600;
+	private final int DEFAULT_WIDTH = 700;
 	/**
 	 * L'altezza predefinita della finestra dell'interfaccia utente grafica (GUI)
 	 */
@@ -71,7 +71,19 @@ public class MainView
 		
 		finestra.add(mainPanel);
 		finestra.setVisible(true);
+		centerFrame(); // Centra la finestra iniziale
+
 		System.out.println(searchField.getSize());
+	}
+
+	/**
+	 * Centra la finestra iniziale allo schermo su cui compare.
+	 */
+	private void centerFrame() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (screenSize.width - finestra.getWidth()) / 2;
+		int y = (screenSize.height - finestra.getHeight()) / 2;
+		finestra.setLocation(x, y);
 	}
 
 	/**
