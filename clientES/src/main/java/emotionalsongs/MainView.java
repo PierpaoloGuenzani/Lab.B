@@ -4,6 +4,8 @@ import common.Canzone;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * La classe MainView rappresenta l'interfaccia utente grafica (GUI) dell'applicazione "EmotionalSongs".
@@ -305,5 +307,6 @@ public class MainView
 		nuovoAccountItem.addActionListener(mainController);
 		nuovaPlaylistItem.addActionListener(mainController);
 		visualizzaPlaylistItem.addActionListener(mainController);
+		finestra.addWindowListener(mainController);
 	}
 }

@@ -5,6 +5,8 @@ import common.Canzone;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 
 /**
@@ -15,7 +17,7 @@ import java.rmi.RemoteException;
  * Le azioni gestite includono la creazione di nuovi account, la creazione di playlist, la visualizzazione delle playlist, la ricerca di brani musicali
  * e altre interazioni chiave nell'applicazione.
  */
-public class MainController implements ActionListener
+public class MainController extends WindowAdapter implements ActionListener
 {
 	private MainView mainView;
 	private MainModel mainModel;
@@ -75,7 +77,6 @@ public class MainController implements ActionListener
 			}
 			if(source.equals(mainView.visualizzaPlaylistItem))
 			{
-				//TODO: eliminare aggiungi canzone dialog
 				SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.VISUALIZZA_PLAYLIST);
 				if(mainModel != null) selectPlaylistDialog.setMainModel(mainModel);
 				selectPlaylistDialog.draw();
@@ -191,5 +192,15 @@ public class MainController implements ActionListener
 			// Gestione dell'eccezione in caso di errore di connessione
 			JOptionPane.showMessageDialog(mainView.finestra, "Connessione con il server non disponibile", "Connection Error", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		super.windowClosing(e);
+		try
+		{
+			mainModel.logOut();
+		} catch (RemoteException ex) {}
 	}
 }

@@ -191,6 +191,11 @@ public class AggiungiEmozioneDialog implements MyDialog
 					JOptionPane.showMessageDialog(mainPanel, "Emozione inserita con successo", "SUCCESSO", JOptionPane.INFORMATION_MESSAGE);
 					finestra.dispose();
 				}
+				else
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Emozione già inserita non puoi inserirla nuovamente", "WARNING", JOptionPane.WARNING_MESSAGE);
+					finestra.dispose();
+				}
 			}
 		});
 	}

@@ -198,21 +198,6 @@ public class MainModel
 	}
 
 	/**
-	 * Aggiunge una compilation di canzoni a una playlist.
-	 *
-	 * @param listaCanzoni La lista delle canzoni da aggiungere.
-	 * @param idPlaylist   L'ID della playlist alla quale aggiungere le canzoni.
-	 * @return true se l'aggiunta ha successo, false altrimenti.
-	 * @throws IOException se si verifica un errore di I/O.
-	 * @throws RemoteException se non è possibile connettersi al server.
-	 */
-	public boolean aggiungiCompilation(List<Canzone> listaCanzoni, String idPlaylist) throws IOException, RemoteException
-	{
-		//TODO: implementazione o rimuovere
-		return false;
-	}
-
-	/**
 	 * Ottiene la lista di canzoni associate a una playlist.
 	 *
 	 * @param idPlaylist L'ID della playlist.
