@@ -59,7 +59,7 @@ public class AggiungiEmozioneDialog implements MyDialog
 		insidePanel = new JPanel(new GridLayout(0,3));
 		insidePanel.setVisible(true);
 		// Aggiunge un bordo verde al pannello interno per una migliore visibilità
-		insidePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+		//insidePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
 		// Array di stringhe per rappresentare i possibili punteggi
 		String[] array = {"0", "1", "2", "3", "4", "5"};
@@ -82,8 +82,13 @@ public class AggiungiEmozioneDialog implements MyDialog
 			mono.add(comboBoxes[i]);
 			insidePanel.add(mono);
 			// Inizializza un JTextArea per inserire eventuali note e lo aggiunge al pannello interno
-			textAreas[i] = new JTextArea(4, 20);
+			textAreas[i] = new JTextArea(2, 10);
 			textAreas[i].setBorder(BorderFactory.createLoweredBevelBorder());
+
+			// Imposta lineWrap e wrapStyleWord per far andare a capo il testo
+			textAreas[i].setLineWrap(true);
+			textAreas[i].setWrapStyleWord(true);
+
 			insidePanel.add(new JScrollPane(textAreas[i]));
 		}
 		// Aggiunge il pannello interno al pannello principale nella regione centrale

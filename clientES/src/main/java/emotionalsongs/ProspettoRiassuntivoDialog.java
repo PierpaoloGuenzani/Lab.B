@@ -71,7 +71,7 @@ public class ProspettoRiassuntivoDialog implements MyDialog
 		
 		finestra.add(mainPanel);
 //		finestra.setVisible(true);
-//		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 
 	/**
