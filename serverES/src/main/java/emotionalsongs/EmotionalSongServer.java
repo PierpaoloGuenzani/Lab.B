@@ -38,9 +38,9 @@ public class EmotionalSongServer
 	 */
 	public static void main(String[] args) throws IOException, AlreadyBoundException, SQLException
 	{
+		new ServerGUIs();
 		// Crea un oggetto EmotionalSongsService
 		EmotionalSongsService object = EmotionalSongsService.getInstance();
-		object.setDBs(null,null,null);
 		// Esporta l'oggetto come oggetto remoto
 		EmotionalSongsInterface stab = (EmotionalSongsInterface) UnicastRemoteObject.exportObject(object, 0);
 		// Crea un registro RMI sulla porta predefinita e registra il servizio con il nome "EmotionalSong"

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -54,7 +55,6 @@ public class ServerGUIs
         urlLabel.setLabelFor(urlField);
         urlPanel.add(urlLabel);
         urlPanel.add(urlField);;
-        urlPanel.setBorder(new LineBorder(new Color(0,0,0)));
         
         userPanel = new JPanel();
         userField = new JTextField(20);
@@ -62,7 +62,6 @@ public class ServerGUIs
         userLabel.setLabelFor(userField);
         userPanel.add(userLabel);
         userPanel.add(userField);
-        userPanel.setBorder(new LineBorder(new Color(255,0,0)));
         
         passwordPanel = new JPanel();
         passwordField = new JTextField(20);
@@ -70,7 +69,6 @@ public class ServerGUIs
         passwordLabel.setLabelFor(passwordField);
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordField);
-        passwordPanel.setBorder(new LineBorder(new Color(0,255,0)));
         
         fieldPanel.add(urlPanel);
         fieldPanel.add(userPanel);
@@ -87,6 +85,22 @@ public class ServerGUIs
         conferma = new JButton("Connetti");
         conferma.addActionListener(e ->
         {
+            try
+            {
+                EmotionalSongsService.getInstance().setDBs(
+                        urlField.getText().isBlank()? null: urlField.getText(),
+                        userField.getText().isBlank()? null: urlField.getText(),
+                        passwordField.getText().isBlank()? null: urlField.getText()
+                );
+            } catch (SQLException | IOException ex )
+            {
+                JOptionPane.showMessageDialog(frame, "Impossibile connettersi al DB", "Connection Error", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
+            finally
+            {
+                frame.dispose();
+            }
         });
         buttonPanel.add(conferma);
         
@@ -95,11 +109,6 @@ public class ServerGUIs
         buttonPanel.add(annulla);
         
         frame.add(buttonPanel, BorderLayout.SOUTH);
-    }
-    
-    public static void main(String[] args)
-    {
-        new ServerGUIs();
     }
 }
 
