@@ -131,6 +131,11 @@ public class MainController extends WindowAdapter implements ActionListener
 					}
 					if(mainModel != null) mainModel.cercaBranoMusicale(mainView.searchField.getText(), Integer.parseInt(mainView.annoField.getText()));
 				}
+				// Verifica se la lista di canzoni è vuota
+				if (mainModel.getCanzoneJlist().isEmpty()) {
+					JOptionPane.showMessageDialog(mainView.finestra, "La ricerca non ha prodotto risultati.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
 				// Aggiorna la lista delle canzoni nella Vista
 				mainView.setJListModel(mainModel.getCanzoneJlist());
 			}
