@@ -48,7 +48,7 @@ public class ServerGUI
 
     /**
      * Inizializza il pannello dei campi (URL, nome utente, password) della finestra.
-     * Utilizza un layout di tipo BoxLayout per organizzare i campi in verticale.
+     * Utilizza un layout di tipo GridBagLayout per organizzare i campi in verticale.
      */
     private void initializeFieldPanel()
     {
