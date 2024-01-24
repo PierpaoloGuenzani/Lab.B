@@ -1,6 +1,7 @@
 package emotionalsongs;
 
 import common.Canzone;
+import common.Playlist;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -149,6 +150,28 @@ public class MainController extends WindowAdapter implements ActionListener
 				mainView.setLoggedOut();
 				if(mainModel != null) mainModel.logOut();
 			}
+			// Popola playlist
+			if(source.equals(mainView.popolaButton))
+			{
+				// Ottiene la canzone selezionata
+				Canzone canzone = (Canzone) mainView.canzoneJList.getSelectedValue();
+				if(canzone == null)
+				{
+					JOptionPane.showMessageDialog(mainView.finestra, "Nessuna canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				// Verifica se l'utente ha creato almeno una playlist
+				if(mainModel.cercaPlaylistUtente().size() == 0)
+				{
+					JOptionPane.showMessageDialog(mainView.finestra, "Nessuna Playlist creata, creala e poi riprova!", "ERRORE", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				// Apri direttamente la finestra di selezione della playlist
+				SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST);
+				selectPlaylistDialog.setIdCanzone(canzone.getId());
+				selectPlaylistDialog.setMainModel(mainModel);
+				selectPlaylistDialog.draw();
+			}
 			// Visualizza emozioni
 			if(source.equals(mainView.visualizzaEmozioniButton))
 			{
@@ -156,7 +179,7 @@ public class MainController extends WindowAdapter implements ActionListener
 				Canzone canzone = (Canzone) mainView.canzoneJList.getSelectedValue();
 				if(canzone == null)
 				{
-					JOptionPane.showMessageDialog(mainView.finestra, "Nessun canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(mainView.finestra, "Nessuna canzone selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 				if(mainModel != null) mainModel.visualizzaEmozioni(canzone.getId());

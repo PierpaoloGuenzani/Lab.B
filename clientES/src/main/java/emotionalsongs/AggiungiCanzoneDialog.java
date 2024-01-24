@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 /**
  * Questa classe rappresenta una finestra di dialogo per aggiungere una canzone a una playlist.
@@ -29,7 +30,7 @@ public class AggiungiCanzoneDialog implements MyDialog
 	public AggiungiCanzoneDialog()
 	{
 		finestra = new JDialog();
-		finestra.setTitle("SELEZIONA LA PLAYLIST");
+		finestra.setTitle("AGGIUNGI CANZONE");
 		finestra.setModal(true);
 		finestra.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		finestra.setMinimumSize(new Dimension(300, 200));
@@ -40,8 +41,8 @@ public class AggiungiCanzoneDialog implements MyDialog
 		initializeButton();		// Inizializza i pulsanti
 		
 		finestra.add(mainPanel);
-//		finestra.setVisible(true);
-//		finestra.setLocationRelativeTo(MainView.finestra);
+		finestra.setVisible(true);
+		finestra.setLocationRelativeTo(MainView.finestra);
 	}
 
 	/**
@@ -63,11 +64,11 @@ public class AggiungiCanzoneDialog implements MyDialog
 	{
 		JLabel label = new JLabel("Seleziona la playlist in cui inserire la canzone:", JLabel.CENTER);
 		mainPanel.add(label, BorderLayout.NORTH);
-		
+
 		playlistJList = new JList<>();
 		playlistJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		playlistJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		
+
 		mainPanel.add(new JScrollPane(playlistJList), BorderLayout.CENTER);
 	}
 
@@ -107,10 +108,37 @@ public class AggiungiCanzoneDialog implements MyDialog
 			{
 				try
 				{
-					mainModel.aggiungiCanzone(idCanzone, playlistJList.getSelectedValue().getIdPlaylist());
-				} catch (IOException ex)
+					if(!mainModel.controllaCanzonePersona(idCanzone))
+					{
+						SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST);
+						selectPlaylistDialog.setIdCanzone(idCanzone);
+						selectPlaylistDialog.setMainModel(mainModel);
+						selectPlaylistDialog.draw();
+					}
+					//mainModel.aggiungiCanzone(idCanzone, playlistJList.getSelectedValue().getIdPlaylist());
+				} catch (RemoteException ex)
+				{
+					ex.printStackTrace();
+					//JOptionPane.showMessageDialog(MainView.finestra, "Impossibile salvare la canzone nella playlist", "Connection Error", JOptionPane.ERROR_MESSAGE);
+				}
+				boolean flag = false;
+				try{
+					if(mainModel.aggiungiCanzone(idCanzone, playlistJList.getSelectedValue().getIdPlaylist()))
+						flag=true;
+				}
+				 catch (IOException ex)
 				{
 					JOptionPane.showMessageDialog(MainView.finestra, "Impossibile salvare la canzone nella playlist", "Connection Error", JOptionPane.ERROR_MESSAGE);
+				}
+				if(flag)
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Canzone inserita con successo", "SUCCESSO", JOptionPane.INFORMATION_MESSAGE);
+					finestra.dispose();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(mainPanel, "Canzone già presente in playlist, non puoi inserirla nuovamente", "WARNING", JOptionPane.WARNING_MESSAGE);
+					finestra.dispose();
 				}
 			}
 		});

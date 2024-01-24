@@ -149,7 +149,8 @@ public class SelectPlaylistDialog implements MyDialog
 						{
 							if(mainModel.aggiungiCanzone(idCanzone, lista.getSelectedValue().getIdPlaylist()))
 								JOptionPane.showMessageDialog(MainView.finestra, "Canzone inserita con successo", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
-								
+							else
+								JOptionPane.showMessageDialog(MainView.finestra, "Canzone già presente in playlist", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
 						}
 						catch (IOException ex)
 						{

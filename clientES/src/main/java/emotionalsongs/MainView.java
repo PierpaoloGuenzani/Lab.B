@@ -39,7 +39,7 @@ public class MainView
 	private ButtonGroup buttonGroup;
 	JRadioButton titoloRadioButton, autoreRadioButton, autoreEAnnoRadioButton;
 	JList<Canzone> canzoneJList;
-	JButton accediButton, logOutButton, ricercaButton, visualizzaEmozioniButton, inserisciEmozioneButton;
+	JButton accediButton, logOutButton, ricercaButton, popolaButton, visualizzaEmozioniButton, inserisciEmozioneButton;
 
 	/**
 	 * Costruttore della classe MainView.
@@ -186,7 +186,7 @@ public class MainView
 	}
 
 	/**
-	 * Inizializza i pulsanti dell'interfaccia utente, inclusi i pulsanti "Accedi", "Logout", "Ricerca", "Visualizza Emozione" e "Inserisci Emozione".
+	 * Inizializza i pulsanti dell'interfaccia utente, inclusi i pulsanti "Accedi", "Logout", "Ricerca", "Popola Playlist", "Visualizza Emozione" e "Inserisci Emozione".
 	 */
 	private void initializeButton()
 	{
@@ -204,6 +204,11 @@ public class MainView
 		ricercaButton = new JButton("Ricerca");
 		ricercaButton.setMnemonic('r');
 		buttonPanel.add(ricercaButton);
+
+		popolaButton = new JButton("Popola Playlist");
+		popolaButton.setVisible(false);
+		popolaButton.setMnemonic('p');
+		buttonPanel.add(popolaButton);
 		
 		visualizzaEmozioniButton = new JButton("Visualizza Emozione");
 		visualizzaEmozioniButton.setMnemonic('v');
@@ -218,7 +223,7 @@ public class MainView
 	}
 
 	/**
-	 * Imposta l'interfaccia utente come "loggata", visualizzando il menu "Playlist" e i pulsanti "Inserisci Emozione" e "Logout".
+	 * Imposta l'interfaccia utente come "loggata", visualizzando il menu "Playlist" e i pulsanti "Popola Playlist", "Inserisci Emozione" e "Logout".
 	 * Nasconde il pulsante "Accedi".
 	 */
 	public void setLoggedIn()
@@ -228,11 +233,12 @@ public class MainView
 		inserisciEmozioneButton.setVisible(true);
 		accediButton.setVisible(false);
 		logOutButton.setVisible(true);
+		popolaButton.setVisible(true);
 		update(buttonPanel);
 	}
 
 	/**
-	 * Imposta l'interfaccia utente come "non loggata", nascondendo il menu "Playlist" e i pulsanti "Inserisci Emozione" e "Logout".
+	 * Imposta l'interfaccia utente come "non loggata", nascondendo il menu "Playlist" e i pulsanti "Popola Playlist", "Inserisci Emozione" e "Logout".
 	 * Visualizza il pulsante "Accedi".
 	 */
 	public void setLoggedOut()
@@ -241,6 +247,7 @@ public class MainView
 		
 		inserisciEmozioneButton.setVisible(false);
 		logOutButton.setVisible(false);
+		popolaButton.setVisible(false);
 		accediButton.setVisible(true);
 		update(buttonPanel);
 	}
@@ -302,6 +309,7 @@ public class MainView
 		accediButton.addActionListener(mainController);
 		logOutButton.addActionListener(mainController);
 		ricercaButton.addActionListener(mainController);
+		popolaButton.addActionListener(mainController);
 		visualizzaEmozioniButton.addActionListener(mainController);
 		inserisciEmozioneButton.addActionListener(mainController);
 		nuovoAccountItem.addActionListener(mainController);
