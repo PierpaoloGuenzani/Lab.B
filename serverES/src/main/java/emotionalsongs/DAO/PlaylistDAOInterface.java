@@ -8,6 +8,9 @@ import java.io.IOException;
  * Questa interfaccia estende l'interfaccia generica Dao e definisce operazioni specifiche per l'accesso ai dati delle playlist.
  * L'obiettivo è fornire un'astrazione per l'accesso alle playlist,
  * consentendo la gestione separata della logica di accesso ai dati delle playlist dalla logica di business dell'applicazione.
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public interface PlaylistDAOInterface extends Dao<Playlist>
 {

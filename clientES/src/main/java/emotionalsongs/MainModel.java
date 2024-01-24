@@ -16,6 +16,9 @@ import java.util.List;
  * Questa classe è parte del pattern Model-View-Controller (MVC) in cui il Modello è responsabile della manipolazione dei dati e delle interazioni con il server.
  * Il Modello si connette al server utilizzando l'indirizzo IP fornito da "EmotionalSongs" e svolge diverse operazioni come la ricerca di brani musicali, la gestione delle emozioni e altro ancora.
  * Il Modello collabora con il Controller (MainController) per coordinare le azioni dell'utente.
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public class MainModel
 {

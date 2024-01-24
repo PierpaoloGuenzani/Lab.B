@@ -11,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Questa interfaccia definisce un set di operazioni specifiche per l'accesso ai dati delle percezioni.
  * L'obiettivo di questa interfaccia è fornire un'astrazione per l'accesso alle percezioni,
  * consentendo la gestione separata della logica di accesso ai dati delle percezioni dalla logica di business dell'applicazione.
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public interface PerceptionDAOInterface
 {

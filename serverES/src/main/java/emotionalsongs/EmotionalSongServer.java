@@ -25,6 +25,9 @@ import java.sql.SQLException;
  * @throws IOException Se si verifica un errore durante l'export dell'oggetto remoto.
  * @throws AlreadyBoundException Se il nome "EmotionalSong" è già registrato nel registro RMI.
  * @throws RemoteException Se si verifica un errore durante la gestione delle chiamate remote.
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public class EmotionalSongServer
 {

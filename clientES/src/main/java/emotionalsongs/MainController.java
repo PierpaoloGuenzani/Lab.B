@@ -17,6 +17,9 @@ import java.rmi.RemoteException;
  * Implementa l'interfaccia ActionListener per reagire agli eventi generati dagli elementi grafici dell'interfaccia utente.
  * Le azioni gestite includono la creazione di nuovi account, la creazione di playlist, la visualizzazione delle playlist, la ricerca di brani musicali
  * e altre interazioni chiave nell'applicazione.
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public class MainController extends WindowAdapter implements ActionListener
 {

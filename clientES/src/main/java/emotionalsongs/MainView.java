@@ -17,6 +17,9 @@ import java.awt.event.WindowEvent;
  *
  * Questa classe è connessa al Controller (MainController) per gestire gli eventi generati dall'utente, come clic sui pulsanti e selezione delle opzioni di ricerca.
  * Comunica inoltre con il Modello (MainModel) per visualizzare e aggiornare i dati relativi alle canzoni.
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public class MainView
 {

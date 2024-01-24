@@ -9,6 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * permettendo la separazione della logica di accesso ai dati dalla logica di business dell'applicazione.
  *
  * @param <T> Il tipo generico che rappresenta l'entità dei dati trattati da questo Dao.
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public interface Dao<T>
 {

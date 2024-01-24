@@ -14,6 +14,8 @@ import java.rmi.RemoteException;
  * Il Controller, a sua volta, è collegato al Modello (`MainModel`) per coordinare le operazioni relative alla musica e alla gestione delle interazioni utente.
  *
  * Questa separazione delle responsabilità secondo il pattern MVC aiuta a mantenere il codice dell'applicazione ben strutturato, facilitando la manutenzione e lo sviluppo futuro.
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public class EmotionalSongClient
 {

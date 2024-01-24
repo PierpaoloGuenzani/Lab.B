@@ -22,6 +22,9 @@ import java.util.regex.Pattern;
  *
  * Implementa l'interfaccia MyDialog che fornisce il metodo draw per disegnare la finestra di dialogo.
  * @see MyDialog
+ *
+ * @author Tropeano Martina 749890 VA
+ * @author Guenzani Pierpaolo 738675 VA
  */
 public class NuovoUtenteDialog implements MyDialog
 {
