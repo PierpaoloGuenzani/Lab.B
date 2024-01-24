@@ -1,3 +1,5 @@
+File estratto dalle varie classi che contiene l'elenco dei prepareStatement utilizzati.
+
 * from PlaylistSQLDB *
 select = serverSQL.prepareStatement("SELECT * FROM playlist WHERE idPlaylist = ?");
 selectAllSongIdFromPlaylist = serverSQL.prepareStatement("SELECT idCanzone FROM Playlist_Canzoni WHERE idPlaylist = ?");
