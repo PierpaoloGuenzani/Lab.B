@@ -1,5 +1,6 @@
 package emotionalsongs;
 
+import com.sun.tools.javac.Main;
 import common.Canzone;
 import common.Playlist;
 import common.ProspettoRiassuntivo;
@@ -107,28 +108,7 @@ public class VisualizzaPlaylistDialog implements MyDialog
 		{
 			JOptionPane.showMessageDialog(MainView.finestra,"Errore di comunicazione col server", "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
-		confermaButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(lista.isSelectionEmpty())
-				{
-					JOptionPane.showMessageDialog(MainView.finestra,"Seleziona una canzone", "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-				else
-				{
-					try
-					{
-						mainModel.visualizzaEmozioni(lista.getSelectedValue().getId());
-					} catch (RemoteException ex)
-					{
-						JOptionPane.showMessageDialog(MainView.finestra,"Errore di comunicazione col server", "ERROR", JOptionPane.ERROR_MESSAGE);
-					}
-					
-				}
-			}
-		});
+		confermaButton.addActionListener(new MyListener(mainModel));
 	}
 
 	/**
@@ -140,5 +120,36 @@ public class VisualizzaPlaylistDialog implements MyDialog
 		finestra.pack();
 		finestra.setLocationRelativeTo(MainView.finestra);
 		finestra.setVisible(true);
+	}
+	
+	private class MyListener implements ActionListener
+	{
+		private MainModel mainModel;
+		
+		public MyListener(MainModel mainModel)
+		{
+			this.mainModel = mainModel;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if(lista.isSelectionEmpty())
+			{
+				JOptionPane.showMessageDialog(MainView.finestra,"Seleziona una canzone", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				try
+				{
+					mainModel.visualizzaEmozioni(lista.getSelectedValue().getId());
+				}
+				catch (RemoteException ex)
+				{
+					JOptionPane.showMessageDialog(MainView.finestra,"Errore di comunicazione col server", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
 	}
 }

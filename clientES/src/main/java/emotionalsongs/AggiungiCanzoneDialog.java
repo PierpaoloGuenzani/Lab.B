@@ -104,47 +104,8 @@ public class AggiungiCanzoneDialog implements MyDialog
 	 */
 	public void setMainModel(MainModel mainModel)
 	{
-		confermaButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				try
-				{
-					if(!mainModel.controllaCanzonePersona(idCanzone))
-					{
-						SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST);
-						selectPlaylistDialog.setIdCanzone(idCanzone);
-						selectPlaylistDialog.setMainModel(mainModel);
-						selectPlaylistDialog.draw();
-					}
-					//mainModel.aggiungiCanzone(idCanzone, playlistJList.getSelectedValue().getIdPlaylist());
-				} catch (RemoteException ex)
-				{
-					ex.printStackTrace();
-					//JOptionPane.showMessageDialog(MainView.finestra, "Impossibile salvare la canzone nella playlist", "Connection Error", JOptionPane.ERROR_MESSAGE);
-				}
-				boolean flag = false;
-				try{
-					if(mainModel.aggiungiCanzone(idCanzone, playlistJList.getSelectedValue().getIdPlaylist()))
-						flag=true;
-				}
-				 catch (IOException ex)
-				{
-					JOptionPane.showMessageDialog(MainView.finestra, "Impossibile salvare la canzone nella playlist", "Connection Error", JOptionPane.ERROR_MESSAGE);
-				}
-				if(flag)
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Canzone inserita con successo", "SUCCESSO", JOptionPane.INFORMATION_MESSAGE);
-					finestra.dispose();
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Canzone già presente in playlist, non puoi inserirla nuovamente", "WARNING", JOptionPane.WARNING_MESSAGE);
-					finestra.dispose();
-				}
-			}
-		});
+		MyLister myLister = new MyLister(mainModel);
+		confermaButton.addActionListener(myLister);
 	}
 
 	/**
@@ -155,5 +116,54 @@ public class AggiungiCanzoneDialog implements MyDialog
 	{
 		finestra.setLocationRelativeTo(MainView.finestra);
 		finestra.setVisible(true);
+	}
+	
+	private class MyLister implements ActionListener
+	{
+		private MainModel mainModel;
+		
+		public MyLister(MainModel mainModel)
+		{
+			this.mainModel = mainModel;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			try
+			{
+				if(!mainModel.controllaCanzonePersona(idCanzone))
+				{
+					SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST);
+					selectPlaylistDialog.setIdCanzone(idCanzone);
+					selectPlaylistDialog.setMainModel(mainModel);
+					selectPlaylistDialog.draw();
+				}
+				//mainModel.aggiungiCanzone(idCanzone, playlistJList.getSelectedValue().getIdPlaylist());
+			} catch (RemoteException ex)
+			{
+				ex.printStackTrace();
+				//JOptionPane.showMessageDialog(MainView.finestra, "Impossibile salvare la canzone nella playlist", "Connection Error", JOptionPane.ERROR_MESSAGE);
+			}
+			boolean flag = false;
+			try{
+				if(mainModel.aggiungiCanzone(idCanzone, playlistJList.getSelectedValue().getIdPlaylist()))
+					flag=true;
+			}
+			catch (IOException ex)
+			{
+				JOptionPane.showMessageDialog(MainView.finestra, "Impossibile salvare la canzone nella playlist", "Connection Error", JOptionPane.ERROR_MESSAGE);
+			}
+			if(flag)
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Canzone inserita con successo", "SUCCESSO", JOptionPane.INFORMATION_MESSAGE);
+				finestra.dispose();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Canzone già presente in playlist, non puoi inserirla nuovamente", "WARNING", JOptionPane.WARNING_MESSAGE);
+				finestra.dispose();
+			}
+		}
 	}
 }

@@ -61,7 +61,8 @@ public class AccediDialog
 	{
 		this();  // Chiama il costruttore di default per inizializzare la finestra e i componenti UI.
 		// Aggiungi un listener al pulsante "Accedi" per verificare le credenziali e gestire l'accesso.
-		accediButton.addActionListener(new ActionListener()
+		MyListener myListener = new MyListener(mainModel, mainView);
+		accediButton.addActionListener(myListener/*new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
@@ -104,7 +105,7 @@ public class AccediDialog
 					JOptionPane.showMessageDialog(mainPanel, "Connessione con il server non disponibile", "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-		});
+		}*/);
 	}
 
 	/**
@@ -163,4 +164,59 @@ public class AccediDialog
 		finestra.setLocationRelativeTo(MainView.finestra);
 		finestra.setVisible(true);
 	}
+	
+	private class MyListener implements ActionListener
+	{
+		private MainModel mainModel;
+		private MainView mainView;
+		
+		public MyListener(MainModel mainModel, MainView mainView)
+		{
+			this.mainModel = mainModel;
+			this.mainView = mainView;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			// Ottieni l'username inserito dall'utente.
+			String user = userField.getText();
+			if(user.equals(""))
+			{
+				// Mostra un messaggio di errore se l'username è vuoto.
+				JOptionPane.showMessageDialog(mainPanel, "Username non può essere vuoto", "ERRORE", JOptionPane.ERROR_MESSAGE);
+				return;  // Termina la funzione in caso di errore.
+			}
+			// Ottieni la password inserita dall'utente.
+			String password = String.valueOf(passwordField.getPassword());
+			if(password.equals(""))
+			{
+				// Mostra un messaggio di errore se la password è vuota.
+				JOptionPane.showMessageDialog(mainPanel, "Password non può essere vuota", "ERRORE", JOptionPane.ERROR_MESSAGE);
+				return;  // Termina la funzione in caso di errore.
+			}
+			try
+			{
+				// Verifica le credenziali con il modello principale.
+				if(mainModel.accedi(user, password))
+				{
+					// Se le credenziali sono corrette, mostra un messaggio di successo.
+					JOptionPane.showMessageDialog(mainPanel, "Login effettuato", "AUTENTICAZIONE ACCETTATA", JOptionPane.INFORMATION_MESSAGE);
+					// Imposta la vista come autenticata e chiudi la finestra di dialogo.
+					mainView.setLoggedIn();
+					finestra.dispose();
+				}
+				else
+				{
+					// Se le credenziali sono errate, mostra un messaggio di errore.
+					JOptionPane.showMessageDialog(mainPanel, "Username o password errati", "ERRORE", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (RemoteException ex)
+			{
+				// Se c'è un errore di connessione al server, mostra un messaggio di errore.
+				JOptionPane.showMessageDialog(mainPanel, "Connessione con il server non disponibile", "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+	
 }

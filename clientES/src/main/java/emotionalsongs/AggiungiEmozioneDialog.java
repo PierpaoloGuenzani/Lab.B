@@ -140,67 +140,8 @@ public class AggiungiEmozioneDialog implements MyDialog
 	 */
 	public void setMainModel(MainModel mainModel)
 	{
-		confermaButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				try
-				{
-					if(!mainModel.controllaCanzonePersona(songId))
-					{
-						//TODO callback
-						SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST);
-						selectPlaylistDialog.setIdCanzone(songId);
-						selectPlaylistDialog.setMainModel(mainModel);
-						selectPlaylistDialog.draw();
-					}
-				} catch (RemoteException ex)
-				{
-					ex.printStackTrace();
-				}
-
-				boolean flag = false;
-				// Ottieni l'array delle emozioni disponibili
-				Emozione[] emozioni = Emozione.values();
-				// Itera attraverso le emozioni
-				for(int i = 0; i < emozioni.length; i++)
-				{
-					// Ottieni il punteggio selezionato dall'utente dal menu a discesa
-					int score = comboBoxes[i].getSelectedIndex();
-					// Se il punteggio è zero, salta questa emozione
-					if(score == 0) continue;
-					// Crea una nuova percezione con l'emozione corrente, il punteggio, l'ID della canzone e l'ID dell'utente
-					Percezione nuovaPercezione = new Percezione(emozioni[i], score, songId, mainModel.getUserId());
-					// Ottieni eventuali note inserite dall'utente
-					String nota = textAreas[i].getText();
-					// Se le note non sono vuote, aggiungile alla percezione
-					if(!nota.isBlank())
-						nuovaPercezione.aggiungiNote(nota);
-					try
-					{
-						// Prova ad inserire la percezione nel modello principale
-						if(mainModel.inserisciEmozioni(nuovaPercezione))
-							flag = true; // Imposta il flag a true se almeno una percezione è stata inserita con successo
-					} catch (IOException ex)
-					{
-						// Gestisci eventuali errori di connessione
-						JOptionPane.showMessageDialog(mainPanel, ex.getMessage(), "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-				// Se almeno una percezione è stata inserita con successo, mostra un messaggio di successo e chiudi la finestra
-				if(flag)
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Emozione inserita con successo", "SUCCESSO", JOptionPane.INFORMATION_MESSAGE);
-					finestra.dispose();
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(mainPanel, "Emozione già inserita non puoi inserirla nuovamente", "WARNING", JOptionPane.WARNING_MESSAGE);
-					finestra.dispose();
-				}
-			}
-		});
+		MyListener myListener = new MyListener(mainModel);
+		confermaButton.addActionListener(myListener);
 	}
 
 	/**
@@ -212,5 +153,74 @@ public class AggiungiEmozioneDialog implements MyDialog
 		finestra.pack();
 		finestra.setLocationRelativeTo(MainView.finestra);
 		finestra.setVisible(true);
+	}
+	
+	private class MyListener implements ActionListener
+	{
+		private MainModel mainModel;
+		
+		public MyListener(MainModel mainModel)
+		{
+			this.mainModel = mainModel;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			try
+			{
+				if(!mainModel.controllaCanzonePersona(songId))
+				{
+					//TODO callback
+					SelectPlaylistDialog selectPlaylistDialog = new SelectPlaylistDialog(SelectPlaylistDialog.SELEZIONA_PLAYLIST);
+					selectPlaylistDialog.setIdCanzone(songId);
+					selectPlaylistDialog.setMainModel(mainModel);
+					selectPlaylistDialog.draw();
+				}
+			} catch (RemoteException ex)
+			{
+				ex.printStackTrace();
+			}
+			
+			boolean flag = false;
+			// Ottieni l'array delle emozioni disponibili
+			Emozione[] emozioni = Emozione.values();
+			// Itera attraverso le emozioni
+			for(int i = 0; i < emozioni.length; i++)
+			{
+				// Ottieni il punteggio selezionato dall'utente dal menu a discesa
+				int score = comboBoxes[i].getSelectedIndex();
+				// Se il punteggio è zero, salta questa emozione
+				if(score == 0) continue;
+				// Crea una nuova percezione con l'emozione corrente, il punteggio, l'ID della canzone e l'ID dell'utente
+				Percezione nuovaPercezione = new Percezione(emozioni[i], score, songId, mainModel.getUserId());
+				// Ottieni eventuali note inserite dall'utente
+				String nota = textAreas[i].getText();
+				// Se le note non sono vuote, aggiungile alla percezione
+				if(!nota.isBlank())
+					nuovaPercezione.aggiungiNote(nota);
+				try
+				{
+					// Prova ad inserire la percezione nel modello principale
+					if(mainModel.inserisciEmozioni(nuovaPercezione))
+						flag = true; // Imposta il flag a true se almeno una percezione è stata inserita con successo
+				} catch (IOException ex)
+				{
+					// Gestisci eventuali errori di connessione
+					JOptionPane.showMessageDialog(mainPanel, ex.getMessage(), "CONNECTION ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			// Se almeno una percezione è stata inserita con successo, mostra un messaggio di successo e chiudi la finestra
+			if(flag)
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Emozione inserita con successo", "SUCCESSO", JOptionPane.INFORMATION_MESSAGE);
+				finestra.dispose();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(mainPanel, "Emozione già inserita non puoi inserirla nuovamente", "WARNING", JOptionPane.WARNING_MESSAGE);
+				finestra.dispose();
+			}
+		}
 	}
 }

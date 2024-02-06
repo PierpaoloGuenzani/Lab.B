@@ -102,37 +102,49 @@ public class NuovaPlaylistDialog implements MyDialog
 	public void setMainModel(MainModel mainModel)
 	{
 		// Aggiunge un listener al pulsante "Conferma" per gestire l'azione dell'utente.
-		confermaButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try
-				{
-					// Verifica se il campo del nome è vuoto.
-					if(nomeField.getText().isBlank()){
-						JOptionPane.showMessageDialog(MainView.finestra, "Il nome non può essere vuoto", "TITOLO INVALIDO", JOptionPane.ERROR_MESSAGE);
-					}
-
-					// Prova a registrare la nuova playlist attraverso il mainModel.
-					if(mainModel.RegistraPlaylist(nomeField.getText()))
-					{
-						// Se la registrazione è avvenuta con successo, mostra un messaggio informativo.
-						JOptionPane.showMessageDialog(MainView.finestra, "Playlist creata con successo", "CONFERMA", JOptionPane.INFORMATION_MESSAGE);
-						// Chiude la finestra di dialogo.
-						finestra.dispose();
-					}
-					else{
-						// Se il nome non può essere utilizzato, mostra un messaggio di errore.
-						JOptionPane.showMessageDialog(MainView.finestra, "Il nome non può essere usato", "TITOLO INVALIDO", JOptionPane.ERROR_MESSAGE);
-					}
+		MyListener myListener = new MyListener(mainModel);
+		confermaButton.addActionListener(myListener);
+	}
+	
+	private class MyListener implements ActionListener
+	{
+		private MainModel mainModel;
+		
+		public MyListener(MainModel mainModel)
+		{
+			this.mainModel = mainModel;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			try
+			{
+				// Verifica se il campo del nome è vuoto.
+				if(nomeField.getText().isBlank()){
+					JOptionPane.showMessageDialog(MainView.finestra, "Il nome non può essere vuoto", "TITOLO INVALIDO", JOptionPane.ERROR_MESSAGE);
 				}
-				catch (IOException ex)
+				
+				// Prova a registrare la nuova playlist attraverso il mainModel.
+				if(mainModel.RegistraPlaylist(nomeField.getText()))
 				{
-					// Gestisce l'eccezione in caso di errore di comunicazione con il server.
-					String titolo = "CONNECTION ERROR";
-					String message = "Errore di comunicazione con il server!";
-					JOptionPane.showMessageDialog(MainView.finestra, message, titolo, JOptionPane.ERROR_MESSAGE);
+					// Se la registrazione è avvenuta con successo, mostra un messaggio informativo.
+					JOptionPane.showMessageDialog(MainView.finestra, "Playlist creata con successo", "CONFERMA", JOptionPane.INFORMATION_MESSAGE);
+					// Chiude la finestra di dialogo.
+					finestra.dispose();
+				}
+				else{
+					// Se il nome non può essere utilizzato, mostra un messaggio di errore.
+					JOptionPane.showMessageDialog(MainView.finestra, "Il nome non può essere usato", "TITOLO INVALIDO", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-		});
+			catch (IOException ex)
+			{
+				// Gestisce l'eccezione in caso di errore di comunicazione con il server.
+				String titolo = "CONNECTION ERROR";
+				String message = "Errore di comunicazione con il server!";
+				JOptionPane.showMessageDialog(MainView.finestra, message, titolo, JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }

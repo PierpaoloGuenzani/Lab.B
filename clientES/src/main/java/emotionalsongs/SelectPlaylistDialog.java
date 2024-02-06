@@ -121,10 +121,16 @@ public class SelectPlaylistDialog implements MyDialog
 		try
 		{
 			lista.setModel(mainModel.cercaPlaylistUtente());
-		} catch (RemoteException e)	{
-			JOptionPane.showMessageDialog(MainView.finestra, "Errore di comunicazione col server", "ERROR", JOptionPane.INFORMATION_MESSAGE);
-			//log
 		}
+		catch (RemoteException e)
+		{
+			JOptionPane.showMessageDialog(MainView.finestra, "Errore di comunicazione col server", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+		}
+		if(state == 0)
+			confermaButton.addActionListener(new VisualizzaListener(mainModel));
+		else
+			confermaButton.addActionListener(new SelezioneListener(mainModel));
+		/*
 		confermaButton.addActionListener(new ActionListener()
 		{
 			//TODO: convertire in 2 inner class ActionListener in modo da gestire i comportamenti del conferma in maniera differente
@@ -167,7 +173,7 @@ public class SelectPlaylistDialog implements MyDialog
 				}
 				finestra.dispose();
 			}
-		});
+		});*/
 	}
 
 	/**
@@ -178,5 +184,61 @@ public class SelectPlaylistDialog implements MyDialog
 	public void setIdCanzone(String idCanzone)
 	{
 		this.idCanzone = idCanzone;
+	}
+	
+	private class VisualizzaListener implements ActionListener
+	{
+		private MainModel mainModel;
+		
+		public VisualizzaListener(MainModel mainModel)
+		{
+			this.mainModel = mainModel;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if(lista.isSelectionEmpty())
+			{
+				JOptionPane.showMessageDialog(MainView.finestra, "Nessun playlist selezionata", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			VisualizzaPlaylistDialog visualizzaPlaylistDialog = new VisualizzaPlaylistDialog();
+			visualizzaPlaylistDialog.setIdPlaylist(lista.getSelectedValue().getIdPlaylist());
+			visualizzaPlaylistDialog.setMainModel(mainModel);
+			visualizzaPlaylistDialog.draw();
+			finestra.dispose();
+		}
+	}
+	
+	private class SelezioneListener implements ActionListener
+	{
+		private MainModel mainModel;
+		
+		public SelezioneListener(MainModel mainModel)
+		{
+			this.mainModel = mainModel;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			try
+			{
+				if(mainModel.aggiungiCanzone(idCanzone, lista.getSelectedValue().getIdPlaylist()))
+					JOptionPane.showMessageDialog(MainView.finestra, "Canzone inserita con successo", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(MainView.finestra, "Canzone già presente in playlist", "ATTENZIONE", JOptionPane.INFORMATION_MESSAGE);
+			}
+			catch (IOException ex)
+			{
+				JOptionPane.showMessageDialog(MainView.finestra,"Errore di comunicazione col server/ nessuna canzone selezionata", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (Exception ex)
+			{
+				JOptionPane.showMessageDialog(MainView.finestra,"Errore di comunicazione col server", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			finestra.dispose();
+		}
 	}
 }
